@@ -19,15 +19,21 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
 >
   <!-- =========== HERO EDITORIAL =========== -->
   <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__dateline">
+      <div class="container">
+        <span class="hero__dateline-dot" aria-hidden="true"></span>
+        <span>{SITE.home.heroEyebrow}</span>
+      </div>
+    </div>
+
     <div class="hero__container container">
       <div class="hero__copy">
-        <p class="hero__eyebrow">
-          <span class="dot"></span>
-          {SITE.home.heroEyebrow}
-        </p>
-
         <h1 id="hero-title" class="hero__title">
-          Não vim buscar <span class="hero__title-mark">benefício</span> do cargo.
+          Não vim
+          <br />
+          buscar <span class="hero__title-mark">benefício</span>
+          <br />
+          do cargo.
           <span class="hero__title-italic">Vim fiscalizar.</span>
         </h1>
 
@@ -43,7 +49,32 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
             Quem é a Juliana
           </Button>
         </div>
+      </div>
 
+      <figure class="hero__portrait">
+        <button
+          type="button"
+          class="hero__portrait-btn"
+          data-lightbox-trigger="1"
+          aria-label="Ampliar foto da candidata"
+        >
+          <img
+            src="/images/juliana-bandeira.jpg"
+            alt="Juliana Constantino segurando a bandeira do Partido Missão, com olhar firme e direto."
+            width="1400"
+            height="1700"
+            fetchpriority="high"
+          />
+        </button>
+        <figcaption class="hero__caption">
+          <span class="hero__caption-marker" aria-hidden="true">▮</span>
+          Juliana Constantino · 1424 · Missão
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="hero__footer">
+      <div class="container hero__footer-inner">
         <dl class="hero__meta" aria-label="Identificação da campanha">
           <div>
             <dt>Número</dt>
@@ -62,47 +93,12 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
             <dd>Jundiaí-SP</dd>
           </div>
         </dl>
+        <p class="hero__manifesto">
+          <strong>Manifesto.</strong>
+          {' '}
+          {SITE.home.manifesto}
+        </p>
       </div>
-
-      <figure class="hero__portrait">
-        <button
-          type="button"
-          class="hero__portrait-btn"
-          data-lightbox-trigger="1"
-          aria-label="Ampliar foto da candidata"
-        >
-          <img
-            src="/images/juliana-retrato-branco.jpg"
-            alt="Juliana Constantino, de camisa branca, braços cruzados, em fundo neutro, com olhar firme e direto."
-            width="1200"
-            height="1500"
-            fetchpriority="high"
-          />
-          <span class="hero__portrait-zoom" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="7"/>
-              <path d="m21 21-4.3-4.3M8 11h6M11 8v6"/>
-            </svg>
-          </span>
-        </button>
-      </figure>
-    </div>
-  </section>
-
-  <!-- =========== FRASE / POSICIONAMENTO =========== -->
-  <section class="posicionamento" aria-labelledby="pos-title">
-    <div class="container">
-      <p class="posicionamento__eyebrow">Por que estou aqui</p>
-      <h2 id="pos-title" class="posicionamento__quote">
-        <span aria-hidden="true">&ldquo;</span>
-        Corrupto quer se eleger pra se beneficiar do cargo.
-        Corrupto protege corrupto.
-        <span aria-hidden="true">&rdquo;</span>
-      </h2>
-      <p class="posicionamento__author">
-        <span class="posicionamento__author-name">— Juliana Constantino</span>
-        <span class="tag-mono">Candidata a Deputada Federal · 1424</span>
-      </p>
     </div>
   </section>
 
@@ -129,9 +125,9 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
   <section class="propostas" aria-labelledby="propostas-title">
     <div class="container">
       <header class="section__header">
-        <p class="section__eyebrow">Cinco frentes de trabalho</p>
+        <p class="section__eyebrow">Onde vou mexer primeiro</p>
         <h2 id="propostas-title" class="section__title">
-          Menos privilégio, mais resultado.
+          Cinco frentes. Sem promessa grande.
         </h2>
       </header>
 
@@ -184,7 +180,7 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
       <header class="section__header">
         <p class="section__eyebrow">Da campanha</p>
         <h2 id="galeria-title" class="section__title">
-          Uma candidata, uma postura.
+          Da rua pro site.
         </h2>
       </header>
 
@@ -222,12 +218,12 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
       <div class="redes__text">
         <p class="redes__eyebrow">Acompanhe nas redes</p>
         <h2 id="redes-title" class="redes__title">
-          A campanha também acontece em rede.
+          A campanha também é em rede.
         </h2>
         <p class="redes__body">
-          Sem grupo de WhatsApp. Sem mensagem em massa. Posts diários no
-          Instagram e TikTok com o que está acontecendo em Brasília e na rua.
-          Se concorda, segue. Se discorda, comenta — leio tudo.
+          Sem grupo de zap. Sem mensagem em massa. Posts diários no Instagram
+          e no TikTok com o que tá acontecendo em Brasília e na rua. Se
+          concorda, segue. Se discorda, comenta — leio tudo.
         </p>
       </div>
 
@@ -289,62 +285,71 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
     border: 0;
   }
 
-  /* ====== HERO ====== */
+  /* ====== HERO editorial pesado ====== */
   .hero {
-    padding-block: clamp(3rem, 8vw, 6rem) clamp(3rem, 7vw, 5rem);
     background: var(--papel);
-    border-bottom: 1px solid var(--papel-sombra);
+    padding-block: 0 0;
+  }
+
+  .hero__dateline {
+    background: var(--tinta);
+    color: var(--mostarda);
+    padding-block: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+  }
+
+  .hero__dateline .container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .hero__dateline-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--mostarda);
+    border-radius: 50%;
+    flex-shrink: 0;
   }
 
   .hero__container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: center;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+    align-items: end;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+    max-width: 1400px;
+    margin-inline: auto;
   }
 
   @media (min-width: 960px) {
     .hero__container {
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: clamp(3rem, 7vw, 6rem);
+      grid-template-columns: 1.35fr 1fr;
+      gap: clamp(3rem, 7vw, 7rem);
+      padding-inline: clamp(2rem, 5vw, 4rem);
     }
   }
 
-  .hero__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-tag);
-    color: var(--tinta-suave);
-    margin: 0 0 var(--space-5);
-  }
-
-  .hero__eyebrow .dot {
-    width: 6px;
-    height: 6px;
-    background: var(--mostarda);
-    border-radius: 50%;
-    display: inline-block;
-  }
-
+  /* manchete gigante, serifada, sem max-width apertado */
   .hero__title {
     font-family: var(--font-display);
     font-style: normal;
-    font-size: clamp(2rem, 4.5vw, 3.75rem);
-    line-height: 1.05;
-    letter-spacing: var(--tracking-tight);
+    font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
     color: var(--tinta);
-    margin: 0 0 var(--space-4);
-    max-width: 14ch;
+    margin: 0 0 var(--space-5);
+    overflow-wrap: break-word;
   }
 
   .hero__title-mark {
     background: var(--mostarda);
     color: var(--tinta);
-    padding: 0.05em 0.25em;
+    padding: 0.04em 0.18em 0.06em;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
@@ -353,32 +358,102 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
     display: block;
     font-style: italic;
     color: var(--musgo);
-    margin-top: 0.25em;
+    margin-top: 0.35em;
+    font-size: 0.85em;
   }
 
   .hero__subtitle {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(1.125rem, 1.9vw, 1.4375rem);
-    line-height: 1.4;
+    font-family: var(--font-corpo);
+    font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+    line-height: 1.55;
     color: var(--tinta-media);
     margin: 0 0 var(--space-7);
-    max-width: 30rem;
+    max-width: 32rem;
+    border-left: 2px solid var(--mostarda);
+    padding-left: var(--space-4);
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
-    margin-bottom: var(--space-7);
+  }
+
+  /* FOTO SANGRADA, sem card, sem border-radius */
+  .hero__portrait {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .hero__portrait-btn {
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: zoom-in;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero__portrait-btn img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    filter: contrast(1.02) saturate(0.95);
+    transition: transform 280ms ease, filter 280ms ease;
+  }
+
+  .hero__portrait-btn:hover img {
+    transform: scale(1.02);
+    filter: contrast(1.04) saturate(1);
+  }
+
+  .hero__caption {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--tinta-suave);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hero__caption-marker {
+    color: var(--mostarda-escura);
+    font-size: 0.6rem;
+  }
+
+  /* RODAPÉ do hero: regra grossa preta separando manifesto */
+  .hero__footer {
+    border-top: 6px solid var(--tinta);
+    padding-block: var(--space-7);
+  }
+
+  .hero__footer-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  @media (min-width: 720px) {
+    .hero__footer-inner {
+      grid-template-columns: 1fr 2fr;
+      gap: var(--space-10);
+    }
   }
 
   .hero__meta {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-4);
-    padding-top: var(--space-5);
-    border-top: 1px solid var(--papel-sombra);
     margin: 0;
   }
 
@@ -405,107 +480,25 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
     margin: 0;
   }
 
-  .hero__portrait {
-    position: relative;
+  .hero__manifesto {
     margin: 0;
-    aspect-ratio: 4 / 5;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: var(--papel-sombra);
-    box-shadow: var(--shadow-hero);
-  }
-
-  .hero__portrait-btn {
-    display: block;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    cursor: zoom-in;
-    position: relative;
-  }
-
-  .hero__portrait-btn img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 20%;
-    filter: contrast(1.02);
-    transition: transform 400ms ease;
-  }
-
-  .hero__portrait-btn:hover img {
-    transform: scale(1.02);
-  }
-
-  .hero__portrait-zoom {
-    position: absolute;
-    top: var(--space-3);
-    right: var(--space-3);
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(245, 241, 232, 0.92);
+    font-family: var(--font-display);
+    font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+    line-height: 1.5;
     color: var(--tinta);
-    border-radius: 50%;
-    pointer-events: none;
-    transition: background-color 200ms ease;
   }
 
-  .hero__portrait-btn:hover .hero__portrait-zoom {
-    background: var(--mostarda);
-  }
-
-  /* ====== POSICIONAMENTO (substitui manifesto duplicado) ====== */
-  .posicionamento {
-    padding-block: clamp(3rem, 7vw, 6rem);
-    background: var(--mostarda);
-    color: var(--tinta);
-    border-bottom: 1px solid var(--papel-sombra);
-  }
-
-  .posicionamento__eyebrow {
+  .hero__manifesto strong {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: var(--tracking-tag);
-    color: var(--tinta);
-    margin: 0 0 var(--space-4);
-    padding-bottom: var(--space-3);
-    border-bottom: 1px solid rgba(17, 17, 17, 0.2);
-    max-width: 36rem;
-  }
-
-  .posicionamento__quote {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3.2vw, 2.5rem);
-    line-height: 1.2;
-    color: var(--tinta);
-    margin: 0 0 var(--space-5);
-    max-width: 32ch;
-    font-weight: var(--weight-regular);
-  }
-
-  .posicionamento__author {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    align-items: center;
-  }
-
-  .posicionamento__author-name {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--text-lg);
-    color: var(--tinta);
-  }
-
-  .posicionamento .tag-mono {
-    color: rgba(17, 17, 17, 0.7);
+    color: var(--mostarda-escura);
+    display: inline-block;
+    margin-right: var(--space-3);
+    padding: 4px 8px;
+    border: 1px solid var(--tinta);
+    font-weight: var(--weight-medium);
   }
 
   /* ====== NÚMERO ====== */
