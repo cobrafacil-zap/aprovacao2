@@ -1,0 +1,346 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import { SITE } from '../site.config.js';
+
+const TIMELINE = [
+  {
+    ano: 'Antes',
+    titulo: 'A pergunta que ficou',
+    corpo:
+      'Antes de aceitar a candidatura, a pergunta que ficou foi: o que está ' +
+      'acontecendo com o Congresso? Por que cada vez mais议员 buscam o cargo ' +
+      'pra si, em vez de fiscalizar quem está lá dentro?',
+  },
+  {
+    ano: 'O dia que ficou claro',
+    titulo: 'Corrupto se protege',
+    corpo:
+      'Foi lendo declaração de colegas candidatos que veio a certeza: ' +
+      '"corrupto quer se eleger pra se beneficiar do cargo. Corrupto protege ' +
+      'corrupto." A frase virou mote — porque é isso mesmo que acontece.',
+  },
+  {
+    ano: 'A decisão',
+    titulo: 'Largar o confortável',
+    corpo:
+      'Filhos, rotina, trabalho. Tudo pesa. Mas a decisão veio quando ficou ' +
+      'claro que não dá pra esperar alguém resolver. Se a renovação do ' +
+      'Congresso depende de gente nova, a renovação começa em casa.',
+  },
+  {
+    ano: 'Jundiaí',
+    titulo: 'Por aqui começa',
+    corpo:
+      'Jundiaí está saturada de empreendimentos e com mobilidade comprometida. ' +
+      'Saúde deficiente, transporte público ruim. Esses são os problemas ' +
+      'que vão pautar a cobrança — começando em casa.',
+  },
+  {
+    ano: '2026',
+    titulo: '1424 para Deputada Federal',
+    corpo:
+      'A meta é simples: chegar, fiscalizar, cortar privilégio, devolver renda ' +
+      'pra quem produz. Sem frase pronta, sem promessa vazia. Trabalho sério.',
+  },
+];
+---
+
+<Layout
+  title={`Quem é — ${SITE.name} · ${SITE.role}`}
+  description="A história e os princípios de Juliana Constantino, candidata a Deputada Federal pelo Partido Missão em 2026."
+  pageType="article"
+>
+  <article class="page">
+    <header class="page-hero">
+      <div class="container page-hero__inner">
+        <p class="page-hero__eyebrow">
+          <span class="page-hero__crumb">Início / </span>Quem é Juliana
+        </p>
+        <h1 class="page-hero__title">
+          Cristã, mãe, incomodada. Candidata a Deputada Federal.
+        </h1>
+        <p class="page-hero__lede">
+          {SITE.shortBio}
+        </p>
+      </div>
+    </header>
+
+    <section class="page-block">
+      <div class="container container--narrow">
+        <figure class="page-block__portrait">
+          <img
+            src="/images/juliana-retrato-branco.jpg"
+            alt="Juliana Constantino, de camisa branca, braços cruzados, em fundo neutro — retrato oficial da campanha."
+            loading="lazy"
+            decoding="async"
+            width="1200"
+            height="1500"
+          />
+        </figure>
+
+        <h2 class="page-block__title">Quem é</h2>
+        <p>
+          Sou de Jundiaí, interior de São Paulo. Mãe, cristã, e candidata a
+          Deputada Federal pelo Partido Missão em 2026 — número{' '}
+          <strong>1424</strong>.
+        </p>
+        <p>
+          Antes de tudo, sou uma pessoa incomodada. Incomodada com a política
+          que busca benefício próprio, com privilégios que se acumularam nos
+          gabinetes de Brasília, com uma máquina pública que só cresce e um
+          Congresso que parece cada vez mais distante da casa de quem trabalha.
+        </p>
+        <p>
+          Quando li, na própria ficha de colegas candidatos, que alguns já
+          chegam com a expectativa de usar o cargo pra si — verba de gabinete
+          com 25 assessores, auxílio-moradia, auxílio-combustível, auxílio-alimentação
+          — entendi que o problema começa na cabeça de quem se candidata. Não
+          é questão de ser contra a política. É questão de ser contra esse tipo
+          de político.
+        </p>
+        <h3 class="page-block__subtitle">O que defendo</h3>
+        <p>
+          Defendo um Congresso menor em privilégio e maior em fiscalização.
+          Defendo cortar a verba de gabinete inchada, auditar cargos comissionados
+          e abrir os gastos do Estado em tempo real. Defendo homeschooling com
+          avaliação, fim da aprovação automática sem critério de aprendizagem e
+          menos imposto no bolso de quem ganha até cinco salários mínimos.
+        </p>
+        <p>
+          <em>
+            "Não busco benefícios do cargo. Acredito que alguns deveriam ser
+            extintos — moradia, combustível, alimentação. Outros, diminuídos —
+            como a verba de gabinete."
+          </em>
+        </p>
+      </div>
+    </section>
+
+    <section class="page-block page-block--alt">
+      <div class="container container--narrow">
+        <h2 class="page-block__title">Cinco marcos</h2>
+        <p class="page-block__intro">
+          Não é um currículo longo. É o que importa pra entender de onde eu
+          venho e por que estou pedindo voto.
+        </p>
+
+        <ol class="timeline">
+          {TIMELINE.map((item) => (
+            <li class="timeline__item">
+              <span class="timeline__ano">{item.ano}</span>
+              <div class="timeline__content">
+                <h3>{item.titulo}</h3>
+                <p>{item.corpo}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="page-block">
+      <div class="container container--narrow">
+        <h2 class="page-block__title">Como eu quero ser percebida</h2>
+        <p>
+          Renovadora, firme e acolhedora. Defensora da causa. Não estou aqui
+          pra fazer discurso bonito — estou aqui pra fiscalizar quem está lá
+          dentro. Não gosto de expressões que soam populistas, e isso é parte
+          do que trago pra campanha.
+        </p>
+
+        <h2 class="page-block__title">O que eu evito</h2>
+        <p>
+          Evito frases prontas. Evito promessas que não dependem de mim. Evito
+          atacar adversário por atacar — se houver crítica, que seja com base
+          em fato. Fatos mentirosos não combinam com o que eu defendo.
+        </p>
+
+        <div class="page-block__cta">
+          <Button href="/propostas/" variant="primary" size="lg">
+            Ver minhas propostas
+          </Button>
+          <Button
+            href={`https://wa.me/${SITE.contacts.whatsapp}?text=${encodeURIComponent('Oi Juliana, vim pelo site e quero conversar.')}`}
+            variant="outline"
+            size="lg"
+            external
+          >
+            Falar comigo
+          </Button>
+        </div>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .page {
+    background: var(--papel);
+  }
+
+  .page-hero {
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    background: var(--papel-puro);
+    border-bottom: 1px solid var(--papel-sombra);
+  }
+
+  .page-hero__inner {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .page-hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--mostarda-escura);
+    margin: 0;
+  }
+
+  .page-hero__crumb {
+    color: var(--tinta-suave);
+  }
+
+  .page-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    color: var(--tinta);
+    margin: 0;
+    max-width: 22ch;
+  }
+
+  .page-hero__lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.0625rem, 1.9vw, 1.4375rem);
+    line-height: 1.45;
+    color: var(--tinta-media);
+    margin: 0;
+    max-width: 36rem;
+  }
+
+  .page-block {
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+
+  .page-block--alt {
+    background: var(--papel-puro);
+    border-block: 1px solid var(--papel-sombra);
+  }
+
+  .page-block__portrait {
+    margin: 0 0 var(--space-7);
+    aspect-ratio: 4 / 5;
+    max-width: 22rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+
+  .page-block__portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .page-block__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.1;
+    color: var(--tinta);
+    margin: 0 0 var(--space-4);
+  }
+
+  .page-block__subtitle {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--musgo);
+    margin: var(--space-6) 0 var(--space-3);
+  }
+
+  .page-block__intro {
+    font-family: var(--font-corpo);
+    font-style: italic;
+    color: var(--tinta-media);
+    margin: 0 0 var(--space-7);
+  }
+
+  .page-block p {
+    font-family: var(--font-corpo);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--tinta-media);
+    margin: 0 0 var(--space-4);
+  }
+
+  .page-block p strong {
+    color: var(--tinta);
+    font-weight: var(--weight-semibold);
+  }
+
+  .page-block em {
+    color: var(--musgo);
+  }
+
+  .page-block__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--papel-sombra);
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--papel-sombra);
+  }
+
+  @media (min-width: 640px) {
+    .timeline__item {
+      grid-template-columns: 10rem 1fr;
+      gap: var(--space-6);
+      align-items: start;
+    }
+  }
+
+  .timeline__ano {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--mostarda-escura);
+    margin: 0;
+  }
+
+  .timeline__content h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    color: var(--tinta);
+    margin: 0 0 var(--space-2);
+  }
+
+  .timeline__content p {
+    font-family: var(--font-corpo);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--tinta-media);
+    margin: 0;
+  }
+</style>

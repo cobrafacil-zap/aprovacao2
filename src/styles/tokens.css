@@ -1,0 +1,168 @@
+/* =========================================================
+   IDENTIDADE VISUAL — Juliana Constantino 1424 / Missão
+   Deputada Federal · Jundiaí-SP 2026
+
+   Sistema editorial e contemporâneo, sem cara de "faixa de rua":
+   - Base monocromática: tinta (preto profundo) e papel (off-white quente)
+   - Acento principal: amarelo-mostarda (energia, otimismo sóbrio)
+   - Acento secundário: verde-musgo (institucional, calma)
+
+   Tipografia (Google Fonts, carregadas no Layout):
+   - DM Serif Display — manchetes com personalidade editorial
+   - Inter — corpo, navegação, formulários
+   - JetBrains Mono — metadados, números, tags técnicas
+
+   Anti-linguagem visual:
+   - Sem sombras coloridas
+   - Sem "faixa diagonal" com estrelas
+   - Sem "bloco gigante do número com fonte condensada"
+   - Sem carmim/cinza que remeta à estética anterior
+   ========================================================= */
+
+:root {
+  /* ====== CORES ====== */
+
+  /* Tinta — base de texto e contraste */
+  --tinta:           #111111;   /* texto principal, fundo escuro */
+  --tinta-media:     #2A2A2A;   /* texto secundário sobre papel */
+  --tinta-suave:     #5C5C5C;   /* texto terciário, metadados */
+  --tinta-fantasma:  #B5B5B5;   /* divisores, placeholders */
+
+  /* Papel — fundos principais */
+  --papel:           #F5F1E8;   /* off-white quente, fundo principal */
+  --papel-puro:      #FBF8F1;   /* cards, áreas de respiro */
+  --papel-sombra:    #E8E2D3;   /* divisores suaves, hover */
+
+  /* Amarelo-mostarda — acento principal */
+  --mostarda:        #E5B833;   /* CTAs, destaques, ícones */
+  --mostarda-viva:   #F2C744;   /* hover, áreas de energia */
+  --mostarda-escura: #B8921F;   /* ativo, contraste sobre papel */
+
+  /* Verde-musgo — acento institucional */
+  --musgo:           #3A5A40;   /* tags, links, divisores */
+  --musgo-claro:     #6B8F70;   /* hover, marca d'água */
+
+  /* Estado (acessíveis) */
+  --sim:             #2D5F3F;
+  --alerta:          #B5651D;
+  --erro:            #8B2222;
+
+  /* WhatsApp */
+  --verde-whatsapp:      #1FA855;
+  --verde-whatsapp-hover:#168545;
+
+  /* Neutros */
+  --branco:          #FFFFFF;
+  --preto:           #0A0A0A;
+
+  /* ====== TIPOGRAFIA ====== */
+
+  --font-display: "DM Serif Display", "Georgia", "Times New Roman", serif;
+  --font-corpo:   "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Mantidos pra não quebrar componentes legados */
+  --font-impacto:    var(--font-display);
+  --font-manuscrita: var(--font-display);
+  --font-serif:      var(--font-display);
+  --font-sans:       var(--font-corpo);
+
+  /* Tamanhos — escala consistente */
+  --text-xs:   0.8125rem;
+  --text-sm:   0.9375rem;
+  --text-base: 1.0625rem;
+  --text-md:   1.1875rem;
+  --text-lg:   1.4375rem;
+  --text-xl:   1.75rem;
+  --text-2xl:  2.25rem;
+  --text-3xl:  3rem;
+  --text-4xl:  4rem;
+  --text-5xl:  5.5rem;
+
+  /* Line-height */
+  --leading-tight:   1.05;
+  --leading-snug:    1.2;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  /* Letter-spacing */
+  --tracking-tight:    -0.02em;
+  --tracking-normal:   0;
+  --tracking-aberto:   0.04em;
+  --tracking-tag:      0.14em;   /* tag mono */
+
+  /* Pesos */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* ====== ESPAÇAMENTOS ====== */
+  --space-1:  0.375rem;
+  --space-2:  0.625rem;
+  --space-3:  0.875rem;
+  --space-4:  1.125rem;
+  --space-5:  1.5rem;
+  --space-6:  2rem;
+  --space-7:  2.75rem;
+  --space-8:  3.5rem;
+  --space-9:  4.5rem;
+  --space-10: 5.5rem;
+  --space-12: 7rem;
+  --space-16: 9rem;
+  --space-20: 11rem;
+
+  /* ====== BORDAS E RAIOS ====== */
+  --radius-none: 0;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-full: 9999px;
+
+  --border-fina:   1px;
+  --border-media:  2px;
+  --border-grossa: 3px;
+
+  /* ====== SOMBRAS — sutis, sem cor ====== */
+  --shadow-none:  none;
+  --shadow-carta: 0 1px 0 0 rgba(17, 17, 17, 0.06);
+  --shadow-card:  0 2px 8px rgba(17, 17, 17, 0.04), 0 1px 2px rgba(17, 17, 17, 0.04);
+  --shadow-hero:  0 20px 40px -16px rgba(17, 17, 17, 0.18);
+
+  /* Mantidos pra compat */
+  --shadow-sm: var(--shadow-carta);
+  --shadow-md: var(--shadow-card);
+  --shadow-lg: var(--shadow-hero);
+
+  /* ====== TRANSIÇÕES ====== */
+  --transition-rapida: 120ms ease-out;
+  --transition-media:  220ms ease-out;
+  --transition-lenta:  400ms ease-out;
+
+  /* Mantidos pra compat */
+  --ease-out:     ease-out;
+  --ease-in-out:  ease-in-out;
+  --duration-fast:    120ms;
+  --duration-normal:  220ms;
+  --duration-slow:    400ms;
+
+  /* ====== LAYOUT ====== */
+  --container-largo:  78rem;
+  --container-padrao: 64rem;
+  --container-texto:  44rem;
+  --container-fino:   36rem;
+
+  --container-max:    80rem;
+  --container-narrow: 56rem;
+  --container-text:   42rem;
+  --container-prose:  36rem;
+
+  /* ====== Z-INDEX ====== */
+  --z-base:    1;
+  --z-sticky:  10;
+  --z-header:  20;
+  --z-overlay: 30;
+  --z-modal:   40;
+  --z-toast:   50;
+  --z-cookie:  60;
+}

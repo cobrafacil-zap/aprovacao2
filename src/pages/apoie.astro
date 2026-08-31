@@ -1,0 +1,402 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import { SITE } from '../site.config.js';
+---
+
+<Layout
+  title={`Apoie — ${SITE.name}`}
+  description="Formas de apoiar a campanha da Juliana Constantino: voluntariado, newsletter, compartilhamento e doação em plataformas autorizadas pelo TSE."
+  pageType="article"
+>
+  <article class="page">
+    <header class="page-hero">
+      <div class="container">
+        <p class="page-hero__eyebrow">
+          <span class="page-hero__crumb">Início / </span>Apoie
+        </p>
+        <h1 class="page-hero__title">Apoiar é fiscalizar junto.</h1>
+        <p class="page-hero__lede">
+          Não precisa de muito. Pode ser um minuto do seu tempo lendo uma
+          proposta, pode ser uma hora por semana voluntaria, pode ser compartilhar
+          um post. Toda ação conta — e toda ação fica registrada.
+        </p>
+      </div>
+    </header>
+
+    <section class="page-block">
+      <div class="container">
+        <div class="apoio-grid">
+          <article class="apoio-card">
+            <div class="apoio-card__num">01</div>
+            <h2>Voluntarie-se</h2>
+            <p>
+              Tem uma hora por semana? Ajuda a organizar mutirões, distribuir
+              material, falar com vizinhos. O comitê entra em contato pra combinar.
+            </p>
+            <form class="apoio-form" data-form="voluntario" aria-label="Formulário de voluntariado">
+              <label class="apoio-form__field">
+                <span>Nome completo</span>
+                <input type="text" name="name" required autocomplete="name" />
+              </label>
+              <label class="apoio-form__field">
+                <span>E-mail</span>
+                <input type="email" name="email" required autocomplete="email" />
+              </label>
+              <label class="apoio-form__field">
+                <span>Bairro ou cidade</span>
+                <input type="text" name="city" required autocomplete="address-level2" />
+              </label>
+              <label class="apoio-form__check">
+                <input type="checkbox" name="consent" required />
+                <span>
+                  Autorizo o uso desses dados pra entrar em contato sobre
+                  voluntariado, conforme LGPD. Posso cancelar a qualquer momento.
+                </span>
+              </label>
+              <button type="submit" class="apoio-form__submit">Quero voluntariar</button>
+              <p class="apoio-form__status" data-form-status hidden></p>
+            </form>
+          </article>
+
+          <article class="apoio-card" id="newsletter">
+            <div class="apoio-card__num">02</div>
+            <h2>Receber atualizações</h2>
+            <p>
+              Newsletter quinzenal com o que a campanha está fazendo, decisões
+              no Congresso que afetam Jundiaí e prestação de contas do mandato
+              (quando vier). Sem spam.
+            </p>
+            <form class="apoio-form" data-form="newsletter" aria-label="Formulário de newsletter">
+              <label class="apoio-form__field">
+                <span>Nome</span>
+                <input type="text" name="name" required autocomplete="name" />
+              </label>
+              <label class="apoio-form__field">
+                <span>E-mail</span>
+                <input type="email" name="email" required autocomplete="email" />
+              </label>
+              <label class="apoio-form__check">
+                <input type="checkbox" name="consent" required />
+                <span>
+                  Aceito receber e-mails sobre a campanha. Concordo com a{' '}
+                  <a href="/politica-de-privacidade/">política de privacidade</a>.
+                </span>
+              </label>
+              <button type="submit" class="apoio-form__submit">Assinar newsletter</button>
+              <p class="apoio-form__status" data-form-status hidden></p>
+            </form>
+          </article>
+
+          <article class="apoio-card">
+            <div class="apoio-card__num">03</div>
+            <h2>Compartilhe</h2>
+            <p>
+              Cada compartilhamento ajuda mais do que parece. Se você concorda
+              com o que leu aqui, manda pra alguém que também precisa ouvir.
+            </p>
+            <div class="apoio-share">
+              <a
+                class="apoio-share__btn"
+                href={`https://wa.me/${SITE.contacts.whatsapp}?text=${encodeURIComponent('Conheça a candidatura da Juliana Constantino, 1424 para Deputada Federal: https://www.julianaconstantino.com.br')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Enviar por WhatsApp
+              </a>
+              <a
+                class="apoio-share__btn apoio-share__btn--ghost"
+                href={SITE.contacts.instagram || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Seguir no Instagram
+              </a>
+            </div>
+          </article>
+
+          <article class="apoio-card">
+            <div class="apoio-card__num">04</div>
+            <h2>Doação em plataforma autorizada</h2>
+            <p>
+              A campanha recebe doações apenas por plataformas credenciadas pelo
+              TSE. Quando o CNPJ de campanha e a conta estiverem abertos, o link
+              aparece aqui. Enquanto isso, cada real investido vai pra material
+              de rua, santinhos e combustível de carro de som.
+            </p>
+            <p class="apoio-card__note">
+              <strong>Em breve:</strong> link da plataforma de financiamento coletivo
+              autorizada pelo TSE.
+            </p>
+            <Button
+              href={`https://wa.me/${SITE.contacts.whatsapp}?text=${encodeURIComponent('Quero doar. Pode me passar os dados da campanha?')}`}
+              variant="outline"
+              size="md"
+              external
+            >
+              Falar com a campanha
+            </Button>
+          </article>
+        </div>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const FORMS = document.querySelectorAll('[data-form]');
+
+  FORMS.forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const status = form.querySelector('[data-form-status]');
+      const fd = new FormData(form);
+      const consent = fd.get('consent');
+
+      if (!consent) {
+        if (status) {
+          status.textContent = 'Confirme o consentimento (LGPD) pra continuar.';
+          status.hidden = false;
+          status.dataset.tone = 'error';
+        }
+        return;
+      }
+
+      // Integração real (ex: webhook, RD Station, Mailchimp) entra aqui.
+      // Por enquanto, simulamos confirmação e guardamos opt-in no localStorage.
+      try {
+        const type = form.getAttribute('data-form');
+        const stored = JSON.parse(localStorage.getItem('ju:optins') || '{}');
+        stored[type] = { ts: Date.now(), name: fd.get('name'), email: fd.get('email') };
+        localStorage.setItem('ju:optins', JSON.stringify(stored));
+      } catch { /* storage bloqueado: ok */ }
+
+      if (status) {
+        status.textContent = 'Recebido! Em breve a campanha entra em contato.';
+        status.hidden = false;
+        status.dataset.tone = 'success';
+      }
+      form.reset();
+    });
+  });
+</script>
+
+<style>
+  .page { background: var(--papel); }
+
+  .page-hero {
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    background: var(--papel-puro);
+    border-bottom: 1px solid var(--papel-sombra);
+  }
+  .page-hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--mostarda-escura);
+    margin: 0 0 var(--space-3);
+  }
+  .page-hero__crumb { color: var(--tinta-suave); }
+  .page-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    color: var(--tinta);
+    margin: 0 0 var(--space-4);
+  }
+  .page-hero__lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.0625rem, 1.9vw, 1.4375rem);
+    line-height: 1.45;
+    color: var(--tinta-media);
+    margin: 0;
+    max-width: 38rem;
+  }
+
+  .page-block {
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+
+  .apoio-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 720px) {
+    .apoio-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .apoio-card {
+    padding: var(--space-7);
+    background: var(--papel-puro);
+    border: 1px solid var(--papel-sombra);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .apoio-card__num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--mostarda-escura);
+  }
+
+  .apoio-card h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--tinta);
+    margin: 0;
+  }
+
+  .apoio-card p {
+    font-family: var(--font-corpo);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--tinta-media);
+    margin: 0;
+  }
+
+  .apoio-card__note {
+    padding: var(--space-3);
+    background: var(--papel);
+    border-left: 3px solid var(--mostarda);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .apoio-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+
+  .apoio-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .apoio-form__field span {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--tinta-suave);
+  }
+
+  .apoio-form__field input {
+    padding: 0.75rem 1rem;
+    background: var(--papel);
+    border: 1px solid var(--papel-sombra);
+    border-radius: var(--radius-md);
+    font-family: var(--font-corpo);
+    font-size: var(--text-base);
+    color: var(--tinta);
+    transition: border-color var(--transition-rapida);
+  }
+
+  .apoio-form__field input:focus {
+    border-color: var(--mostarda-escura);
+    outline: none;
+  }
+
+  .apoio-form__check {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2);
+    align-items: start;
+    font-family: var(--font-corpo);
+    font-size: var(--text-sm);
+    color: var(--tinta-media);
+    line-height: var(--leading-snug);
+  }
+
+  .apoio-form__check input {
+    margin-top: 4px;
+    accent-color: var(--mostarda-escura);
+  }
+
+  .apoio-form__check a {
+    color: var(--musgo);
+  }
+
+  .apoio-form__submit {
+    align-self: flex-start;
+    padding: 0.75rem 1.5rem;
+    background: var(--tinta);
+    color: var(--papel);
+    font-family: var(--font-corpo);
+    font-weight: var(--weight-medium);
+    border-radius: var(--radius-full);
+    border: 0;
+    cursor: pointer;
+    min-height: 44px;
+    transition: background-color var(--transition-rapida);
+  }
+
+  .apoio-form__submit:hover {
+    background: var(--mostarda-escura);
+  }
+
+  .apoio-form__status {
+    font-family: var(--font-corpo);
+    font-size: var(--text-sm);
+    margin: 0;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+  }
+
+  .apoio-form__status[data-tone="success"] {
+    background: rgba(58, 90, 64, 0.12);
+    color: var(--musgo);
+  }
+
+  .apoio-form__status[data-tone="error"] {
+    background: rgba(139, 34, 34, 0.1);
+    color: var(--erro);
+  }
+
+  .apoio-share {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+
+  .apoio-share__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    background: var(--tinta);
+    color: var(--papel);
+    font-family: var(--font-corpo);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--tinta);
+    min-height: 44px;
+    transition: background-color var(--transition-rapida), color var(--transition-rapida);
+  }
+
+  .apoio-share__btn:hover {
+    background: var(--mostarda-escura);
+    border-color: var(--mostarda-escura);
+  }
+
+  .apoio-share__btn--ghost {
+    background: transparent;
+    color: var(--tinta);
+  }
+
+  .apoio-share__btn--ghost:hover {
+    background: var(--tinta);
+    color: var(--mostarda);
+  }
+</style>

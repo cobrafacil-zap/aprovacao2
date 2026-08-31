@@ -1,0 +1,127 @@
+---
+/**
+ * Botão reutilizável
+ *
+ * Variantes:
+ *  - primary: preto sólido (ação principal)
+ *  - secondary: ghost sobre fundo claro
+ *  - outline: borda preta, fundo papel
+ *  - accent:  mostarda (CTA visual forte)
+ */
+
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'outline' | 'accent';
+  size?: 'sm' | 'md' | 'lg';
+  external?: boolean;
+  type?: 'button' | 'submit';
+  class?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  external = false,
+  type = 'button',
+  class: className = '',
+  ariaLabel,
+} = Astro.props;
+
+const isExternal = external || /^https?:\/\//.test(href);
+const Tag = href ? 'a' : 'button';
+const target = isExternal ? '_blank' : undefined;
+const rel = isExternal ? 'noopener noreferrer' : undefined;
+---
+
+<Tag
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
+  href={Tag === 'a' ? href : undefined}
+  type={Tag === 'button' ? type : undefined}
+  target={target}
+  rel={rel}
+  aria-label={ariaLabel}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-family: var(--font-corpo);
+    font-weight: var(--weight-medium);
+    line-height: 1;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition:
+      background-color var(--transition-rapida),
+      color var(--transition-rapida),
+      border-color var(--transition-rapida),
+      transform var(--transition-rapida);
+    white-space: nowrap;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  /* Tamanhos */
+  .btn--sm {
+    font-size: var(--text-sm);
+    padding: 0.5rem 1rem;
+    min-height: 36px;
+  }
+  .btn--md {
+    font-size: var(--text-base);
+    padding: 0.75rem 1.5rem;
+    min-height: 44px;
+  }
+  .btn--lg {
+    font-size: var(--text-md);
+    padding: 1rem 2rem;
+    min-height: 56px;
+  }
+
+  /* Variantes */
+  .btn--primary {
+    background: var(--tinta);
+    color: var(--papel);
+  }
+  .btn--primary:hover {
+    background: var(--mostarda-escura);
+    color: var(--papel);
+  }
+
+  .btn--secondary {
+    background: transparent;
+    color: var(--tinta);
+    border-color: var(--tinta);
+  }
+  .btn--secondary:hover {
+    background: var(--tinta);
+    color: var(--papel);
+  }
+
+  .btn--outline {
+    background: var(--papel);
+    color: var(--tinta);
+    border-color: var(--papel-sombra);
+  }
+  .btn--outline:hover {
+    border-color: var(--tinta);
+  }
+
+  .btn--accent {
+    background: var(--mostarda);
+    color: var(--tinta);
+  }
+  .btn--accent:hover {
+    background: var(--mostarda-viva);
+  }
+</style>

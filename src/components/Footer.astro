@@ -1,0 +1,191 @@
+---
+/**
+ * Footer editorial — Juliana Constantino 1424
+ * Inclui identificação legal obrigatória (Res. TSE 23.732/2024)
+ */
+
+import { SITE, NAV } from '../site.config.js';
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="footer__top container">
+    <div class="footer__brand">
+      <p class="footer__mark" aria-hidden="true">JC</p>
+      <p class="footer__name">Juliana Constantino</p>
+      <p class="footer__role">Deputada Federal · 1424 · Missão</p>
+      <p class="footer__city">Jundiaí · São Paulo</p>
+    </div>
+
+    <div class="footer__col">
+      <h2 class="footer__heading">Navegação</h2>
+      <ul class="footer__list">
+        {NAV.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h2 class="footer__heading">Contato</h2>
+      <ul class="footer__list">
+        <li>
+          <a
+            href={`https://wa.me/${SITE.contacts.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp · {SITE.contacts.whatsappDisplay}
+          </a>
+        </li>
+        <li><a href={`mailto:${SITE.contacts.email}`}>{SITE.contacts.email}</a></li>
+        {SITE.contacts.instagram && (
+          <li>
+            <a href={SITE.contacts.instagram} target="_blank" rel="noopener noreferrer">
+              Instagram
+            </a>
+          </li>
+        )}
+        {SITE.contacts.tiktok && (
+          <li>
+            <a href={SITE.contacts.tiktok} target="_blank" rel="noopener noreferrer">
+              TikTok
+            </a>
+          </li>
+        )}
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h2 class="footer__heading">Apoie</h2>
+      <ul class="footer__list">
+        <li><a href="/apoie/">Voluntarie-se</a></li>
+        <li><a href="/apoie/#newsletter">Receber atualizações</a></li>
+        <li><a href="/contato/">Imprensa</a></li>
+        <li><a href="/politica-de-privacidade/">Política de privacidade</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer__legal container">
+    <p class="footer__legal-text">
+      <strong>Identificação legal obrigatória</strong> · CNPJ da campanha:{' '}
+      {SITE.legal.cnpjCampanha} · {SITE.legal.autorizadoPor} · Site comunicado à
+      Justiça Eleitoral · {SITE.legal.partidoUf}
+    </p>
+    <p class="footer__copy">
+      © {new Date().getFullYear()} Campanha Juliana Constantino · Conteúdo protegido
+      por direitos autorais. Fotos e textos de uso autorizado pela candidata.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--tinta);
+    color: var(--papel);
+    padding-block: var(--space-12) var(--space-7);
+    margin-top: var(--space-12);
+  }
+
+  .footer__top {
+    display: grid;
+    gap: var(--space-8);
+    grid-template-columns: 1fr;
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid rgba(245, 241, 232, 0.12);
+  }
+
+  @media (min-width: 720px) {
+    .footer__top {
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    }
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .footer__mark {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--mostarda);
+    margin: 0 0 var(--space-2);
+  }
+
+  .footer__name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lg);
+    margin: 0;
+    color: var(--papel);
+  }
+
+  .footer__role,
+  .footer__city {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: rgba(245, 241, 232, 0.6);
+    margin: 0;
+  }
+
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .footer__heading {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--mostarda);
+    font-weight: var(--weight-regular);
+    margin: 0 0 var(--space-2);
+  }
+
+  .footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .footer__list a {
+    font-family: var(--font-corpo);
+    font-size: var(--text-sm);
+    color: rgba(245, 241, 232, 0.85);
+    text-decoration: none;
+    transition: color var(--transition-rapida);
+  }
+
+  .footer__list a:hover {
+    color: var(--mostarda);
+  }
+
+  .footer__legal {
+    padding-top: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .footer__legal-text,
+  .footer__copy {
+    font-family: var(--font-corpo);
+    font-size: 0.75rem;
+    line-height: var(--leading-relaxed);
+    color: rgba(245, 241, 232, 0.55);
+    margin: 0;
+  }
+
+  .footer__legal-text strong {
+    color: rgba(245, 241, 232, 0.85);
+    font-weight: var(--weight-medium);
+  }
+</style>

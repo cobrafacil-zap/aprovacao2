@@ -1,0 +1,259 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../site.config.js';
+---
+
+<Layout
+  title={`Contato — ${SITE.name}`}
+  description="Fale com a campanha da Juliana Constantino — eleitor, imprensa, organização."
+  pageType="article"
+>
+  <article class="page">
+    <header class="page-hero">
+      <div class="container">
+        <p class="page-hero__eyebrow">
+          <span class="page-hero__crumb">Início / </span>Contato
+        </p>
+        <h1 class="page-hero__title">Três caminhos. Uma campanha.</h1>
+        <p class="page-hero__lede">
+          Pra dar certo, a mensagem tem que chegar na pessoa certa. Escolhe o
+          caminho abaixo e manda.
+        </p>
+      </div>
+    </header>
+
+    <section class="page-block">
+      <div class="container">
+        <div class="contato-grid">
+          <article class="contato-card">
+            <p class="contato-card__tag">Eleitor</p>
+            <h2>Tire dúvida, sugira pauta, peça material</h2>
+            <p>
+              A resposta vem pela equipe de mobilização. Se for pauta de
+              mandato, eu mesma respondo quando der.
+            </p>
+            <a
+              class="contato-card__btn"
+              href={`https://wa.me/${SITE.contacts.whatsapp}?text=${encodeURIComponent('Sou eleitor(a) e quero conversar com a campanha.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir WhatsApp
+            </a>
+          </article>
+
+          <article class="contato-card">
+            <p class="contato-card__tag">Imprensa</p>
+            <h2>Entrevistas, releases, foto oficial</h2>
+            <p>
+              Pedidos de entrevista, materials de imprensa e foto oficial em alta
+              resolução.
+            </p>
+            <a
+              class="contato-card__btn"
+              href={`mailto:${SITE.contacts.press}?subject=${encodeURIComponent('Pedido de imprensa — Juliana Constantino 1424')}`}
+            >
+              {SITE.contacts.press}
+            </a>
+          </article>
+
+          <article class="contato-card">
+            <p class="contato-card__tag">Organização</p>
+            <h2>Voluntários, comitês, parcerias</h2>
+            <p>
+              Quer organizar uma reunião de rua, montar comitê de bairro ou
+              propor parceria? Manda e-mail com a proposta.
+            </p>
+            <a
+              class="contato-card__btn"
+              href={`mailto:${SITE.contacts.email}?subject=${encodeURIComponent('Proposta de parceria — Juliana 1424')}`}
+            >
+              {SITE.contacts.email}
+            </a>
+          </article>
+        </div>
+
+        <div class="info-bloco">
+          <h2>Identificação da campanha</h2>
+          <dl>
+            <div>
+              <dt>CNPJ de campanha</dt>
+              <dd>{SITE.legal.cnpjCampanha}</dd>
+            </div>
+            <div>
+              <dt>Partido</dt>
+              <dd>{SITE.legal.partidoUf}</dd>
+            </div>
+            <div>
+              <dt>Endereço do comitê</dt>
+              <dd>A definir — em breve.</dd>
+            </div>
+            <div>
+              <dt>Autorização</dt>
+              <dd>{SITE.legal.autorizadoPor}</dd>
+            </div>
+          </dl>
+          <p class="info-bloco__nota">
+            Conforme Res. TSE 23.732/2024, dados de identificação obrigatória
+            permanecem visíveis no rodapé de todas as páginas deste site.
+          </p>
+        </div>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .page { background: var(--papel); }
+
+  .page-hero {
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    background: var(--papel-puro);
+    border-bottom: 1px solid var(--papel-sombra);
+  }
+  .page-hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--mostarda-escura);
+    margin: 0 0 var(--space-3);
+  }
+  .page-hero__crumb { color: var(--tinta-suave); }
+  .page-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    color: var(--tinta);
+    margin: 0 0 var(--space-4);
+  }
+  .page-hero__lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.0625rem, 1.9vw, 1.4375rem);
+    color: var(--tinta-media);
+    margin: 0;
+    max-width: 38rem;
+  }
+
+  .page-block {
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+
+  .contato-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    margin-bottom: var(--space-12);
+  }
+
+  @media (min-width: 720px) {
+    .contato-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .contato-card {
+    padding: var(--space-7);
+    background: var(--papel-puro);
+    border: 1px solid var(--papel-sombra);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .contato-card__tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--mostarda-escura);
+    margin: 0;
+  }
+
+  .contato-card h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--tinta);
+    margin: 0;
+  }
+
+  .contato-card p {
+    font-family: var(--font-corpo);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--tinta-media);
+    margin: 0;
+  }
+
+  .contato-card__btn {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    margin-top: auto;
+    padding: 0.75rem 1.5rem;
+    background: var(--tinta);
+    color: var(--papel);
+    font-family: var(--font-corpo);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    min-height: 44px;
+    transition: background-color var(--transition-rapida);
+  }
+
+  .contato-card__btn:hover { background: var(--mostarda-escura); }
+
+  .info-bloco {
+    padding: var(--space-7);
+    background: var(--papel-puro);
+    border: 1px solid var(--papel-sombra);
+    border-radius: var(--radius-lg);
+  }
+
+  .info-bloco h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--tinta);
+    margin: 0 0 var(--space-5);
+  }
+
+  .info-bloco dl {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-5);
+  }
+
+  @media (min-width: 720px) {
+    .info-bloco dl {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
+  .info-bloco dt {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--tinta-suave);
+    margin: 0 0 4px;
+  }
+
+  .info-bloco dd {
+    font-family: var(--font-corpo);
+    font-size: var(--text-base);
+    color: var(--tinta);
+    margin: 0;
+  }
+
+  .info-bloco__nota {
+    font-family: var(--font-corpo);
+    font-size: var(--text-sm);
+    color: var(--tinta-media);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--papel-sombra);
+  }
+</style>

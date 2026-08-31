@@ -1,0 +1,131 @@
+/* =========================================================
+   Reset + base global
+   ========================================================= */
+
+@import "./tokens.css";
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-corpo);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--tinta);
+  background: var(--papel);
+  min-height: 100vh;
+}
+
+img, picture, svg, video {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  background: none;
+}
+
+input, textarea, select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--mostarda-escura);
+  outline-offset: 3px;
+}
+
+/* ====== UTILITÁRIOS ====== */
+
+.container {
+  width: 100%;
+  max-width: var(--container-padrao);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.container--narrow {
+  max-width: var(--container-texto);
+}
+
+.container--wide {
+  max-width: var(--container-largo);
+}
+
+.skip-link {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.5rem 1rem;
+  background: var(--tinta);
+  color: var(--papel);
+  font-family: var(--font-corpo);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transform: translateY(-100%);
+  transition: transform var(--transition-rapida);
+  z-index: var(--z-overlay);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Tag mono usada pra metadados */
+.tag-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tag);
+  color: var(--tinta-suave);
+}
+
+/* Seleção de texto */
+::selection {
+  background: var(--mostarda);
+  color: var(--tinta);
+}
+
+/* Reduz animações quando o usuário pede */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
