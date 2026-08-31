@@ -29,11 +29,9 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
     <div class="hero__container container">
       <div class="hero__copy">
         <h1 id="hero-title" class="hero__title">
-          Não vim
+          Não vim buscar
           <br />
-          buscar <span class="hero__title-mark">benefício</span>
-          <br />
-          do cargo.
+          <span class="hero__title-mark">benefício</span> do cargo.
           <span class="hero__title-italic">Vim fiscalizar.</span>
         </h1>
 
@@ -347,9 +345,15 @@ const lightboxPhotos = GALLERY.slice(0, 6).map((p, i) => ({
   }
 
   .hero__title-mark {
-    background: var(--mostarda);
-    color: var(--tinta);
-    padding: 0.04em 0.18em 0.06em;
+    background-image: linear-gradient(
+      transparent 0%,
+      transparent 14%,
+      var(--mostarda) 14%,
+      var(--mostarda) 92%,
+      transparent 92%
+    );
+    background-repeat: no-repeat;
+    padding: 0.08em 0.18em 0.12em;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
