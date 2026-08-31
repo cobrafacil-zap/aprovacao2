@@ -107,20 +107,19 @@ import { SITE, PILLARS, PROPOSALS } from '../site.config.js';
       <div class="container">
         <h2 class="cta-final__title">Tem uma pauta que não viu aqui?</h2>
         <p class="cta-final__body">
-          Manda por WhatsApp. Não prometo aderir a tudo, mas prometo ler e
-          responder. Campanha é conversa — não panfleto.
+          Manda por e-mail ou comenta nas redes. Não prometo aderir a tudo,
+          mas prometo ler e responder. Campanha é conversa — não panfleto.
         </p>
         <div class="cta-final__actions">
           <Button
-            href={`https://wa.me/${SITE.contacts.whatsapp}?text=${encodeURIComponent('Tenho uma pauta pra sugerir. Vim pelo site.')}`}
+            href={`mailto:${SITE.contacts.email}?subject=${encodeURIComponent('Tenho uma pauta pra sugerir — Juliana 1424')}`}
             variant="primary"
             size="lg"
-            external
           >
             Mandar sugestão
           </Button>
-          <Button href="/" variant="outline" size="lg">
-            Voltar pro início
+          <Button href="#redes-sociais" variant="outline" size="lg">
+            Comentar nas redes
           </Button>
         </div>
       </div>

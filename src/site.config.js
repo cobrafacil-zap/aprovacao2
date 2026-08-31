@@ -36,8 +36,6 @@ export const SITE = {
 
   // Contatos — preencher com dados reais da campanha
   contacts: {
-    whatsapp: '5511999999999',
-    whatsappDisplay: '(11) 99999-9999',
     email: 'contato@julianaconstantino.com.br',
     press: 'imprensa@julianaconstantino.com.br',
     instagram: 'https://www.instagram.com/julianaconstantino',

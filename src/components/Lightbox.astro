@@ -1,0 +1,256 @@
+---
+/**
+ * Lightbox acessível para galeria.
+ * - Aberto por data-lightbox-trigger em qualquer <a> ou <button> apontando para #foto-{id}
+ * - Navegação por teclado: ← → (anterior/próxima), Esc (fechar), Tab cicla nos botões
+ * - Foco preso dentro do modal enquanto aberto
+ * - Sem dependências externas
+ */
+
+interface Photo {
+  id: string;
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+interface Props {
+  photos: Photo[];
+  initialIndex?: number;
+  title?: string;
+}
+
+const { photos, title = 'Galeria' } = Astro.props;
+---
+
+<div
+  class="lb"
+  role="dialog"
+  aria-modal="true"
+  aria-label={title}
+  data-lightbox
+  hidden
+>
+  <button class="lb__backdrop" data-lb-close aria-label="Fechar galeria"></button>
+
+  <div class="lb__stage" role="document">
+    <button class="lb__nav lb__nav--prev" data-lb-prev aria-label="Foto anterior">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+
+    <figure class="lb__figure">
+      <img data-lb-img alt="" />
+      <figcaption class="lb__caption" data-lb-caption></figcaption>
+    </figure>
+
+    <button class="lb__nav lb__nav--next" data-lb-next aria-label="Próxima foto">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+
+  <div class="lb__bar">
+    <p class="lb__counter" data-lb-counter></p>
+    <button class="lb__close" data-lb-close>
+      <span>Fechar</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<script define:vars={{ photos }}>
+  (function () {
+    const root = document.querySelector('[data-lightbox]');
+    if (!root) return;
+
+    const imgEl = root.querySelector('[data-lb-img]');
+    const capEl = root.querySelector('[data-lb-caption]');
+    const counterEl = root.querySelector('[data-lb-counter]');
+    const prevBtn = root.querySelector('[data-lb-prev]');
+    const nextBtn = root.querySelector('[data-lb-next]');
+    const closeBtns = root.querySelectorAll('[data-lb-close]');
+
+    let idx = 0;
+    let lastFocus = null;
+
+    function show(i) {
+      idx = (i + photos.length) % photos.length;
+      const p = photos[idx];
+      imgEl.src = p.src;
+      imgEl.alt = p.alt || '';
+      capEl.textContent = p.caption || '';
+      capEl.style.display = p.caption ? 'block' : 'none';
+      counterEl.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
+    }
+
+    function open(i, trigger) {
+      lastFocus = trigger || document.activeElement;
+      root.hidden = false;
+      document.body.style.overflow = 'hidden';
+      show(i);
+      closeBtns[0].focus();
+    }
+
+    function close() {
+      root.hidden = true;
+      document.body.style.overflow = '';
+      if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+    }
+
+    document.querySelectorAll('[data-lightbox-trigger]').forEach((trigger) => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = trigger.getAttribute('data-lightbox-trigger');
+        const start = photos.findIndex((p) => p.id === id);
+        if (start >= 0) open(start, trigger);
+      });
+    });
+
+    closeBtns.forEach((b) => b.addEventListener('click', close));
+    prevBtn.addEventListener('click', () => show(idx - 1));
+    nextBtn.addEventListener('click', () => show(idx + 1));
+
+    document.addEventListener('keydown', (e) => {
+      if (root.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+      if (e.key === 'Tab') {
+        // foco preso: cycle entre prev, next, close
+        const focusables = [prevBtn, nextBtn, ...closeBtns];
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first.focus();
+        }
+      }
+    });
+  })();
+</script>
+
+<style>
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    background: rgba(10, 10, 10, 0.96);
+    color: var(--papel);
+  }
+
+  .lb[hidden] { display: none; }
+
+  .lb__backdrop {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    border: 0;
+    cursor: zoom-out;
+    padding: 0;
+  }
+
+  .lb__stage {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 4vw, 3rem) clamp(3.5rem, 8vw, 5rem);
+  }
+
+  .lb__figure {
+    position: relative;
+    margin: 0;
+    max-width: min(1200px, 100%);
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .lb__figure img {
+    max-width: 100%;
+    max-height: calc(100vh - 12rem);
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.6);
+  }
+
+  .lb__caption {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-md);
+    color: rgba(245, 241, 232, 0.85);
+    text-align: center;
+    max-width: 36rem;
+  }
+
+  .lb__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245, 241, 232, 0.06);
+    border: 1px solid rgba(245, 241, 232, 0.18);
+    color: var(--papel);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+    z-index: 1;
+  }
+
+  .lb__nav:hover {
+    background: var(--mostarda);
+    color: var(--tinta);
+    border-color: var(--mostarda);
+  }
+
+  .lb__nav--prev { left: clamp(0.5rem, 2vw, 1.5rem); }
+  .lb__nav--next { right: clamp(0.5rem, 2vw, 1.5rem); }
+
+  .lb__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem clamp(1.5rem, 4vw, 2.5rem);
+    border-top: 1px solid rgba(245, 241, 232, 0.1);
+  }
+
+  .lb__counter {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-tag);
+    color: var(--mostarda);
+    margin: 0;
+  }
+
+  .lb__close {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid rgba(245, 241, 232, 0.2);
+    color: var(--papel);
+    font-family: var(--font-corpo);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+
+  .lb__close:hover {
+    background: var(--mostarda);
+    color: var(--tinta);
+    border-color: var(--mostarda);
+  }
+</style>

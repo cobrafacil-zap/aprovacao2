@@ -28,16 +28,8 @@ import { SITE, NAV } from '../site.config.js';
     <div class="footer__col">
       <h2 class="footer__heading">Contato</h2>
       <ul class="footer__list">
-        <li>
-          <a
-            href={`https://wa.me/${SITE.contacts.whatsapp}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            WhatsApp · {SITE.contacts.whatsappDisplay}
-          </a>
-        </li>
         <li><a href={`mailto:${SITE.contacts.email}`}>{SITE.contacts.email}</a></li>
+        <li><a href={`mailto:${SITE.contacts.press}`}>{SITE.contacts.press}</a></li>
         {SITE.contacts.instagram && (
           <li>
             <a href={SITE.contacts.instagram} target="_blank" rel="noopener noreferrer">
@@ -49,6 +41,13 @@ import { SITE, NAV } from '../site.config.js';
           <li>
             <a href={SITE.contacts.tiktok} target="_blank" rel="noopener noreferrer">
               TikTok
+            </a>
+          </li>
+        )}
+        {SITE.contacts.facebook && (
+          <li>
+            <a href={SITE.contacts.facebook} target="_blank" rel="noopener noreferrer">
+              Facebook
             </a>
           </li>
         )}

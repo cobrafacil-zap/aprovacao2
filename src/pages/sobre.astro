@@ -9,7 +9,7 @@ const TIMELINE = [
     titulo: 'A pergunta que ficou',
     corpo:
       'Antes de aceitar a candidatura, a pergunta que ficou foi: o que está ' +
-      'acontecendo com o Congresso? Por que cada vez mais议员 buscam o cargo ' +
+      'acontecendo com o Congresso? Por que cada vez mais candidatos buscam o cargo ' +
       'pra si, em vez de fiscalizar quem está lá dentro?',
   },
   {
@@ -58,7 +58,7 @@ const TIMELINE = [
           <span class="page-hero__crumb">Início / </span>Quem é Juliana
         </p>
         <h1 class="page-hero__title">
-          Cristã, mãe, incomodada. Candidata a Deputada Federal.
+          Cristã, mãe e incomodada. Candidata a Deputada Federal.
         </h1>
         <p class="page-hero__lede">
           {SITE.shortBio}
@@ -160,13 +160,8 @@ const TIMELINE = [
           <Button href="/propostas/" variant="primary" size="lg">
             Ver minhas propostas
           </Button>
-          <Button
-            href={`https://wa.me/${SITE.contacts.whatsapp}?text=${encodeURIComponent('Oi Juliana, vim pelo site e quero conversar.')}`}
-            variant="outline"
-            size="lg"
-            external
-          >
-            Falar comigo
+          <Button href="#redes-sociais" variant="outline" size="lg">
+            Acompanhe nas redes
           </Button>
         </div>
       </div>

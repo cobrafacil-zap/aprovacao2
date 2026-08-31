@@ -2,11 +2,17 @@
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/Button.astro';
 import { SITE } from '../site.config.js';
+
+const instagram = SITE.contacts.instagram;
+const tiktok = SITE.contacts.tiktok;
+const facebook = SITE.contacts.facebook;
+const pageUrl = SITE.seo.title ? 'https://www.julianaconstantino.com.br' : '';
+const shareText = 'Conheça a candidatura da Juliana Constantino, 1424 para Deputada Federal.';
 ---
 
 <Layout
   title={`Apoie — ${SITE.name}`}
-  description="Formas de apoiar a campanha da Juliana Constantino: voluntariado, newsletter, compartilhamento e doação em plataformas autorizadas pelo TSE."
+  description="Formas de apoiar a campanha da Juliana Constantino: voluntariado, newsletter e compartilhamento."
   pageType="article"
 >
   <article class="page">
@@ -18,8 +24,8 @@ import { SITE } from '../site.config.js';
         <h1 class="page-hero__title">Apoiar é fiscalizar junto.</h1>
         <p class="page-hero__lede">
           Não precisa de muito. Pode ser um minuto do seu tempo lendo uma
-          proposta, pode ser uma hora por semana voluntaria, pode ser compartilhar
-          um post. Toda ação conta — e toda ação fica registrada.
+          proposta, uma hora por semana voluntaria, ou compartilhar um post.
+          Toda ação conta — e toda ação fica registrada.
         </p>
       </div>
     </header>
@@ -90,28 +96,31 @@ import { SITE } from '../site.config.js';
 
           <article class="apoio-card">
             <div class="apoio-card__num">03</div>
-            <h2>Compartilhe</h2>
+            <h2>Acompanhe nas redes</h2>
             <p>
-              Cada compartilhamento ajuda mais do que parece. Se você concorda
-              com o que leu aqui, manda pra alguém que também precisa ouvir.
+              O dia-a-dia da campanha está em rede. Posts diários com o que
+              acontece em Brasília, na rua, e o que a JU está propondo. Segue,
+              curte e comenta.
             </p>
-            <div class="apoio-share">
-              <a
-                class="apoio-share__btn"
-                href={`https://wa.me/${SITE.contacts.whatsapp}?text=${encodeURIComponent('Conheça a candidatura da Juliana Constantino, 1424 para Deputada Federal: https://www.julianaconstantino.com.br')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Enviar por WhatsApp
-              </a>
-              <a
-                class="apoio-share__btn apoio-share__btn--ghost"
-                href={SITE.contacts.instagram || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Seguir no Instagram
-              </a>
+            <div class="apoio-redes">
+              {instagram && (
+                <a class="apoio-redes__btn" href={instagram} target="_blank" rel="noopener noreferrer">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>
+                  Instagram
+                </a>
+              )}
+              {tiktok && (
+                <a class="apoio-redes__btn" href={tiktok} target="_blank" rel="noopener noreferrer">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.6 7.6a5.7 5.7 0 0 1-3.4-1.1 5.7 5.7 0 0 1-2.2-4V2h-3v12.6a2.7 2.7 0 1 1-2-2.6V9a5.7 5.7 0 1 0 5 5.6V9.5a8.6 8.6 0 0 0 5.6 2V8.6a5.7 5.7 0 0 1-1 0z"/></svg>
+                  TikTok
+                </a>
+              )}
+              {facebook && (
+                <a class="apoio-redes__btn" href={facebook} target="_blank" rel="noopener noreferrer">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14V7c0-1.1.5-2 2-2h1.5V1.7A18.4 18.4 0 0 0 15.4 1.5C13 1.5 11.5 3 11.5 5.6v3.9H9v4H11.5V22h2.5v-8.5z"/></svg>
+                  Facebook
+                </a>
+              )}
             </div>
           </article>
 
@@ -119,20 +128,19 @@ import { SITE } from '../site.config.js';
             <div class="apoio-card__num">04</div>
             <h2>Doação em plataforma autorizada</h2>
             <p>
-              A campanha recebe doações apenas por plataformas credenciadas pelo
-              TSE. Quando o CNPJ de campanha e a conta estiverem abertos, o link
-              aparece aqui. Enquanto isso, cada real investido vai pra material
-              de rua, santinhos e combustível de carro de som.
+              A campanha recebe doações apenas por plataformas credenciadas
+              pelo TSE. Quando o CNPJ de campanha e a conta estiverem abertos,
+              o link aparece aqui. Enquanto isso, cada real investido vai pra
+              material de rua, santinhos e combustível de carro de som.
             </p>
             <p class="apoio-card__note">
-              <strong>Em breve:</strong> link da plataforma de financiamento coletivo
-              autorizada pelo TSE.
+              <strong>Em breve:</strong> link da plataforma de financiamento
+              coletivo autorizada pelo TSE.
             </p>
             <Button
-              href={`https://wa.me/${SITE.contacts.whatsapp}?text=${encodeURIComponent('Quero doar. Pode me passar os dados da campanha?')}`}
+              href={`mailto:${SITE.contacts.email}?subject=${encodeURIComponent('Quero doar — Juliana 1424')}`}
               variant="outline"
               size="md"
-              external
             >
               Falar com a campanha
             </Button>
@@ -162,8 +170,6 @@ import { SITE } from '../site.config.js';
         return;
       }
 
-      // Integração real (ex: webhook, RD Station, Mailchimp) entra aqui.
-      // Por enquanto, simulamos confirmação e guardamos opt-in no localStorage.
       try {
         const type = form.getAttribute('data-form');
         const stored = JSON.parse(localStorage.getItem('ju:optins') || '{}');
@@ -298,7 +304,7 @@ import { SITE } from '../site.config.js';
     font-family: var(--font-corpo);
     font-size: var(--text-base);
     color: var(--tinta);
-    transition: border-color var(--transition-rapida);
+    transition: border-color 120ms ease;
   }
 
   .apoio-form__field input:focus {
@@ -337,7 +343,7 @@ import { SITE } from '../site.config.js';
     border: 0;
     cursor: pointer;
     min-height: 44px;
-    transition: background-color var(--transition-rapida);
+    transition: background-color 120ms ease;
   }
 
   .apoio-form__submit:hover {
@@ -362,41 +368,32 @@ import { SITE } from '../site.config.js';
     color: var(--erro);
   }
 
-  .apoio-share {
+  .apoio-redes {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    gap: var(--space-2);
     margin-top: var(--space-3);
   }
 
-  .apoio-share__btn {
+  .apoio-redes__btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    padding: 0.75rem 1.5rem;
-    background: var(--tinta);
-    color: var(--papel);
+    gap: 0.5rem;
+    padding: 0.625rem 1.125rem;
+    background: var(--papel);
+    color: var(--tinta);
+    border: 1px solid var(--papel-sombra);
+    border-radius: var(--radius-full);
     font-family: var(--font-corpo);
+    font-size: var(--text-sm);
     font-weight: var(--weight-medium);
     text-decoration: none;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--tinta);
-    min-height: 44px;
-    transition: background-color var(--transition-rapida), color var(--transition-rapida);
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
   }
 
-  .apoio-share__btn:hover {
-    background: var(--mostarda-escura);
-    border-color: var(--mostarda-escura);
-  }
-
-  .apoio-share__btn--ghost {
-    background: transparent;
-    color: var(--tinta);
-  }
-
-  .apoio-share__btn--ghost:hover {
+  .apoio-redes__btn:hover {
     background: var(--tinta);
     color: var(--mostarda);
+    border-color: var(--tinta);
   }
 </style>

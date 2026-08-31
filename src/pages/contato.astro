@@ -27,18 +27,16 @@ import { SITE } from '../site.config.js';
         <div class="contato-grid">
           <article class="contato-card">
             <p class="contato-card__tag">Eleitor</p>
-            <h2>Tire dúvida, sugira pauta, peça material</h2>
+            <h2>Dúvidas, pautas e materiais</h2>
             <p>
-              A resposta vem pela equipe de mobilização. Se for pauta de
-              mandato, eu mesma respondo quando der.
+              Resposta vem pela equipe de mobilização. Se for pauta de mandato,
+              eu mesma respondo quando der.
             </p>
             <a
               class="contato-card__btn"
-              href={`https://wa.me/${SITE.contacts.whatsapp}?text=${encodeURIComponent('Sou eleitor(a) e quero conversar com a campanha.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`mailto:${SITE.contacts.email}?subject=${encodeURIComponent('Sou eleitor(a) — mensagem pra campanha')}`}
             >
-              Abrir WhatsApp
+              Mandar e-mail
             </a>
           </article>
 
@@ -46,8 +44,8 @@ import { SITE } from '../site.config.js';
             <p class="contato-card__tag">Imprensa</p>
             <h2>Entrevistas, releases, foto oficial</h2>
             <p>
-              Pedidos de entrevista, materials de imprensa e foto oficial em alta
-              resolução.
+              Pedidos de entrevista, materiais de imprensa e foto oficial em
+              alta resolução.
             </p>
             <a
               class="contato-card__btn"
@@ -68,7 +66,7 @@ import { SITE } from '../site.config.js';
               class="contato-card__btn"
               href={`mailto:${SITE.contacts.email}?subject=${encodeURIComponent('Proposta de parceria — Juliana 1424')}`}
             >
-              {SITE.contacts.email}
+              Mandar proposta
             </a>
           </article>
         </div>
@@ -175,6 +173,7 @@ import { SITE } from '../site.config.js';
     font-size: var(--text-xl);
     color: var(--tinta);
     margin: 0;
+    line-height: 1.15;
   }
 
   .contato-card p {
@@ -198,7 +197,9 @@ import { SITE } from '../site.config.js';
     text-decoration: none;
     border-radius: var(--radius-full);
     min-height: 44px;
-    transition: background-color var(--transition-rapida);
+    transition: background-color 120ms ease;
+    word-break: break-word;
+    max-width: 100%;
   }
 
   .contato-card__btn:hover { background: var(--mostarda-escura); }
