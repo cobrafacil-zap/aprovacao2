@@ -108,12 +108,11 @@ export const PILLARS = [
     numero: '02',
     titulo: 'Menos máquina, mais serviço',
     resumo:
-      'A máquina pública está inchada e não vemos retorno em serviços. ' +
-      'Cortar gasto é questão de respeito com quem paga imposto.',
+      'A máquina pública está inchada e não vemos retorno em serviços.',
     acoes: [
       'Cortar salários acima do teto',
       'Acabar com o auxílio-moradia, auxílio-combustível e auxílio-alimentação que viraram salário',
-      'Diminuir a verba de gabinete e a quantidade de assessores permitidos por parlamentar',
+      'Diminuir a verba de gabinete e a quantidade de assessores permitidos',
     ],
   },
   {
@@ -135,9 +134,7 @@ export const PILLARS = [
     numero: '04',
     titulo: 'Pena firme, cidadão protegido',
     resumo:
-      'Quem cumpre a lei tem direito a um Estado que cumpre a parte dele. ' +
-      'Criminalidade se combate com investigação e punição — preso tem que ' +
-      'trabalhar, não passear.',
+      '',
     acoes: [
       'Penas maiores pra todo tipo de crime',
       'O preso deve trabalhar pra pagar suas despesas e manter sua família',
@@ -149,9 +146,7 @@ export const PILLARS = [
     numero: '05',
     titulo: 'A igualdade começa na educação de base de qualidade para todos',
     resumo:
-      'Educação pública boa, do começo ao fim, é o que separa um país que ' +
-      'sobe de um que atolou. A criança precisa aprender de verdade — sem ' +
-      'aprovação automática e com professor preparado pra cada aluno.',
+      '',
     acoes: [
       'Fim da aprovação automática sem critério de aprendizagem',
       'Salas separadas e professores preparados pra ensinar alunos neurodivergentes',
@@ -209,7 +204,7 @@ export const PROPOSALS = [
       'Não existe Estado de Direito sem investigação qualificada e pena ' +
       'cumprida. Resposta pra criminalidade é técnica, não panfleto.',
     corpo: [
-      'Reestruturação das polícias em geral, com plano de carreira por mérito',
+      'Reestruturação das polícias em geral',
       'Pena maior pra crime patrimonial com violência grave',
       'Acabar com prescrição retroativa em processo de corrupção',
     ],
@@ -222,8 +217,8 @@ export const PROPOSALS = [
       'A maioria do brasileiro não sabe quanto paga de imposto nem pra onde ' +
       'vai. Prestação de contas é obrigação, não favor.',
     corpo: [
-      'Sigilo sobre gastos com cartão corporativo deve ser proibido',
-      'Cada Amendment pública com nome do autor e destino rastreável',
+      'Prestação de contas é obrigação, sigilo sob gastos com cartão corporativo deve ser proibido',
+      'Cada emenda pública com nome do autor e destino rastreável',
       'Gestor que não prestar contas no prazo toma punição automática',
     ],
   },
@@ -294,6 +289,5 @@ export const ABOUT_TEXT = {
     'perde talentos e deixa de gerar empregos, pois quem pode muda de país.',
   corruptoSeProtege:
     'Temos um Congresso que legisla em causa própria. Muitos de seus membros ' +
-    'são conhecidos por participar de esquemas de corrupção e nada acontece. ' +
-    'Corrupto se protege, e por isso estou aqui — pra fiscalizar quem está lá.',
+    'são conhecidos por participar de esquemas de corrupção e nada acontece.',
 };
