@@ -295,6 +295,6 @@ export const ABOUT_TEXT = {
     'Um país que atola seus cidadãos e empresas de impostos é um país que ' +
     'perde talentos e deixa de gerar empregos, pois quem pode muda de país.',
   corruptoSeProtege:
-    'Temos um Congresso que legisla em causa própria. Muitos de seus membros ' +
+    'Temos um Congresso que legisla em causa própria, muitos de seus membros ' +
     'são conhecidos por participar de esquemas de corrupção e nada acontece.',
 };
