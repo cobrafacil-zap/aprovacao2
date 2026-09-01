@@ -56,7 +56,6 @@ export const SITE = {
     heroEyebrow: 'Eleições 2026 · Partido Missão · Jundiaí-SP · Deputada Federal',
     ctaPrimary: 'Conheça minhas propostas',
     ctaSecondary: 'Quem é a Juliana',
-    // Texto cru, curto. Sem parágrafos longos.
     manifesto:
       'Corrupto quer se eleger pra se beneficiar do cargo. Corrupto protege ' +
       'corrupto. E é por isso que não mudo o discurso pra agradar ninguém.',
@@ -89,7 +88,7 @@ export const NAV = [
   { href: '/contato/', label: 'Contato' },
 ];
 
-// Cinco frentes. Linguagem direta, sem jargão técnico.
+// Cinco frentes. Linguagem direta, voz da candidata.
 export const PILLARS = [
   {
     id: 'impostos',
@@ -99,9 +98,9 @@ export const PILLARS = [
       'Antes de criar tributo novo, o Congresso tem que cortar o que já tem. ' +
       'O brasileiro trabalha cinco meses por ano só pra pagar imposto.',
     acoes: [
-      'Revisar a tabela do IR pra quem ganha até cinco salários mínimos',
-      'Tirar privilégio de empresa grande que não reinveste no país',
-      'Mostrar, em portal público, pra onde vai cada centavo que o governo arrecada',
+      'Revisão da tabela do IR pra todos',
+      'Revisar privilégios de empresas de grande porte que não reinvestem no país',
+      'Diminuir impostos sobre consumo',
     ],
   },
   {
@@ -109,25 +108,26 @@ export const PILLARS = [
     numero: '02',
     titulo: 'Menos máquina, mais serviço',
     resumo:
-      'A máquina pública tá inchada e o serviço sumiu. Tem deputado com ' +
-      'verba de gabinete pra 25 assessores. Isso é absurdo.',
+      'A máquina pública está inchada e não vemos retorno em serviços. ' +
+      'Cortar gasto é questão de respeito com quem paga imposto.',
     acoes: [
-      'Acabar com a verba de gabinete que banca 25 assessores por parlamentar',
-      'Acabar com auxílio-moradia, combustível e alimentação que viraram salário',
-      'Publicar, todo ano, a lista dos cargos comissionados do Executivo',
+      'Cortar salários acima do teto',
+      'Acabar com o auxílio-moradia, auxílio-combustível e auxílio-alimentação que viraram salário',
+      'Diminuir a verba de gabinete e a quantidade de assessores permitidos por parlamentar',
     ],
   },
   {
-    id: 'juros',
+    id: 'controle-gastos',
     numero: '03',
-    titulo: 'Juro menor, moeda mais forte',
+    titulo: 'Controle de gastos do governo',
     resumo:
-      'Selic em dois dígitos é escolha política. Juro alto é transferência ' +
-      'de renda de pobre pra banqueiro. Quem paga essa conta é quem menos tem.',
+      'Diminuir os gastos da máquina pública e, por consequência, os ' +
+      'empréstimos do governo — assim os juros caem. Com menos impostos e ' +
+      'menos juros, a moeda fica mais valorizada e o poder de compra aumenta.',
     acoes: [
-      'CPI permanente do sistema financeiro pra investigar o spread bancário',
-      'Tirar o sigilo do Banco Central sobre operações com título público',
-      'Regra clara pra fintech — concorrência de verdade, não carta branca',
+      'Teto real de gasto público, com auditoria anual',
+      'Acabar com desperdício e mordomia bancada com dinheiro público',
+      'Vinculação de empréstimo público a projeto com retorno mensurável',
     ],
   },
   {
@@ -136,29 +136,31 @@ export const PILLARS = [
     titulo: 'Pena firme, cidadão protegido',
     resumo:
       'Quem cumpre a lei tem direito a um Estado que cumpre a parte dele. ' +
-      'Criminalidade se combate com investigação e punição, não com discurso.',
+      'Criminalidade se combate com investigação e punição — preso tem que ' +
+      'trabalhar, não passear.',
     acoes: [
-      'Pena maior pra crime hediondo cometido com violência grave',
-      'Tirar progressão de regime automática — quem cumpre mal, fica preso',
-      'Concurso anual pra polícia investigativa federal',
+      'Penas maiores pra todo tipo de crime',
+      'O preso deve trabalhar pra pagar suas despesas e manter sua família',
+      'Proibição das saídas temporárias (saidinhas) e das visitas íntimas',
     ],
   },
   {
     id: 'educacao',
     numero: '05',
-    titulo: 'Educação com base e mérito',
+    titulo: 'A igualdade começa na educação de base de qualidade para todos',
     resumo:
-      'Quem escolhe homeschooling tem meu apoio. E passar de série tem que ' +
-      'significar que o aluno aprendeu. Aprovação automática é mentira.',
+      'Educação pública boa, do começo ao fim, é o que separa um país que ' +
+      'sobe de um que atolou. A criança precisa aprender de verdade — sem ' +
+      'aprovação automática e com professor preparado pra cada aluno.',
     acoes: [
-      'Regulamentar o homeschooling com avaliação anual de aprendizagem',
-      'Acabar com aprovação automática sem critério de conhecimento',
-      'Programa de reforço pra alfabetizar toda criança até os oito anos',
+      'Fim da aprovação automática sem critério de aprendizagem',
+      'Salas separadas e professores preparados pra ensinar alunos neurodivergentes',
+      'Programa nacional de reforço escolar pra alfabetização até os oito anos',
     ],
   },
 ];
 
-// Recorte local — Jundiaí-SP
+// Recorte local — Jundiaí-SP e pautas nacionais detalhadas
 export const PROPOSALS = [
   {
     id: 'jundiai-mobilidade',
@@ -174,15 +176,15 @@ export const PROPOSALS = [
     ],
   },
   {
-    id: 'jundiai-saude',
+    id: 'saude-publica',
     numero: '02',
     titulo: 'Saúde pública que funciona',
     intro:
-      'Fila de seis meses pra consulta, pronto-socorro lotado, gente ' +
-      'pagando plano de saúde que não usa. O SUS precisa de gestão.',
+      'Filas pra consultas, filas pra cirurgias, pronto-socorro lotado. ' +
+      'O SUS precisa de gestão, não só de mais dinheiro.',
     corpo: [
       'Metas e avaliação de resultado por município, não só dinheiro novo',
-      'Tirar indicação política da direção de hospital federal',
+      'Emendas têm que ser fiscalizadas pra saber se chegaram onde deveriam',
       'Atendimento regional pra paciente não precisar atravessar a cidade',
     ],
   },
@@ -194,9 +196,9 @@ export const PROPOSALS = [
       'Antes de qualquer reforma, devolve renda pra base. O brasileiro já ' +
       'paga imposto demais — e ainda paga tudo mais caro.',
     corpo: [
-      'Isenção de IR pra quem ganha até cinco salários mínimos',
-      'Reduzir IRPJ de empresa que comprovadamente gera emprego',
-      'Tirar PIS/COFINS de item da cesta básica',
+      'Diminuir a carga tributária sobre a folha de pagamento — gera mais empregos',
+      'Diminuir ou até zerar impostos sobre alimentos e medicamentos',
+      'Tirar privilégios de empresa grande que não reinveste no país',
     ],
   },
   {
@@ -207,7 +209,7 @@ export const PROPOSALS = [
       'Não existe Estado de Direito sem investigação qualificada e pena ' +
       'cumprida. Resposta pra criminalidade é técnica, não panfleto.',
     corpo: [
-      'Reestruturar as polícias federais com plano de carreira por mérito',
+      'Reestruturação das polícias em geral, com plano de carreira por mérito',
       'Pena maior pra crime patrimonial com violência grave',
       'Acabar com prescrição retroativa em processo de corrupção',
     ],
@@ -218,10 +220,10 @@ export const PROPOSALS = [
     titulo: 'Onde vai o dinheiro público',
     intro:
       'A maioria do brasileiro não sabe quanto paga de imposto nem pra onde ' +
-      'vai. Transparência não é favor — é obrigação do Estado.',
+      'vai. Prestação de contas é obrigação, não favor.',
     corpo: [
-      'Portal único federal com a execução do orçamento em tempo real',
-      'Cada emenda parlamentar com nome do autor e destino rastreável',
+      'Sigilo sobre gastos com cartão corporativo deve ser proibido',
+      'Cada Amendment pública com nome do autor e destino rastreável',
       'Gestor que não prestar contas no prazo toma punição automática',
     ],
   },
@@ -235,7 +237,7 @@ export const PROPOSALS = [
     corpo: [
       'Regulamentar homeschooling com avaliação anual',
       'Acabar com aprovação automática sem critério pedagógico',
-      'Reforço escolar com foco em alfabetização até os oito anos',
+      'Salas separadas e professores preparados pra alunos neurodivergentes',
     ],
   },
 ];
@@ -278,7 +280,20 @@ export const GALLERY = [
 export const QUOTES = [
   'Não vim buscar benefício do cargo. Vim fiscalizar quem está lá.',
   'Corrupto quer se eleger pra se beneficiar do cargo. Corrupto protege corrupto.',
-  'Antes de criar imposto novo, precisa cortar o que tem.',
+  'Antes de criar imposto novo, precisa cortar desperdícios e mordomias bancadas com dinheiro público.',
   'Menos máquina pública. Mais serviço público.',
   'Passar de série tem que significar que o aluno aprendeu.',
 ];
+
+// Texto cru da candidata — usado na página "sobre"
+export const ABOUT_TEXT = {
+  oQueDefendo:
+    'Sou de Jundiaí, mãe, cristã e incomodada. Defendo um Congresso menor ' +
+    'em privilégio e maior em fiscalização — e menos impostos para todos. ' +
+    'Um país que atola seus cidadãos e empresas de impostos é um país que ' +
+    'perde talentos e deixa de gerar empregos, pois quem pode muda de país.',
+  corruptoSeProtege:
+    'Temos um Congresso que legisla em causa própria. Muitos de seus membros ' +
+    'são conhecidos por participar de esquemas de corrupção e nada acontece. ' +
+    'Corrupto se protege, e por isso estou aqui — pra fiscalizar quem está lá.',
+};

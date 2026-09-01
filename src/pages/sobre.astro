@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/Button.astro';
-import { SITE } from '../site.config.js';
+import { SITE, ABOUT_TEXT } from '../site.config.js';
 
 const TIMELINE = [
   {
@@ -58,7 +58,10 @@ const TIMELINE = [
           <span class="page-hero__crumb">Início / </span>Quem é Juliana
         </p>
         <h1 class="page-hero__title">
-          Cristã, mãe e incomodada. Candidata a Deputada Federal.
+          Cristã, mãe
+          <br />
+          e incomodada.
+          <span class="page-hero__title-italic">Candidata a Deputada Federal.</span>
         </h1>
         <p class="page-hero__lede">
           {SITE.shortBio}
@@ -101,18 +104,12 @@ const TIMELINE = [
         </p>
         <h3 class="page-block__subtitle">O que defendo</h3>
         <p>
-          Defendo um Congresso menor em privilégio e maior em fiscalização.
-          Defendo cortar a verba de gabinete inchada, auditar cargos comissionados
-          e abrir os gastos do Estado em tempo real. Defendo homeschooling com
-          avaliação, fim da aprovação automática sem critério de aprendizagem e
-          menos imposto no bolso de quem ganha até cinco salários mínimos.
+          {ABOUT_TEXT.oQueDefendo}
         </p>
+
+        <h3 class="page-block__subtitle">Corrupto se protege</h3>
         <p>
-          <em>
-            "Não busco benefícios do cargo. Acredito que alguns deveriam ser
-            extintos — moradia, combustível, alimentação. Outros, diminuídos —
-            como a verba de gabinete."
-          </em>
+          {ABOUT_TEXT.corruptoSeProtege}
         </p>
       </div>
     </section>
@@ -200,11 +197,21 @@ const TIMELINE = [
 
   .page-hero__title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    line-height: 1.1;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
     color: var(--tinta);
     margin: 0;
-    max-width: 22ch;
+    max-width: 16ch;
+    overflow-wrap: break-word;
+  }
+
+  .page-hero__title-italic {
+    display: block;
+    font-style: italic;
+    color: var(--musgo);
+    margin-top: 0.35em;
+    font-size: 0.7em;
   }
 
   .page-hero__lede {
