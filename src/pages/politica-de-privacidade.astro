@@ -35,8 +35,18 @@ const updated = '31 de agosto de 2026';
           (<code>{SITE.seo.title}</code>).
         </p>
         <p>
+          <strong>Razão social:</strong> {SITE.legal.razaoSocial}<br />
+          <strong>CNPJ:</strong> {SITE.legal.cnpjCampanha}<br />
+          <strong>Natureza jurídica:</strong> {SITE.legal.naturezaJuridica}<br />
+          <strong>Endereço:</strong> {SITE.address.street} —{' '}
+          {SITE.address.neighborhood}, {SITE.address.city}/{SITE.address.state},
+          CEP {SITE.address.zip}
+        </p>
+        <p>
           Para dúvidas sobre tratamento de dados, escreva para{' '}
-          <a href={`mailto:${SITE.contacts.email}`}>{SITE.contacts.email}</a>.
+          <a href={`mailto:${SITE.contacts.email}`}>{SITE.contacts.email}</a>{' '}
+          (e-mail de campanha) ou para o e-mail oficial{' '}
+          <a href={`mailto:${SITE.contacts.emailOficial}`}>{SITE.contacts.emailOficial}</a>.
         </p>
 
         <h2>2. Quais dados coletamos</h2>

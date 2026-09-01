@@ -30,6 +30,11 @@ import { SITE, NAV } from '../site.config.js';
       <ul class="footer__list">
         <li><a href={`mailto:${SITE.contacts.email}`}>{SITE.contacts.email}</a></li>
         <li><a href={`mailto:${SITE.contacts.press}`}>{SITE.contacts.press}</a></li>
+        <li class="footer__address">
+          {SITE.address.street}<br />
+          {SITE.address.neighborhood}<br />
+          {SITE.address.city}/{SITE.address.state} · CEP {SITE.address.zip}
+        </li>
         {SITE.contacts.instagram && (
           <li>
             <a href={SITE.contacts.instagram} target="_blank" rel="noopener noreferrer">
@@ -67,9 +72,18 @@ import { SITE, NAV } from '../site.config.js';
 
   <div class="footer__legal container">
     <p class="footer__legal-text">
-      <strong>Identificação legal obrigatória</strong> · CNPJ da campanha:{' '}
-      {SITE.legal.cnpjCampanha} · {SITE.legal.autorizadoPor} · Site comunicado à
-      Justiça Eleitoral · {SITE.legal.partidoUf}
+      <strong>Identificação legal obrigatória</strong> · CNPJ{' '}
+      {SITE.legal.cnpjCampanha} · {SITE.legal.razaoSocial} ·{' '}
+      {SITE.legal.naturezaJuridica} · Situação cadastral {SITE.legal.situacaoCadastral}
+      desde {SITE.legal.dataAbertura}.
+    </p>
+    <p class="footer__legal-text">
+      Endereço: {SITE.address.street} — {SITE.address.neighborhood},{' '}
+      {SITE.address.city}/{SITE.address.state}, CEP {SITE.address.zip} ·{' '}
+      E-mail oficial:{' '}
+      <a href={`mailto:${SITE.contacts.emailOficial}`}>{SITE.contacts.emailOficial}</a> ·{' '}
+      {SITE.legal.autorizadoPor} · Site comunicado à Justiça Eleitoral ·{' '}
+      {SITE.legal.partidoUf}
     </p>
     <p class="footer__copy">
       © {new Date().getFullYear()} Campanha Juliana Constantino · Conteúdo protegido
@@ -165,6 +179,14 @@ import { SITE, NAV } from '../site.config.js';
 
   .footer__list a:hover {
     color: var(--mostarda);
+  }
+
+  .footer__address {
+    font-family: var(--font-corpo);
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+    color: rgba(245, 241, 232, 0.85);
+    font-style: normal;
   }
 
   .footer__legal {

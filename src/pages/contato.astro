@@ -79,12 +79,36 @@ import { SITE } from '../site.config.js';
               <dd>{SITE.legal.cnpjCampanha}</dd>
             </div>
             <div>
-              <dt>Partido</dt>
-              <dd>{SITE.legal.partidoUf}</dd>
+              <dt>Razão social</dt>
+              <dd>{SITE.legal.razaoSocial}</dd>
             </div>
             <div>
-              <dt>Endereço do comitê</dt>
-              <dd>A definir — em breve.</dd>
+              <dt>Natureza jurídica</dt>
+              <dd>{SITE.legal.naturezaJuridica}</dd>
+            </div>
+            <div>
+              <dt>Atividade principal</dt>
+              <dd>{SITE.legal.atividadePrincipal}</dd>
+            </div>
+            <div>
+              <dt>Situação cadastral</dt>
+              <dd>{SITE.legal.situacaoCadastral} desde {SITE.legal.dataAbertura}</dd>
+            </div>
+            <div>
+              <dt>Endereço</dt>
+              <dd>
+                {SITE.address.street}<br />
+                {SITE.address.neighborhood}<br />
+                {SITE.address.city}/{SITE.address.state} · CEP {SITE.address.zip}
+              </dd>
+            </div>
+            <div>
+              <dt>E-mail oficial</dt>
+              <dd><a href={`mailto:${SITE.contacts.emailOficial}`}>{SITE.contacts.emailOficial}</a></dd>
+            </div>
+            <div>
+              <dt>Partido</dt>
+              <dd>{SITE.legal.partidoUf}</dd>
             </div>
             <div>
               <dt>Autorização</dt>

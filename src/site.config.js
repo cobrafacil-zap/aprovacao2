@@ -32,6 +32,7 @@ export const SITE = {
   contacts: {
     email: 'contato@julianaconstantino.com.br',
     press: 'imprensa@julianaconstantino.com.br',
+    emailOficial: 'julianaconstantino.2016@gmail.com',
     instagram: 'https://www.instagram.com/julianaconstantino',
     tiktok: 'https://www.tiktok.com/@julianaconstantino',
     facebook: null,
@@ -39,14 +40,20 @@ export const SITE = {
   },
 
   address: {
-    street: null,
+    street: 'Av. Antônio Frederico Ozanam, 9300, Apto 52, Bloco 4',
+    neighborhood: 'Jardim Shangai',
     city: 'Jundiaí',
     state: 'SP',
-    zip: null,
+    zip: '13.214-206',
   },
 
   legal: {
-    cnpjCampanha: '00.000.000/0001-00',
+    cnpjCampanha: '68.504.085/0001-89',
+    razaoSocial: 'ELEICAO 2026 JULIANA CONSTANTINO DE OLIVEIRA DEPUTADO FEDERAL',
+    dataAbertura: '11/08/2026',
+    naturezaJuridica: '409-0 — Candidato a Cargo Político Eletivo',
+    atividadePrincipal: '94.92-8-00 — Atividades de organizações políticas',
+    situacaoCadastral: 'ATIVA',
     partidoUf: 'Missão - São Paulo',
     autorizadoPor: 'Partido Missão',
     enderecoSiteComunicado: true,
