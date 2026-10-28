@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Formulário de Qualificação | Cassarotti Foods</title>
+<meta name="description" content="Conte para a Cassarotti Foods o que você precisa em refeições coletivas e fale com nossa equipe comercial. Atendimento para empresas, setor público, hospitais, escolas, canteiros de obra e grandes eventos.">
+<meta name="theme-color" content="#0C2B1F">
+<meta name="robots" content="noindex">
+
+<!-- ============================================================
+     FONTE (única dependência externa, leve e com fallback)
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   1) CORES E TOKENS — CONFIGURAÇÃO VISUAL
+   Tema "vidro escuro": painéis translúcidos, sempre um pouco
+   menos escuros que o fundo, que nasce quase preto e vai
+   abrindo para um cinza conforme as etapas avançam.
+   ============================================================ */
+:root{
+  /* --- Fundo ambiente (o JS interpola do inicial ao final) --- */
+  --fundo-inicio:#070709;      /* quase preto */
+  --fundo-fim:#38383F;         /* cinza grafite */
+  --fundo-dinamico:var(--fundo-inicio);
+
+  /* --- Vidro (painéis translúcidos) --- */
+  --vidro:rgba(255,255,255,.07);
+  --vidro-forte:rgba(255,255,255,.13);
+  --vidro-hover:rgba(255,255,255,.10);
+  --vidro-borda:rgba(255,255,255,.13);
+  --vidro-borda-forte:rgba(255,255,255,.22);
+
+  /* --- Textos sobre o vidro --- */
+  --texto:#F4F1EB;
+  --texto-suave:#CBC7BF;
+
+  /* --- Acento quente (laranja queimado): botões e destaques --- */
+  --acento:#B8501F;            /* 5.0:1 com branco */
+  --acento-escuro:#9C4316;
+  --acento-claro:#F2B489;
+
+  /* --- Dourado (eco do logo): seleções e detalhes --- */
+  --dourado:#EFCF92;
+  --dourado-fundo:rgba(239,207,146,.14);
+
+  /* --- Estados --- */
+  --erro:#FFB3A6;
+  --erro-fundo:rgba(255,120,100,.12);
+  --erro-borda:rgba(255,120,100,.38);
+  --ok:#8FD9A8;
+
+  /* --- Formas, sombras e movimento --- */
+  --raio-card:22px;
+  --raio-campo:14px;
+  --sombra-card:0 30px 70px -30px rgba(0,0,0,.75);
+  --sombra-hover:0 22px 44px -22px rgba(0,0,0,.7);
+  --t-transicao:400ms;
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  --fonte:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --fonte-titulo:'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+}
+
+/* ============================================================
+   2) BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;color-scheme:dark}
+body{
+  margin:0;
+  font-family:var(--fonte);
+  font-size:16px;
+  line-height:1.55;
+  color:var(--texto);
+  background-color:var(--fundo-dinamico);
+  transition:background-color .9s ease;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* luz ambiente bem sutil — dá volume ao vidro */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(1100px 620px at 82% -12%, rgba(224,150,80,.16), transparent 62%),
+    radial-gradient(900px 560px at 4% 108%, rgba(120,160,140,.10), transparent 60%);
+}
+
+/* grão sutil por cima de tudo — textura de impresso */
+body::after{
+  content:"";position:fixed;inset:0;z-index:60;pointer-events:none;
+  opacity:.28;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit}
+a{color:var(--dourado);text-underline-offset:3px}
+a:hover{color:#F7E3BC}
+img{max-width:100%;display:block}
+
+:focus-visible{
+  outline:3px solid rgba(239,207,146,.75);
+  outline-offset:3px;
+  border-radius:6px;
+}
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+.skip-link{
+  position:absolute;left:16px;top:-60px;z-index:80;
+  background:var(--dourado);color:#1B1408;padding:12px 18px;border-radius:12px;
+  text-decoration:none;font-weight:700;transition:top .2s ease;
+}
+.skip-link:focus{top:16px}
+
+/* enquanto a capa está aberta, o fundo não roda */
+body.capa-aberta{overflow:hidden}
+
+/* ============================================================
+   3) CAPA INICIAL (sobe ao clicar) + LAYOUT GERAL
+   ============================================================ */
+.capa{
+  position:fixed;inset:0;z-index:40;
+  background:var(--fundo-inicio);color:var(--texto);
+  overflow-y:auto;cursor:pointer;
+  transition:transform .95s cubic-bezier(.76,0,.24,1);
+}
+.capa.sobe{transform:translateY(-102%)}
+.capa.oculta{display:none}
+
+.capa-interno{
+  position:relative;z-index:1;
+  width:100%;max-width:1280px;margin:0 auto;min-height:100dvh;
+  padding:clamp(22px,4vw,58px);
+  display:grid;grid-template-columns:1fr;
+  gap:clamp(24px,4vw,58px);align-items:center;
+}
+.capa-marca{
+  display:inline-flex;align-items:center;
+  background:var(--vidro);border:1px solid var(--vidro-borda);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:13px;padding:10px 17px;
+  margin-bottom:clamp(22px,3vw,34px);
+}
+.capa-marca img{height:46px;width:auto}
+.capa-eyebrow{
+  font-size:.75rem;letter-spacing:.23em;text-transform:uppercase;
+  color:var(--dourado);font-weight:700;
+}
+.capa-titulo{
+  font-family:var(--fonte-titulo);font-weight:600;
+  font-size:clamp(2.15rem,5.4vw,3.85rem);line-height:1.05;letter-spacing:-.015em;
+  margin:18px 0 0;max-width:17ch;
+}
+.capa-titulo em{font-style:italic;font-weight:400;color:var(--dourado)}
+.capa-sub{
+  margin:22px 0 0;max-width:54ch;
+  color:var(--texto-suave);font-size:clamp(1rem,1.25vw,1.14rem);line-height:1.68;
+}
+.capa-acoes{margin:32px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.capa-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--acento);color:#FFF3EC;border:0;border-radius:999px;
+  padding:18px 32px;font-size:1.06rem;font-weight:700;cursor:pointer;
+  box-shadow:0 26px 50px -22px rgba(184,80,31,.85);
+  transition:transform .25s ease, background-color .25s ease;
+}
+.capa-btn:hover{transform:translateY(-2px);background:var(--acento-escuro)}
+.capa-btn svg{transition:transform .25s ease}
+.capa-btn:hover svg{transform:translateX(3px)}
+.capa-nota{font-size:.88rem;color:var(--texto-suave);max-width:24ch;line-height:1.5}
+.capa-fatos{
+  list-style:none;margin:clamp(28px,4vw,44px) 0 0;padding:22px 0 0;
+  border-top:1px solid var(--vidro-borda);
+  display:flex;flex-wrap:wrap;gap:12px 28px;
+}
+.capa-fatos li{
+  display:flex;align-items:center;gap:9px;
+  font-size:.855rem;color:var(--texto-suave);
+}
+.capa-fatos b{color:var(--texto);font-weight:700}
+.capa-fatos svg{color:var(--dourado);flex:none}
+
+.capa-foto{margin:0;justify-self:center;width:min(64vw,330px)}
+.capa-foto img{
+  display:block;width:100%;height:auto;border-radius:10px;
+  transform:rotate(-1.6deg);
+  box-shadow:0 48px 90px -34px rgba(0,0,0,.95), 0 0 0 1px rgba(255,255,255,.12);
+}
+.capa-foto figcaption{
+  margin:18px 2px 0;font-family:var(--fonte-titulo);font-style:italic;
+  font-size:.93rem;line-height:1.5;color:var(--texto-suave);
+}
+
+/* ============================================================
+   3b) FORMULÁRIO
+   ============================================================ */
+.app{
+  position:relative;z-index:1;
+  min-height:100dvh;display:flex;flex-direction:column;
+}
+.form-panel{
+  flex:1;display:flex;flex-direction:column;min-width:0;
+}
+.form-header{
+  padding:clamp(16px,2.4vw,28px) clamp(18px,4vw,42px) 0;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.logo-chip{
+  background:var(--vidro);border:1px solid var(--vidro-borda);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:13px;padding:9px 15px;
+  display:inline-flex;align-items:center;
+  box-shadow:0 18px 40px -22px rgba(0,0,0,.8);
+}
+.logo{height:46px;width:auto;object-fit:contain}
+.logo-fallback{ /* só aparece se a imagem do logo não carregar */
+  display:none;font-weight:800;letter-spacing:.06em;font-size:1.05rem;line-height:1.1;
+}
+.logo-fallback small{display:block;font-size:.62rem;letter-spacing:.34em;color:var(--dourado);font-weight:700}
+
+/* ============================================================
+   4) PROGRESSO
+   ============================================================ */
+.progress-wrap{
+  margin-left:auto;
+  background:var(--vidro);border:1px solid var(--vidro-borda);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:18px;padding:12px 18px 14px;
+  box-shadow:0 18px 40px -22px rgba(0,0,0,.8);
+  min-width:min(330px,100%);
+}
+.progresso-topo{
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  font-size:.8rem;font-weight:600;color:var(--texto-suave);
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.progresso-topo .etapa-num{color:var(--dourado);font-weight:800}
+.progresso{
+  margin-top:8px;height:8px;border-radius:99px;
+  background:rgba(255,255,255,.12);overflow:hidden;
+}
+.progresso-barra{
+  height:100%;width:20%;border-radius:99px;
+  background:linear-gradient(90deg, var(--dourado), var(--acento-claro));
+  transition:width .55s var(--ease);
+  position:relative;
+}
+.progresso-barra::after{ /* brilho sutil em movimento */
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+  transform:translateX(-100%);
+}
+.progresso-barra.pulsar::after{animation:brilho 1.1s var(--ease)}
+@keyframes brilho{to{transform:translateX(100%)}}
+
+/* ============================================================
+   5) CARTÃO DE VIDRO + TRANSIÇÃO DE ETAPAS
+   ============================================================ */
+.stage-wrap{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:clamp(18px,3vw,34px) clamp(18px,4vw,40px);
+}
+.cartao{
+  width:100%;max-width:660px;
+  background:var(--vidro);
+  border:1px solid var(--vidro-borda);
+  backdrop-filter:blur(22px) saturate(1.15);
+  -webkit-backdrop-filter:blur(22px) saturate(1.15);
+  border-radius:var(--raio-card);
+  box-shadow:var(--sombra-card);
+  padding:clamp(22px,3.6vw,42px);
+}
+.stage{display:grid;align-items:center}
+.screen{
+  grid-area:1/1;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translateX(34px);
+  transition:
+    transform var(--t-transicao) var(--ease),
+    opacity var(--t-transicao) var(--ease),
+    visibility 0s linear var(--t-transicao);
+}
+.stage.back .screen{transform:translateX(-34px)}
+.screen.is-active{
+  opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0);
+  transition:
+    transform var(--t-transicao) var(--ease),
+    opacity var(--t-transicao) var(--ease),
+    visibility 0s;
+}
+.screen.saindo-esquerda{opacity:0;visibility:visible;transform:translateX(-34px)}
+.screen.saindo-direita{opacity:0;visibility:visible;transform:translateX(34px)}
+.screen:focus{outline:none}
+
+/* ============================================================
+   6) TIPOGRAFIA DAS PERGUNTAS E CAMPOS
+   ============================================================ */
+.etapa-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--acento-claro);background:var(--dourado-fundo);
+  border:1px solid rgba(239,207,146,.22);
+  padding:6px 12px;border-radius:99px;
+}
+.pergunta{
+  font-family:var(--fonte-titulo);font-weight:600;
+  font-size:clamp(1.45rem,2.6vw,1.95rem);
+  line-height:1.2;letter-spacing:-.015em;
+  color:var(--texto);margin:14px 0 6px;
+  border:0;padding:0;   /* legend legível */
+}
+.sub-pergunta{color:var(--texto-suave);font-size:.97rem;margin-bottom:20px}
+
+.campo{margin-top:18px}
+.campo label.rotulo{
+  display:block;font-size:.92rem;font-weight:700;color:var(--texto);
+  margin-bottom:7px;
+}
+.campo .ajuda{font-size:.82rem;color:var(--texto-suave);margin:-3px 0 8px}
+.campo input[type="text"],
+.campo input[type="email"],
+.campo input[type="tel"]{
+  width:100%;padding:15px 16px;font-size:1.02rem;
+  border:1.5px solid var(--vidro-borda-forte);border-radius:var(--raio-campo);
+  background:rgba(255,255,255,.06);color:var(--texto);
+  transition:border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+.campo input::placeholder{color:rgba(203,199,191,.55)}
+.campo input:hover{background:rgba(255,255,255,.09)}
+.campo input:focus{
+  outline:none;border-color:var(--dourado);
+  background:rgba(255,255,255,.10);
+  box-shadow:0 0 0 4px rgba(239,207,146,.22);
+}
+.campo.invalido input{border-color:var(--erro-borda);box-shadow:0 0 0 4px rgba(255,120,100,.16)}
+.mensagem-erro{
+  display:flex;align-items:center;gap:7px;
+  margin-top:8px;font-size:.86rem;font-weight:600;color:var(--erro);
+  min-height:0;opacity:0;transform:translateY(-3px);
+  transition:opacity .2s ease, transform .2s ease;
+}
+.mensagem-erro.visivel{opacity:1;transform:none}
+.mensagem-erro svg{flex:none}
+
+/* ============================================================
+   7) CARDS DE ESCOLHA (segmento, serviços, faixas etc.)
+   ============================================================ */
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.opcoes{display:grid;gap:11px;margin-top:6px}
+.opcoes.duas-colunas{grid-template-columns:1fr}
+@media (min-width:620px){ .opcoes.duas-colunas{grid-template-columns:1fr 1fr} }
+
+.opcao{
+  position:relative;display:flex;align-items:center;gap:13px;
+  padding:14px 15px;cursor:pointer;
+  border:1.5px solid var(--vidro-borda);border-radius:var(--raio-campo);
+  background:rgba(255,255,255,.05);
+  transition:border-color .2s ease, box-shadow .22s ease, transform .22s ease, background-color .2s ease;
+}
+.opcao:hover{
+  border-color:var(--vidro-borda-forte);background:var(--vidro-hover);
+  transform:translateY(-2px);box-shadow:var(--sombra-hover);
+}
+.opcao.selecionada{
+  border-color:rgba(239,207,146,.75);
+  background:rgba(239,207,146,.12);
+  box-shadow:0 0 0 1.5px rgba(239,207,146,.55), var(--sombra-hover);
+}
+.opcao input{
+  position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none;
+}
+.opcao:has(input:focus-visible){
+  outline:3px solid rgba(239,207,146,.75);outline-offset:3px;
+}
+.opcao-icone{
+  flex:none;width:44px;height:44px;border-radius:12px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.07);color:var(--dourado);
+  border:1px solid var(--vidro-borda);
+  transition:background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.opcao.selecionada .opcao-icone{
+  background:rgba(239,207,146,.2);color:var(--texto);border-color:rgba(239,207,146,.5);
+}
+.opcao-texto{flex:1;min-width:0}
+.opcao-texto .titulo{display:block;font-weight:700;font-size:.985rem;line-height:1.32;color:var(--texto)}
+.opcao-texto .detalhe{display:block;font-size:.82rem;color:var(--texto-suave);margin-top:2px}
+.marca{
+  flex:none;width:24px;height:24px;border-radius:50%;
+  border:1.8px solid var(--vidro-borda-forte);background:rgba(255,255,255,.05);
+  display:grid;place-items:center;
+  transition:background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+.marca svg{opacity:0;transform:scale(.6);transition:opacity .18s ease, transform .18s ease;color:#241A08}
+.opcao.selecionada .marca{background:var(--dourado);border-color:var(--dourado)}
+.opcao.selecionada .marca svg{opacity:1;transform:scale(1)}
+.marca.multiplo{border-radius:8px}
+
+/* Chips de estado (27 UFs) */
+.uf-grid{display:grid;gap:9px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));margin-top:6px}
+.uf-opcao{
+  position:relative;display:flex;align-items:center;gap:10px;
+  padding:11px 12px;cursor:pointer;
+  border:1.5px solid var(--vidro-borda);border-radius:12px;
+  background:rgba(255,255,255,.05);
+  transition:border-color .2s ease, background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.uf-opcao:hover{border-color:var(--vidro-borda-forte);background:var(--vidro-hover);transform:translateY(-2px)}
+.uf-opcao.selecionada{
+  border-color:rgba(239,207,146,.75);background:rgba(239,207,146,.12);
+  box-shadow:0 0 0 1.5px rgba(239,207,146,.5);
+}
+.uf-opcao input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.uf-opcao:has(input:focus-visible){outline:3px solid rgba(239,207,146,.75);outline-offset:3px}
+.uf-sigla{
+  font-weight:800;font-size:.82rem;letter-spacing:.06em;color:var(--dourado);
+  background:rgba(255,255,255,.07);border:1px solid var(--vidro-borda);border-radius:8px;
+  padding:3px 8px;
+}
+.uf-opcao.selecionada .uf-sigla{background:rgba(239,207,146,.22);border-color:rgba(239,207,146,.5)}
+.uf-nome{font-size:.92rem;font-weight:600;color:var(--texto)}
+
+/* ============================================================
+   8) CONSENTIMENTO
+   ============================================================ */
+.consentimento{
+  display:flex;gap:12px;align-items:flex-start;
+  margin-top:22px;padding:15px;border-radius:var(--raio-campo);
+  background:rgba(255,255,255,.05);border:1.5px solid var(--vidro-borda);
+  cursor:pointer;transition:border-color .2s ease, background-color .2s ease;
+}
+.consentimento:hover{border-color:var(--vidro-borda-forte);background:var(--vidro-hover)}
+.consentimento:has(input:focus-visible){outline:3px solid rgba(239,207,146,.75);outline-offset:3px}
+.consentimento.invalido{border-color:var(--erro-borda);background:var(--erro-fundo)}
+.consentimento input{
+  flex:none;width:22px;height:22px;margin-top:2px;
+  accent-color:var(--dourado);cursor:pointer;
+}
+.consentimento span{font-size:.9rem;line-height:1.5;color:var(--texto)}
+.consentimento a{font-weight:700}
+
+/* ============================================================
+   9) BOTÕES
+   ============================================================ */
+.acoes{
+  display:flex;align-items:center;gap:12px;
+  margin-top:26px;
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:54px;padding:15px 26px;border-radius:14px;border:1.5px solid transparent;
+  font-size:1.02rem;font-weight:700;letter-spacing:.01em;cursor:pointer;
+  transition:transform .18s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+.btn-primario{
+  background:var(--acento);color:#FFF3EC;flex:1;
+  box-shadow:0 18px 34px -18px rgba(184,80,31,.9);
+}
+.btn-primario:hover{background:var(--acento-escuro);transform:translateY(-2px)}
+.btn-primario:active{transform:translateY(0)}
+.btn-secundario{
+  background:rgba(255,255,255,.06);color:var(--texto);
+  border-color:var(--vidro-borda-forte);
+}
+.btn-secundario:hover{background:var(--vidro-forte);transform:translateY(-2px)}
+.btn-ghost{
+  background:transparent;border-color:transparent;color:var(--texto-suave);
+  padding-left:8px;padding-right:14px;
+}
+.btn-ghost:hover{color:var(--texto)}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.link-voltar-site{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.9rem;font-weight:600;color:var(--texto-suave);text-decoration:none;
+}
+.link-voltar-site:hover{color:var(--texto)}
+
+/* Erro de envio */
+.erro-envio{
+  display:none;margin-top:20px;padding:16px 18px;border-radius:var(--raio-campo);
+  background:var(--erro-fundo);border:1.5px solid var(--erro-borda);color:var(--texto);
+}
+.erro-envio.visivel{display:block;animation:suave .35s var(--ease)}
+.erro-envio strong{display:block;margin-bottom:4px;font-size:.98rem;color:var(--erro)}
+.erro-envio p{font-size:.9rem;margin-bottom:12px;color:var(--texto-suave)}
+@keyframes suave{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ============================================================
+   10) RODAPÉ
+   ============================================================ */
+.rodape-marca{
+  margin:0 auto clamp(18px,3vw,32px);
+  display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:center;
+  background:var(--vidro);border:1px solid var(--vidro-borda);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:999px;padding:11px 22px;
+  font-size:.82rem;color:var(--texto-suave);
+  width:fit-content;max-width:calc(100% - 36px);
+}
+.rodape-marca .ponto{width:4px;height:4px;border-radius:50%;background:var(--dourado)}
+
+/* ============================================================
+   11) OVERLAY "ANALISANDO SEU PERFIL..."
+   ============================================================ */
+.overlay{
+  position:fixed;inset:0;z-index:70;
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  background:rgba(7,7,9,.82);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:24px;text-align:center;
+}
+.overlay.visivel{display:flex;animation:suave .3s ease}
+.overlay-anel{
+  width:76px;height:76px;border-radius:50%;
+  border:3px solid rgba(255,255,255,.18);
+  border-top-color:var(--dourado);
+  animation:girar 1s linear infinite;
+}
+@keyframes girar{to{transform:rotate(360deg)}}
+.overlay p{font-size:1.12rem;font-weight:700;color:var(--texto)}
+.overlay .linha{
+  width:min(280px,70vw);height:5px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden;
+}
+.overlay .linha i{
+  display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--dourado),var(--acento-claro));
+  animation:carregando 1.5s var(--ease) forwards;
+}
+@keyframes carregando{to{width:100%}}
+
+/* ============================================================
+   12) TELA DE AGRADECIMENTO
+   ============================================================ */
+.agradecimento{display:none;position:relative;z-index:1;min-height:100dvh}
+.agradecimento.visivel{display:block;animation:suave .5s var(--ease)}
+.agradece-topo{
+  background:var(--vidro);
+  border:1px solid var(--vidro-borda);
+  backdrop-filter:blur(22px) saturate(1.15);
+  -webkit-backdrop-filter:blur(22px) saturate(1.15);
+  border-radius:var(--raio-card);
+  box-shadow:var(--sombra-card);
+  padding:clamp(26px,4vw,52px);
+}
+.agradece-topo .logo-branco-wrap{
+  display:inline-flex;align-items:center;
+  background:rgba(255,255,255,.07);border:1px solid var(--vidro-borda);
+  border-radius:13px;padding:8px 14px;
+}
+.agradece-check{
+  width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+  background:var(--dourado-fundo);border:1.5px solid rgba(239,207,146,.35);
+  margin:26px 0 22px;
+}
+.agradece-check svg{color:var(--dourado)}
+.agradece-titulo{
+  font-family:var(--fonte-titulo);font-weight:600;
+  font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.12;letter-spacing:-.015em;
+  max-width:18ch;
+}
+.agradece-texto{
+  margin-top:14px;max-width:52ch;font-size:1.05rem;color:var(--texto-suave);
+}
+.agradece-corpo{
+  padding:clamp(18px,3vw,28px) 0 clamp(36px,6vw,72px);
+}
+.cartao-resumo{
+  background:var(--vidro);border:1px solid var(--vidro-borda);
+  backdrop-filter:blur(22px) saturate(1.15);
+  -webkit-backdrop-filter:blur(22px) saturate(1.15);
+  border-radius:var(--raio-card);
+  box-shadow:var(--sombra-card);padding:clamp(20px,3vw,30px);
+}
+.cartao-resumo h3{
+  font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--texto-suave);font-weight:800;margin-bottom:16px;
+}
+.resumo-grade{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(196px,1fr))}
+.resumo-item{
+  border:1px solid var(--vidro-borda);border-radius:13px;
+  padding:12px 14px;background:rgba(255,255,255,.05);
+}
+.resumo-item dt{
+  font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--texto-suave);font-weight:700;
+}
+.resumo-item dd{margin:4px 0 0;font-size:.96rem;font-weight:700;color:var(--texto);line-height:1.35}
+
+.cta-bloco{margin-top:22px;display:grid;gap:12px}
+.btn-whats{background:#0E7440;color:#fff;box-shadow:0 18px 34px -18px rgba(14,116,64,.9)}
+.btn-whats:hover{background:#0B5F33;transform:translateY(-2px)}
+.contatos-secundarios{display:flex;flex-wrap:wrap;gap:10px}
+.contato-chip{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:12px 16px;border-radius:12px;text-decoration:none;
+  border:1.5px solid var(--vidro-borda-forte);color:var(--texto);font-weight:600;font-size:.92rem;
+  background:rgba(255,255,255,.05);
+  transition:border-color .2s ease, transform .2s ease, background-color .2s ease;
+}
+.contato-chip:hover{border-color:var(--dourado);background:var(--vidro-hover);transform:translateY(-2px);color:var(--texto)}
+.nota-final{
+  margin-top:24px;font-size:.86rem;color:var(--texto-suave);line-height:1.6;
+  max-width:70ch;
+}
+
+/* ============================================================
+   13) DESKTOP
+   ============================================================ */
+@media (min-width:960px){
+  .capa-interno{grid-template-columns:1.08fr .92fr;align-items:center}
+  .capa-foto{width:min(30vw,430px);justify-self:end}
+  .capa-foto figcaption{text-align:right}
+}
+@media (min-width:1024px){
+  .logo{height:52px}
+}
+
+/* ============================================================
+   14) MOVIMENTO REDUZIDO (acessibilidade)
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+  .screen{transform:none !important}
+  .screen.is-active{transform:none !important}
+  .overlay-anel{animation:none;border-top-color:var(--dourado)}
+}
+</style>
+</head>
+
+<body class="capa-aberta">
+<a class="skip-link" href="#stage">Ir direto para o formulário</a>
+
+<!-- ============================================================
+     CAPA INICIAL — foto que sobe ao clicar e revela o formulário
+     Foto real da fundadora da Cassarotti Foods (troque o arquivo
+     capa-fundadora.png se preferir outra imagem da marca).
+     ============================================================ -->
+<section class="capa" id="capa" aria-label="Apresentação">
+  <div class="capa-interno">
+    <div class="capa-texto">
+      <div class="capa-marca">
+        <img src="logo-cassarotti-claro.png" alt="Cassarotti Foods" width="152" height="86">
+      </div>
+      <p class="capa-eyebrow">Refeições coletivas · desde 1997 · Cornélio Procópio/PR</p>
+      <h1 class="capa-titulo">Quem serve muita gente <em>não pode errar</em> na cozinha.</h1>
+      <p class="capa-sub">
+        Há quase 30 anos alimentando empresas, hospitais, escolas, canteiros de obra,
+        o setor público e grandes eventos em todo o Brasil. Conte pra gente o que você
+        precisa — em cinco perguntas, nosso comercial já recebe o seu contato.
+      </p>
+      <div class="capa-acoes">
+        <button type="button" class="capa-btn" id="capaBtn">
+          Começar o formulário
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </button>
+        <p class="capa-nota">Leva cerca de 1 minuto. Sem compromisso — o retorno é pelo WhatsApp.</p>
+      </div>
+      <ul class="capa-fatos">
+        <li>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+          <span><b>72 milhões</b> de refeições servidas por ano</span>
+        </li>
+        <li>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg>
+          <span>Certificações <b>ISO 9001 · 14001 · 22000 · 45001</b></span>
+        </li>
+        <li>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <span>Cozinhas móveis e frota própria em <b>todo o Brasil</b></span>
+        </li>
+      </ul>
+    </div>
+
+    <figure class="capa-foto">
+      <img src="capa-fundadora.png" width="491" height="648"
+           alt="Dona Aparecida, fundadora da Cassarotti Foods, ao lado de uma criança, ambas de uniforme da empresa">
+      <figcaption>A história começou em 1997, na cozinha de Dona Aparecida.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="app" id="app">
+
+  <!-- ============================================================
+       ÁREA DO FORMULÁRIO
+       ============================================================ -->
+  <main class="form-panel">
+
+    <div class="form-header">
+      <h1 class="sr-only">Formulário de qualificação — Cassarotti Foods</h1>
+      <!-- LOGO: troque o arquivo logo-cassarotti.png na raiz do projeto -->
+      <div class="logo-chip">
+        <img class="logo" id="logo" src="logo-cassarotti-claro.png" alt="Cassarotti Foods" width="152" height="86">
+        <div class="logo-fallback" id="logoFallback" aria-hidden="true">
+          CASSAROTTI<small>FOODS</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progresso-topo">
+        <span class="etapa-num" id="etapaTexto" aria-live="polite">Etapa 1 de 5</span>
+        <span id="etapaTema">Quem é você</span>
+      </div>
+      <div class="progresso" role="progressbar" aria-label="Progresso do formulário"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="20" id="progresso">
+        <div class="progresso-barra" id="progressoBarra"></div>
+      </div>
+    </div>
+
+    <div class="stage-wrap">
+      <div class="cartao">
+        <form id="formulario" novalidate autocomplete="on">
+          <div class="stage" id="stage">
+
+            <!-- ======================================================
+                 ETAPA 1 — QUEM É VOCÊ (2 campos na mesma tela)
+                 ====================================================== -->
+            <section class="screen is-active" id="screen-nome" data-etapa="1" data-tema="Quem é você" tabindex="-1" aria-label="Etapa 1 de 5: quem é você">
+              <span class="etapa-tag">Etapa 1 · Quem é você</span>
+              <h2 class="pergunta">Vamos começar pelo essencial</h2>
+              <p class="sub-pergunta">Precisamos só do básico para direcionar seu atendimento à equipe certa.</p>
+
+              <div class="campo" id="campo-nome">
+                <label class="rotulo" for="nome">Nome completo <span aria-hidden="true">*</span></label>
+                <input type="text" id="nome" name="nome" autocomplete="name" placeholder="Ex.: Maria Aparecida Silva"
+                       required aria-required="true" aria-describedby="erro-nome">
+                <p class="mensagem-erro" id="erro-nome" role="alert"></p>
+              </div>
+
+              <div class="campo" id="campo-empresa">
+                <label class="rotulo" for="empresa">Nome da empresa <span aria-hidden="true">*</span></label>
+                <input type="text" id="empresa" name="empresa" autocomplete="organization" placeholder="Ex.: Indústria Alfa Ltda."
+                       required aria-required="true" aria-describedby="erro-empresa">
+                <p class="mensagem-erro" id="erro-empresa" role="alert"></p>
+              </div>
+
+              <div class="acoes">
+                <a class="link-voltar-site" href="https://cassarottifoods.com.br/">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar para o site
+                </a>
+                <button type="button" class="btn btn-primario" data-avancar>
+                  Continuar
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
+                 ETAPA 2 — SEGMENTO
+                 ====================================================== -->
+            <section class="screen" id="screen-segmento" data-etapa="2" data-tema="Segmento e papel" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 2 de 5: segmento">
+              <span class="etapa-tag">Etapa 2 · Segmento</span>
+              <fieldset>
+                <legend class="pergunta">Qual é o segmento da sua organização?</legend>
+                <p class="sub-pergunta">Escolha a opção que mais se aproxima da sua realidade.</p>
+                <div class="opcoes duas-colunas">
+
+                  <label class="opcao" data-valor="Empresa privada / indústria">
+                    <input type="radio" name="segmento" value="Empresa privada / indústria" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20.5h18"/><path d="M5.5 20.5V10l4.5 3V10l4.5 3V6.5L20 10v10.5"/><path d="M8.2 17h1.6"/><path d="M13.2 17h1.6"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Empresa privada / indústria</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Construção civil">
+                    <input type="radio" name="segmento" value="Construção civil" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 19.5h19"/><path d="M5 19.5v-2.2a7 7 0 0 1 14 0v2.2"/><path d="M10 9.9V5.4h4v4.5"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Construção civil</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Setor público">
+                    <input type="radio" name="segmento" value="Setor público" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M4 21v-8"/><path d="M8 21v-8"/><path d="M12 21v-8"/><path d="M16 21v-8"/><path d="M20 21v-8"/><path d="M3 13h18"/><path d="M12 3 3 8.5h18z"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Setor público</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Hospital ou saúde">
+                    <input type="radio" name="segmento" value="Hospital ou saúde" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12"/><path d="M2.5 21h19"/><path d="M12 10.2v5.2"/><path d="M9.4 12.8h5.2"/><path d="M10 21v-3.4h4V21"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Hospital ou saúde</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Educação (escolas e creches)">
+                    <input type="radio" name="segmento" value="Educação (escolas e creches)" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9 12 4.5 21.5 9 12 13.5z"/><path d="M6.5 11.2V16c0 1.6 2.5 3 5.5 3s5.5-1.4 5.5-3v-4.8"/><path d="M21.5 9v5"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Educação (escolas e creches)</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Eventos">
+                    <input type="radio" name="segmento" value="Eventos" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4"/><path d="M16 3v4"/><path d="M3 10h18"/><path d="m12 12.4 1 2.1 2.3.3-1.7 1.6.4 2.3-2-1.1-2 1.1.4-2.3-1.7-1.6 2.3-.3z"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Eventos</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Outro">
+                    <input type="radio" name="segmento" value="Outro" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.5a2.5 2.5 0 0 1 4.9.6c0 1.7-2.5 2-2.5 3.6"/><path d="M12 17h.01"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Outro</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                </div>
+                <p class="mensagem-erro" id="erro-segmento" role="alert"></p>
+              </fieldset>
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
+                 ETAPA 2 — PAPEL NA DECISÃO
+                 ====================================================== -->
+            <section class="screen" id="screen-papel" data-etapa="2" data-tema="Segmento e papel" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 2 de 5: papel na decisão">
+              <span class="etapa-tag">Etapa 2 · Papel na decisão</span>
+              <fieldset>
+                <legend class="pergunta">Qual é o seu papel na contratação?</legend>
+                <p class="sub-pergunta">Isso nos ajuda a preparar a conversa comercial certa para você.</p>
+                <div class="opcoes">
+
+                  <label class="opcao" data-valor="Decido sozinho">
+                    <input type="radio" name="papel" value="Decido sozinho" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 20a6.5 6.5 0 0 1 13 0"/><path d="m16.6 12.4 1.8 1.8 3.1-3.3"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Decido sozinho</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Participo da decisão">
+                    <input type="radio" name="papel" value="Participo da decisão" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5a6 6 0 0 1 12 0"/><path d="M16 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.4 13.7a6 6 0 0 1 3.6 5.8"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Participo da decisão</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Indico para quem decide">
+                    <input type="radio" name="papel" value="Indico para quem decide" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 20a6.5 6.5 0 0 1 12.2-2.2"/><path d="M18.5 14v6"/><path d="M15.5 17h6"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Indico para quem decide</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Estou pesquisando para outra pessoa">
+                    <input type="radio" name="papel" value="Estou pesquisando para outra pessoa" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Estou pesquisando para outra pessoa</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                </div>
+                <p class="mensagem-erro" id="erro-papel" role="alert"></p>
+              </fieldset>
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
+                 ETAPA 3 — PORTE (pessoas atendidas por dia)
+                 ====================================================== -->
+            <section class="screen" id="screen-porte" data-etapa="3" data-tema="Porte e localização" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 3 de 5: porte">
+              <span class="etapa-tag">Etapa 3 · Porte</span>
+              <fieldset>
+                <legend class="pergunta">Quantas pessoas seriam atendidas por dia?</legend>
+                <p class="sub-pergunta">Funcionários, alunos, pacientes ou participantes.</p>
+                <div class="opcoes">
+
+                  <label class="opcao" data-valor="Até 100">
+                    <input type="radio" name="porte" value="Até 100" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.5" r="3.3"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Até 100 pessoas</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="101 a 500">
+                    <input type="radio" name="porte" value="101 a 500" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.1"/><path d="M3 19.5a6 6 0 0 1 12 0"/><path d="M16 5.3a3.1 3.1 0 0 1 0 5.7"/><path d="M17.3 13.8a6 6 0 0 1 3.7 5.7"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">101 a 500</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="501 a 2.000">
+                    <input type="radio" name="porte" value="501 a 2.000" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="8.5" r="2.5"/><circle cx="12" cy="7" r="2.8"/><circle cx="18" cy="8.5" r="2.5"/><path d="M1.8 19a4.4 4.4 0 0 1 8.4 0"/><path d="M8.2 19a4.4 4.4 0 0 1 7.6 0"/><path d="M13.8 19a4.4 4.4 0 0 1 8.4 0"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">501 a 2.000</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="2.001 a 5.000">
+                    <input type="radio" name="porte" value="2.001 a 5.000" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="5" r="1.4"/><circle cx="12" cy="5" r="1.4"/><circle cx="19" cy="5" r="1.4"/><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/><circle cx="5" cy="19" r="1.4"/><circle cx="12" cy="19" r="1.4"/><circle cx="19" cy="19" r="1.4"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">2.001 a 5.000</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Acima de 5.000">
+                    <input type="radio" name="porte" value="Acima de 5.000" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 21h19"/><path d="M5 21V9h5v12"/><path d="M12 21V4h6v17"/><path d="M7 12h1"/><path d="M7 15.5h1"/><path d="M14.5 8h1"/><path d="M14.5 12h1"/><path d="M14.5 16h1"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Acima de 5.000</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                </div>
+                <p class="mensagem-erro" id="erro-porte" role="alert"></p>
+              </fieldset>
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
+                 ETAPA 3 — ESTADO (27 UFs, gerado por JavaScript)
+                 ====================================================== -->
+            <section class="screen" id="screen-estado" data-etapa="3" data-tema="Porte e localização" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 3 de 5: estado">
+              <span class="etapa-tag">Etapa 3 · Localização</span>
+              <fieldset>
+                <legend class="pergunta">Em que estado fica a operação?</legend>
+                <p class="sub-pergunta">Atendemos em todo o Brasil. Selecione a UF.</p>
+                <div class="uf-grid" id="ufGrid">
+                  <!-- chips preenchidos pelo JavaScript -->
+                </div>
+                <p class="mensagem-erro" id="erro-estado" role="alert"></p>
+              </fieldset>
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
+                 ETAPA 3 — CIDADE
+                 ====================================================== -->
+            <section class="screen" id="screen-cidade" data-etapa="3" data-tema="Porte e localização" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 3 de 5: cidade">
+              <span class="etapa-tag">Etapa 3 · Localização</span>
+              <h2 class="pergunta">Em qual cidade está a operação?</h2>
+              <p class="sub-pergunta">Pode ser a sede da empresa ou o local do serviço.</p>
+
+              <div class="campo" id="campo-cidade">
+                <label class="rotulo" for="cidade">Cidade <span aria-hidden="true">*</span></label>
+                <input type="text" id="cidade" name="cidade" autocomplete="address-level2" placeholder="Ex.: Londrina"
+                       required aria-required="true" aria-describedby="erro-cidade">
+                <p class="mensagem-erro" id="erro-cidade" role="alert"></p>
+              </div>
+
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+                <button type="button" class="btn btn-primario" data-avancar>
+                  Continuar
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
+                 ETAPA 4 — SERVIÇO DE INTERESSE (múltipla escolha)
+                 ====================================================== -->
+            <section class="screen" id="screen-servico" data-etapa="4" data-tema="Necessidade e prazo" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 4 de 5: serviço de interesse">
+              <span class="etapa-tag">Etapa 4 · Necessidade</span>
+              <fieldset>
+                <legend class="pergunta">Qual serviço você procura?</legend>
+                <p class="sub-pergunta">Pode marcar mais de uma opção.</p>
+                <div class="opcoes duas-colunas">
+
+                  <label class="opcao" data-valor="Gestão de refeitório ou cozinha corporativa">
+                    <input type="checkbox" name="servico" value="Gestão de refeitório ou cozinha corporativa">
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15.5V13a4 4 0 1 1 1.2-7.8A3.6 3.6 0 0 1 12 4.2a3.6 3.6 0 0 1 2.8 1A4 4 0 1 1 16 13v2.5"/><rect x="7.5" y="15.5" width="9" height="4.6" rx="1.2"/><path d="M7.5 17.8h9"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Gestão de refeitório ou cozinha corporativa</span></span>
+                    <span class="marca multiplo" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Transporte de refeições">
+                    <input type="checkbox" name="servico" value="Transporte de refeições">
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 16.5V7.5A1.5 1.5 0 0 1 4 6h9.5a1.5 1.5 0 0 1 1.5 1.5v9"/><path d="M15 10h3.2l2.8 3.2v3.3h-2.2"/><circle cx="7" cy="17.6" r="2"/><circle cx="16.6" cy="17.6" r="2"/><path d="M9 17.6h5.6"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Transporte de refeições</span></span>
+                    <span class="marca multiplo" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Merenda escolar">
+                    <input type="checkbox" name="servico" value="Merenda escolar">
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.6c-1.1-1.6-3.4-2.2-5.2-1.1C4.6 7.9 4 11.4 5.6 15.2c1 2.6 2.5 4.8 4.2 4.8.8 0 1.4-.5 2.2-.5s1.4.5 2.2.5c1.7 0 3.2-2.2 4.2-4.8 1.6-3.8 1-7.3-1.2-8.7-1.8-1.1-4.1-.5-5.2 1.1z"/><path d="M12 7.6c0-2 1.2-3.6 3.2-4.2"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Merenda escolar</span></span>
+                    <span class="marca multiplo" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Alimentação hospitalar">
+                    <input type="checkbox" name="servico" value="Alimentação hospitalar">
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.5 4.04 3 5.5l7 7z"/><path d="M5.6 12h2.2l1.2-2.1 1.9 4.1 1.3-2h2.6"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Alimentação hospitalar</span></span>
+                    <span class="marca multiplo" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Grandes eventos">
+                    <input type="checkbox" name="servico" value="Grandes eventos">
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3c0 3.3 2.7 6 6 6-3.3 0-6 2.7-6 6 0-3.3-2.7-6-6-6 3.3 0 6-2.7 6-6z"/><path d="M18 13.5c0 1.9 1.6 3.5 3.5 3.5-1.9 0-3.5 1.6-3.5 3.5 0-1.9-1.6-3.5-3.5-3.5 1.9 0 3.5-1.6 3.5-3.5z"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Grandes eventos</span></span>
+                    <span class="marca multiplo" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Consultoria e projeto de cozinha">
+                    <input type="checkbox" name="servico" value="Consultoria e projeto de cozinha">
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3.5a2.6 2.6 0 0 1 3.7 3.7L7.5 20.4 2.6 21.6l1.2-4.9z"/><path d="m14.8 5.7 3.7 3.7"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Consultoria e projeto de cozinha</span></span>
+                    <span class="marca multiplo" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Ainda não sei">
+                    <input type="checkbox" name="servico" value="Ainda não sei">
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.5a2.5 2.5 0 0 1 4.9.6c0 1.7-2.5 2-2.5 3.6"/><path d="M12 17h.01"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Ainda não sei</span></span>
+                    <span class="marca multiplo" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                </div>
+                <p class="mensagem-erro" id="erro-servico" role="alert"></p>
+              </fieldset>
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+                <button type="button" class="btn btn-primario" data-avancar>
+                  Continuar
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
+                 ETAPA 4 — SITUAÇÃO ATUAL
+                 ====================================================== -->
+            <section class="screen" id="screen-situacao" data-etapa="4" data-tema="Necessidade e prazo" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 4 de 5: situação atual">
+              <span class="etapa-tag">Etapa 4 · Situação atual</span>
+              <fieldset>
+                <legend class="pergunta">Como é a alimentação coletiva hoje na sua operação?</legend>
+                <p class="sub-pergunta">Não existe resposta certa ou errada — isso só ajuda na nossa proposta.</p>
+                <div class="opcoes">
+
+                  <label class="opcao" data-valor="Já tenho fornecedor e quero trocar">
+                    <input type="radio" name="situacao" value="Já tenho fornecedor e quero trocar" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-13.7-5.2L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 13.7 5.2L20 16"/><path d="M20 20v-4h-4"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Já tenho fornecedor e quero trocar</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Gerencio a cozinha internamente">
+                    <input type="radio" name="situacao" value="Gerencio a cozinha internamente" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9.2L12 3.5l8 5.7V21"/><path d="M2.5 21h19"/><path d="M9.5 21v-6h5v6"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Gerencio a cozinha internamente</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Ainda não tenho solução">
+                    <input type="radio" name="situacao" value="Ainda não tenho solução" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 8.2v7.6"/><path d="M8.2 12h7.6"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Ainda não tenho solução</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                </div>
+                <p class="mensagem-erro" id="erro-situacao" role="alert"></p>
+              </fieldset>
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
+                 ETAPA 4 — PRAZO
+                 ====================================================== -->
+            <section class="screen" id="screen-prazo" data-etapa="4" data-tema="Necessidade e prazo" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 4 de 5: prazo">
+              <span class="etapa-tag">Etapa 4 · Prazo</span>
+              <fieldset>
+                <legend class="pergunta">Quando você pretende começar?</legend>
+                <p class="sub-pergunta">Se ainda não há data definida, tudo bem.</p>
+                <div class="opcoes">
+
+                  <label class="opcao" data-valor="Em até 30 dias">
+                    <input type="radio" name="prazo" value="Em até 30 dias" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5 4.5 13.5h6L11 21.5l8.5-11h-6z"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Em até 30 dias</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="De 1 a 3 meses">
+                    <input type="radio" name="prazo" value="De 1 a 3 meses" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4"/><path d="M16 3v4"/><path d="M3 10h18"/><path d="M8 14h3"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">De 1 a 3 meses</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="De 3 a 6 meses">
+                    <input type="radio" name="prazo" value="De 3 a 6 meses" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.2V12l3.2 2.1"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">De 3 a 6 meses</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Só estou pesquisando">
+                    <input type="radio" name="prazo" value="Só estou pesquisando" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Só estou pesquisando</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                </div>
+                <p class="mensagem-erro" id="erro-prazo" role="alert"></p>
+              </fieldset>
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
+                 ETAPA 5 — COMO FALAR COM VOCÊ
+                 ====================================================== -->
+            <section class="screen" id="screen-contato" data-etapa="5" data-tema="Como falar com você" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 5 de 5: contato">
+              <span class="etapa-tag">Etapa 5 · Contato</span>
+              <h2 class="pergunta">Como podemos falar com você?</h2>
+              <p class="sub-pergunta">Nossa equipe comercial responde em horário comercial, de segunda a sexta.</p>
+
+              <div class="campo" id="campo-email">
+                <label class="rotulo" for="email">E-mail <span aria-hidden="true">*</span></label>
+                <input type="email" id="email" name="email" autocomplete="email" inputmode="email"
+                       placeholder="voce@empresa.com.br" required aria-required="true" aria-describedby="erro-email">
+                <p class="mensagem-erro" id="erro-email" role="alert"></p>
+              </div>
+
+              <div class="campo" id="campo-whatsapp">
+                <label class="rotulo" for="whatsapp">WhatsApp com DDD <span aria-hidden="true">*</span></label>
+                <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel-national" inputmode="tel"
+                       placeholder="(43) 99999-9999" maxlength="16" required aria-required="true" aria-describedby="erro-whatsapp">
+                <p class="mensagem-erro" id="erro-whatsapp" role="alert"></p>
+              </div>
+
+              <label class="consentimento" id="campo-consentimento">
+                <input type="checkbox" id="consentimento" name="consentimento" required aria-required="true" aria-describedby="erro-consentimento">
+                <span>Concordo em ser contatado pela equipe Cassarotti Foods e li a
+                  <a href="https://cassarottifoods.com.br/politica-de-privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.
+                </span>
+              </label>
+              <p class="mensagem-erro" id="erro-consentimento" role="alert"></p>
+
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+                <button type="submit" class="btn btn-primario" id="btnEnviar">
+                  Enviar
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 12 15-7-4.5 15-3.2-5.8z"/><path d="m11.8 14.2 7.7-9.2"/></svg>
+                </button>
+              </div>
+
+              <!-- Mensagem amigável em caso de falha no envio -->
+              <div class="erro-envio" id="erroEnvio" role="alert">
+                <strong>Não conseguimos enviar seus dados agora</strong>
+                <p>Suas respostas ficaram salvas neste dispositivo. Verifique sua conexão e tente novamente.</p>
+                <button type="submit" class="btn btn-primario" style="flex:none">
+                  Tentar novamente
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-13.7-5.2L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 13.7 5.2L20 16"/><path d="M20 20v-4h-4"/></svg>
+                </button>
+              </div>
+            </section>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="rodape-marca">
+      <span>Cassarotti Foods</span>
+      <span class="ponto" aria-hidden="true"></span>
+      <span>Refeições coletivas desde 1997</span>
+      <span class="ponto" aria-hidden="true"></span>
+      <span>Cornélio Procópio/PR · atendimento em todo o Brasil</span>
+    </div>
+  </main>
+</div>
+
+<!-- ============================================================
+     OVERLAY DE ANÁLISE (1,5 s ao enviar)
+     ============================================================ -->
+<div class="overlay" id="overlay" role="status" aria-live="assertive" aria-hidden="true">
+  <div class="overlay-anel" aria-hidden="true"></div>
+  <p>Analisando seu perfil...</p>
+  <div class="linha" aria-hidden="true"><i></i></div>
+</div>
+
+<!-- ============================================================
+     TELA DE AGRADECIMENTO
+     ============================================================ -->
+<section class="agradecimento" id="agradecimento" aria-hidden="true">
+  <div class="agradece-topo">
+    <div class="logo-branco-wrap">
+      <img class="logo" id="logo2" src="logo-cassarotti-claro.png" alt="Cassarotti Foods" width="152" height="86" style="height:42px">
+    </div>
+    <div class="agradece-check" aria-hidden="true">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg>
+    </div>
+    <h2 class="agradece-titulo" id="agradeceTitulo">Obrigado!</h2>
+    <p class="agradece-texto">
+      Nossa equipe comercial já recebeu seus dados e entrará em contato em breve
+      pelo WhatsApp ou e-mail informado.
+    </p>
+  </div>
+
+  <div class="agradece-corpo">
+    <div class="cartao-resumo">
+      <h3>Resumo das suas respostas</h3>
+      <dl class="resumo-grade" id="resumoGrade"><!-- preenchido por JavaScript --></dl>
+
+      <div class="cta-bloco">
+        <a class="btn btn-whats" id="btnWhats" href="#" target="_blank" rel="noopener">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.4-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.6 2 2.18 6.42 2.18 11.86c0 1.74.46 3.44 1.32 4.94L2 22l5.35-1.4a9.8 9.8 0 0 0 4.69 1.19h.01c5.43 0 9.85-4.42 9.85-9.86A9.79 9.79 0 0 0 12.04 2zm0 17.94h-.01a8.2 8.2 0 0 1-4.16-1.14l-.3-.18-3.1.81.83-3.02-.2-.31a8.14 8.14 0 0 1-1.25-4.34c0-4.52 3.68-8.2 8.2-8.2 2.19 0 4.25.85 5.79 2.4a8.14 8.14 0 0 1 2.4 5.81c0 4.52-3.68 8.17-8.2 8.17z"/></svg>
+          Falar agora com a equipe no WhatsApp
+        </a>
+
+        <div class="contatos-secundarios">
+          <!-- CONTATOS SECUNDÁRIOS -->
+          <a class="contato-chip" href="tel:+554331322477">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 16.9v2.6a1.7 1.7 0 0 1-1.9 1.7 17 17 0 0 1-7.4-2.6 16.7 16.7 0 0 1-5.1-5.1A17 17 0 0 1 4.5 6a1.7 1.7 0 0 1 1.7-1.9h2.6a1.7 1.7 0 0 1 1.7 1.5c.1.9.3 1.7.6 2.5a1.7 1.7 0 0 1-.4 1.8l-1.1 1.1a13.7 13.7 0 0 0 5.1 5.1l1.1-1.1a1.7 1.7 0 0 1 1.8-.4c.8.3 1.6.5 2.5.6a1.7 1.7 0 0 1 1.4 1.8z"/></svg>
+            (43) 3132-2477
+          </a>
+          <a class="contato-chip" href="mailto:contato@cassarottifoods.com.br">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
+            contato@cassarottifoods.com.br
+          </a>
+        </div>
+      </div>
+
+      <p class="nota-final">
+        Cassarotti Foods · R. Santos Dumont, 4 — Setor 02 — Vila Staiger, Cornélio Procópio/PR — CEP 86300-330.<br>
+        Refeições coletivas para empresas, setor público, hospitais, escolas, canteiros de obra e grandes eventos.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   CONFIGURAÇÃO — ajuste aqui os pontos de integração
+   ============================================================ */
+
+/* 1) ENDPOINT DO FORMULÁRIO
+   Substitua pelo URL real da sua API / webhook (RD Station, Bling, Make, etc.).
+   Enquanto o valor estiver com o placeholder, o formulário roda em MODO DEMONSTRAÇÃO:
+   gera o payload completo, registra no console do navegador e segue para o agradecimento. */
+const FORM_ENDPOINT = '{ENDPOINT_DO_FORMULARIO}';
+
+/* 2) WHATSAPP COMERCIAL (apenas números, com DDI 55) */
+const WHATSAPP_NUMERO = '5543991662424';
+
+/* 3) LOGO — arquivo na mesma pasta deste HTML (fundo claro) */
+const LOGO_ARQUIVO = 'logo-cassarotti.png';
+
+/* 4) CORES — variáveis CSS no topo do arquivo <style> (bloco "CORES E TOKENS") */
+
+/* 5) NOMES DAS CHAVES NO localStorage */
+const CHAVE_RASCUNHO = 'cassarotti_rascunho_v1';
+const CHAVE_PENDENTE = 'cassarotti_envio_pendente_v1';
+
+/* ============================================================
+   UTILITÁRIOS
+   ============================================================ */
+const $  = (sel, ctx = document) => ctx.querySelector(sel);
+const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+const espera = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/* ============================================================
+   ORIGEM DO LEAD (UTM + referrer)
+   ============================================================ */
+function capturarOrigem() {
+  const p = new URLSearchParams(window.location.search);
+  return {
+    utm_source:   p.get('utm_source')   || '',
+    utm_medium:   p.get('utm_medium')   || '',
+    utm_campaign: p.get('utm_campaign') || '',
+    utm_term:     p.get('utm_term')     || '',
+    utm_content:  p.get('utm_content')  || '',
+    referrer:     document.referrer     || '',
+    pagina:       window.location.href
+  };
+}
+
+/* ============================================================
+   PONTUAÇÃO DE PRIORIDADE (uso interno — nunca exibida ao lead)
+   ------------------------------------------------------------
+   Soma pontos para:
+   · porte de pessoas atendidas por dia (quanto maior, mais pontos)
+   · prazo de até 30 dias
+   · decisor (quem decide sozinho)
+   · segmentos prioritários: hospital/saúde, setor público,
+     indústria (empresa privada) e construção civil
+   ============================================================ */
+function calcularPontuacao(dados) {
+  let pontos = 0;
+
+  /* Porte */
+  const porte = {
+    'Até 100': 2,
+    '101 a 500': 6,
+    '501 a 2.000': 10,
+    '2.001 a 5.000': 14,
+    'Acima de 5.000': 18
+  };
+  pontos += porte[dados.porte] || 0;
+
+  /* Prazo */
+  const prazo = {
+    'Em até 30 dias': 15,
+    'De 1 a 3 meses': 10,
+    'De 3 a 6 meses': 6,
+    'Só estou pesquisando': 1
+  };
+  pontos += prazo[dados.prazo] || 0;
+
+  /* Papel na decisão */
+  const papel = {
+    'Decido sozinho': 12,
+    'Participo da decisão': 8,
+    'Indico para quem decide': 4,
+    'Estou pesquisando para outra pessoa': 2
+  };
+  pontos += papel[dados.papel_decisao] || 0;
+
+  /* Segmento (prioritários valem mais) */
+  const segmento = {
+    'Hospital ou saúde': 10,
+    'Setor público': 10,
+    'Empresa privada / indústria': 9,
+    'Construção civil': 9,
+    'Educação (escolas e creches)': 6,
+    'Eventos': 5,
+    'Outro': 3
+  };
+  pontos += segmento[dados.segmento] || 0;
+
+  /* Situação atual (bônus pequeno) */
+  const situacao = {
+    'Já tenho fornecedor e quero trocar': 4,
+    'Ainda não tenho solução': 4,
+    'Gerencio a cozinha internamente': 3
+  };
+  pontos += situacao[dados.situacao_atual] || 0;
+
+  return pontos; /* máximo possível: 59 */
+}
+
+function classificarPontuacao(pontos) {
+  if (pontos >= 40) return 'alta';
+  if (pontos >= 25) return 'média';
+  return 'baixa';
+}
+
+/* ============================================================
+   ESTADO DO FORMULÁRIO (com rascunho salvo no navegador)
+   ============================================================ */
+const dados = {
+  nome: '', empresa: '', segmento: '', papel_decisao: '',
+  porte: '', estado: '', cidade: '', servicos: [],
+  situacao_atual: '', prazo: '', email: '', whatsapp: '', consentimento: false
+};
+
+function salvarRascunho() {
+  try { localStorage.setItem(CHAVE_RASCUNHO, JSON.stringify(dados)); } catch (e) {}
+}
+function carregarRascunho() {
+  try {
+    const salvo = JSON.parse(localStorage.getItem(CHAVE_RASCUNHO) || 'null');
+    if (salvo && typeof salvo === 'object') Object.assign(dados, salvo);
+  } catch (e) {}
+}
+
+/* ============================================================
+   LISTA DE ESTADOS (27 UFs)
+   ============================================================ */
+const UFS = [
+  ['AC','Acre'], ['AL','Alagoas'], ['AP','Amapá'], ['AM','Amazonas'],
+  ['BA','Bahia'], ['CE','Ceará'], ['DF','Distrito Federal'], ['ES','Espírito Santo'],
+  ['GO','Goiás'], ['MA','Maranhão'], ['MT','Mato Grosso'], ['MS','Mato Grosso do Sul'],
+  ['MG','Minas Gerais'], ['PA','Pará'], ['PB','Paraíba'], ['PR','Paraná'],
+  ['PE','Pernambuco'], ['PI','Piauí'], ['RJ','Rio de Janeiro'], ['RN','Rio Grande do Norte'],
+  ['RS','Rio Grande do Sul'], ['RO','Rondônia'], ['RR','Roraima'], ['SC','Santa Catarina'],
+  ['SP','São Paulo'], ['SE','Sergipe'], ['TO','Tocantins']
+];
+
+function montarUfs() {
+  const grid = $('#ufGrid');
+  grid.innerHTML = UFS.map(([sigla, nome]) => `
+    <label class="uf-opcao" data-valor="${sigla}">
+      <input type="radio" name="estado" value="${sigla}" aria-label="${nome}">
+      <span class="uf-sigla" aria-hidden="true">${sigla}</span>
+      <span class="uf-nome">${nome}</span>
+    </label>`).join('');
+}
+
+/* ============================================================
+   NAVEGAÇÃO ENTRE ETAPAS (transição de 400 ms)
+   ============================================================ */
+const stage = $('#stage');
+const telas = $$('.screen', stage);
+const TEMPO_TRANSICAO = 400;
+let indiceAtual = 0;
+let animando = false;
+let navegacaoPendente = null;   /* clique recebido durante a transição */
+
+const TEMAS = {
+  1: 'Quem é você',
+  2: 'Segmento e papel',
+  3: 'Porte e localização',
+  4: 'Necessidade e prazo',
+  5: 'Como falar com você'
+};
+
+/* progresso suave: dentro de cada etapa a barra anda conforme as sub-telas */
+function fracaoProgresso(indice) {
+  const etapa = telas[indice].dataset.etapa;
+  const daEtapa = telas.filter((t) => t.dataset.etapa === etapa);
+  const posicao = daEtapa.indexOf(telas[indice]) + 1;
+  return (Number(etapa) - 1 + posicao / daEtapa.length) / 5;
+}
+
+/* ============================================================
+   FUNDO QUE CLAREIA CONFORME AS ETAPAS AVANÇAM
+   Começa quase preto na etapa 1 e vai abrindo para um cinza
+   claro na etapa 5 — a mudança é gradual (transição em CSS).
+   ============================================================ */
+const FUNDO_INICIAL = [7, 7, 9];        /* quase preto */
+const FUNDO_FINAL   = [56, 56, 63];     /* cinza grafite */
+
+function atualizarFundo(indice) {
+  const total = Math.max(telas.length - 1, 1);
+  const t = Math.min(Math.max(indice / total, 0), 1);
+  const cor = FUNDO_INICIAL.map((v, i) => Math.round(v + (FUNDO_FINAL[i] - v) * t));
+  document.documentElement.style.setProperty('--fundo-dinamico', `rgb(${cor.join(', ')})`);
+}
+
+function atualizarProgresso(indice) {
+  const tela = telas[indice];
+  const etapa = tela.dataset.etapa;
+  $('#etapaTexto').textContent = `Etapa ${etapa} de 5`;
+  $('#etapaTema').textContent = tela.dataset.tema || TEMAS[etapa] || '';
+  const pct = Math.round(fracaoProgresso(indice) * 100);
+  const barra = $('#progressoBarra');
+  barra.style.width = pct + '%';
+  barra.classList.remove('pulsar');
+  void barra.offsetWidth; /* reinicia o brilho */
+  barra.classList.add('pulsar');
+  const prog = $('#progresso');
+  prog.setAttribute('aria-valuenow', String(pct));
+}
+
+function irPara(indice, direcao) {
+  if (indice === indiceAtual) return;
+  if (indice < 0 || indice >= telas.length) return;
+
+  const anterior = telas[indiceAtual];
+  const proxima  = telas[indice];
+  const sair = direcao === 'prev' ? 'saindo-direita' : 'saindo-esquerda';
+
+  animando = true;
+  stage.classList.toggle('back', direcao === 'prev');
+
+  anterior.classList.add(sair);
+  anterior.classList.remove('is-active');
+  proxima.classList.add('is-active');
+  atualizarSelecaoDaTela(proxima);
+
+  indiceAtual = indice;
+  atualizarProgresso(indice);
+  atualizarFundo(indice);   /* o fundo clareia conforme as etapas avançam */
+  salvarRascunho();
+
+  /* foco automático na nova etapa (acessibilidade) */
+  window.setTimeout(() => {
+    proxima.focus({ preventScroll: true });
+    const campoTexto = proxima.querySelector('input[type="text"], input[type="email"], input[type="tel"]');
+    if (campoTexto && window.matchMedia('(min-width: 1024px)').matches) {
+      campoTexto.focus({ preventScroll: true });
+    }
+  }, TEMPO_TRANSICAO * 0.55);
+
+  window.setTimeout(() => {
+    anterior.classList.remove(sair);
+    anterior.setAttribute('inert', '');
+    anterior.setAttribute('aria-hidden', 'true');
+    proxima.removeAttribute('inert');
+    proxima.removeAttribute('aria-hidden');
+    animando = false;
+    /* se o usuário clicou durante a transição, o pedido é executado agora */
+    if (navegacaoPendente) {
+      const pendente = navegacaoPendente;
+      navegacaoPendente = null;
+      executarNavegacao(pendente);
+    }
+  }, TEMPO_TRANSICAO);
+}
+
+/* a navegação é enfileirada durante a transição: nenhum clique se perde */
+function solicitarNavegacao(tipo) {
+  if (animando) { navegacaoPendente = tipo; return; }
+  executarNavegacao(tipo);
+}
+
+function executarNavegacao(tipo) {
+  if (tipo === 'next') {
+    if (!validarTela(indiceAtual)) return;
+    if (indiceAtual < telas.length - 1) irPara(indiceAtual + 1, 'next');
+  } else if (indiceAtual > 0) {
+    irPara(indiceAtual - 1, 'prev');
+  }
+}
+
+function avancar() { solicitarNavegacao('next'); }
+function voltar()  { solicitarNavegacao('prev'); }
+
+/* ============================================================
+   VALIDAÇÃO (mensagens suaves, em tempo real)
+   ============================================================ */
+function mostrarErro(idCampo, idErro, mensagem) {
+  const campo = $('#campo-' + idCampo) || $('#' + idCampo)?.closest('.campo, .consentimento, fieldset');
+  const erro = $('#' + idErro);
+  if (campo) campo.classList.add('invalido');
+  if (erro) {
+    erro.innerHTML = mensagem
+      ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5"/><path d="M12 16h.01"/></svg><span>${mensagem}</span>`
+      : '';
+    erro.classList.toggle('visivel', Boolean(mensagem));
+  }
+}
+
+function limparErro(idCampo, idErro) {
+  const campo = $('#campo-' + idCampo) || $('#' + idCampo)?.closest('.campo, .consentimento, fieldset');
+  if (campo) campo.classList.remove('invalido');
+  const erro = $('#' + idErro);
+  if (erro) { erro.classList.remove('visivel'); erro.innerHTML = ''; }
+}
+
+/* mensagem simples para as telas de escolha (cards) */
+function mostrarErroEscolha(idErro, mensagem) {
+  const erro = $('#' + idErro);
+  if (!erro) return;
+  erro.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5"/><path d="M12 16h.01"/></svg><span>${mensagem}</span>`;
+  erro.classList.add('visivel');
+}
+function limparErroEscolha(idErro) {
+  const erro = $('#' + idErro);
+  if (!erro) return;
+  erro.classList.remove('visivel');
+  erro.innerHTML = '';
+}
+
+/* grupos de escolha única que precisam de uma resposta para avançar */
+const GRUPOS_ESCOLHA = {
+  'screen-segmento': ['segmento', 'erro-segmento', 'Selecione uma opção para continuar.'],
+  'screen-papel':    ['papel',    'erro-papel',    'Selecione uma opção para continuar.'],
+  'screen-porte':    ['porte',    'erro-porte',    'Selecione a faixa de pessoas atendidas.'],
+  'screen-estado':   ['estado',   'erro-estado',   'Selecione o estado da operação.'],
+  'screen-situacao': ['situacao', 'erro-situacao', 'Selecione uma opção para continuar.'],
+  'screen-prazo':    ['prazo',    'erro-prazo',    'Selecione uma opção para continuar.']
+};
+
+const validadores = {
+  nome(v) {
+    if (!v.trim()) return 'Informe seu nome completo.';
+    if (v.trim().split(/\s+/).length < 2) return 'Digite nome e sobrenome, por favor.';
+    return '';
+  },
+  empresa(v) {
+    if (!v.trim()) return 'Informe o nome da empresa.';
+    if (v.trim().length < 2) return 'Parece curto demais — confira o nome.';
+    return '';
+  },
+  cidade(v) {
+    if (!v.trim()) return 'Informe a cidade da operação.';
+    return '';
+  },
+  email(v) {
+    if (!v.trim()) return 'Informe um e-mail para contato.';
+    if (!/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(v.trim())) return 'Confira o formato do e-mail (ex.: nome@empresa.com.br).';
+    return '';
+  },
+  whatsapp(v) {
+    const digitos = v.replace(/\D/g, '');
+    if (!digitos) return 'Informe seu WhatsApp com DDD.';
+    if (digitos.length < 10 || digitos.length > 11) return 'Informe DDD + número (10 ou 11 dígitos).';
+    if (digitos[0] === '0') return 'O DDD parece incorreto — confira, por favor.';
+    return '';
+  }
+};
+
+function validarCampoTexto(id, validador) {
+  const input = $('#' + id);
+  const mensagem = validador(input.value);
+  if (mensagem) {
+    mostrarErro(id, 'erro-' + id, mensagem);
+    return false;
+  }
+  limparErro(id, 'erro-' + id);
+  return true;
+}
+
+/* validação por tela — retorna true se pode avançar */
+function validarTela(indice) {
+  const id = telas[indice].id;
+
+  if (id === 'screen-nome') {
+    const okNome = validarCampoTexto('nome', validadores.nome);
+    const okEmpresa = validarCampoTexto('empresa', validadores.empresa);
+    if (!okNome) { $('#nome').focus(); return false; }
+    if (!okEmpresa) { $('#empresa').focus(); return false; }
+    return true;
+  }
+
+  if (id === 'screen-cidade') {
+    const ok = validarCampoTexto('cidade', validadores.cidade);
+    if (!ok) { $('#cidade').focus(); return false; }
+    return true;
+  }
+
+  if (id === 'screen-servico') {
+    const marcados = $$('input[name="servico"]:checked').length;
+    if (!marcados) {
+      mostrarErro('servico', 'erro-servico', 'Selecione pelo menos um serviço de interesse.');
+      return false;
+    }
+    limparErro('servico', 'erro-servico');
+    return true;
+  }
+
+  if (id === 'screen-contato') {
+    const okEmail = validarCampoTexto('email', validadores.email);
+    const okZap = validarCampoTexto('whatsapp', validadores.whatsapp);
+    const consent = $('#consentimento');
+    if (!consent.checked) {
+      mostrarErro('consentimento', 'erro-consentimento', 'Para seguir, confirme o consentimento acima.');
+    } else {
+      limparErro('consentimento', 'erro-consentimento');
+    }
+    if (!okEmail) { $('#email').focus(); return false; }
+    if (!okZap) { $('#whatsapp').focus(); return false; }
+    if (!consent.checked) { consent.focus(); return false; }
+    return true;
+  }
+
+  /* telas de escolha única: exigem uma resposta marcada */
+  const grupo = GRUPOS_ESCOLHA[id];
+  if (grupo) {
+    const [nome, erroId, mensagem] = grupo;
+    if (!valorEscolhido(nome)) {
+      mostrarErroEscolha(erroId, mensagem);
+      return false;
+    }
+    limparErroEscolha(erroId);
+  }
+  return true;
+}
+
+/* ============================================================
+   SELEÇÃO DE CARDS (radio = avanço automático em 300 ms)
+   ============================================================ */
+const AVANCAR_AUTO_MS = 300;
+
+function sincronizarCards() {
+  $$('.opcao, .uf-opcao').forEach((card) => {
+    const input = card.querySelector('input');
+    card.classList.toggle('selecionada', input.checked);
+  });
+}
+
+function valorEscolhido(nomeCampo) {
+  const marcado = $(`input[name="${nomeCampo}"]:checked`);
+  return marcado ? marcado.value : '';
+}
+
+function registrarValor(nomeCampo, valor) {
+  if (nomeCampo === 'servico') {
+    dados.servicos = $$('input[name="servico"]:checked').map((i) => i.value);
+  } else if (nomeCampo === 'papel') {
+    dados.papel_decisao = valor;
+  } else if (nomeCampo === 'situacao') {
+    dados.situacao_atual = valor;
+  } else {
+    dados[nomeCampo] = valor;
+  }
+  salvarRascunho();
+}
+
+function aoEscolherOpcao(input) {
+  sincronizarCards();
+  const nome = input.name;
+
+  if (nome === 'servico') {
+    registrarValor('servico');
+    if (dados.servicos.length) limparErro('servico', 'erro-servico');
+    return; /* múltipla escolha: avança pelo botão "Continuar" */
+  }
+
+  registrarValor(nome, input.value);
+  limparErro(nome, 'erro-' + nome);
+  limparErroEscolha('erro-' + nome);
+
+  /* avanço automático para perguntas de escolha única */
+  window.setTimeout(() => {
+    if (telas[indiceAtual].contains(input)) avancar();
+  }, AVANCAR_AUTO_MS);
+}
+
+/* ============================================================
+   MÁSCARA DE WHATSAPP: (DD) 99999-9999
+   ============================================================ */
+function aplicarMascaraTelefone(valor) {
+  const d = valor.replace(/\D/g, '').slice(0, 11);
+  if (d.length <= 2) return d.length ? '(' + d : '';
+  if (d.length <= 6) return '(' + d.slice(0, 2) + ') ' + d.slice(2);
+  if (d.length <= 10) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+  return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+}
+
+/* ============================================================
+   ENVIO PARA A API
+   ============================================================ */
+function endpointConfigurado() {
+  return /^https?:\/\//i.test(FORM_ENDPOINT) && !FORM_ENDPOINT.includes('{');
+}
+
+function montarPayload() {
+  const agora = new Date();
+  const pontuacao = calcularPontuacao(dados);
+  return {
+    nome_completo: dados.nome,
+    empresa: dados.empresa,
+    segmento: dados.segmento,
+    papel_decisao: dados.papel_decisao,
+    porte_diario: dados.porte,
+    estado: dados.estado,
+    cidade: dados.cidade,
+    servicos_de_interesse: dados.servicos,
+    situacao_atual: dados.situacao_atual,
+    prazo_para_comecar: dados.prazo,
+    email: dados.email,
+    whatsapp: dados.whatsapp.replace(/\D/g, ''),
+    consentimento: dados.consentimento,
+    data_hora: agora.toISOString(),
+    data_hora_local: agora.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+    fuso_horario: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Sao_Paulo',
+    origem: capturarOrigem(),
+    pontuacao_prioridade: pontuacao,
+    classificacao_prioridade: classificarPontuacao(pontuacao)
+  };
+}
+
+async function enviarParaApi(payload) {
+  /* MODO DEMONSTRAÇÃO: endpoint ainda não configurado */
+  if (!endpointConfigurado()) {
+    console.info('[Cassarotti · modo demonstração] Payload que seria enviado para o endpoint:', payload);
+    await espera(700);
+    return true;
+  }
+
+  const controle = new AbortController();
+  const tempo = window.setTimeout(() => controle.abort(), 12000);
+  try {
+    const resposta = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controle.signal
+    });
+    return resposta.ok;
+  } catch (e) {
+    console.warn('[Cassarotti] Falha no envio:', e);
+    return false;
+  } finally {
+    window.clearTimeout(tempo);
+  }
+}
+
+/* ============================================================
+   TELA FINAL
+   ============================================================ */
+function montarMensagemWhats() {
+  const linhas = [
+    'Olá, equipe Cassarotti Foods! Acabei de preencher o formulário de qualificação e gostaria de falar com o comercial.',
+    '',
+    'Nome: ' + dados.nome,
+    'Empresa: ' + dados.empresa,
+    'Segmento: ' + dados.segmento,
+    'Estado: ' + (dados.estado || '-') + (dados.cidade ? ' (' + dados.cidade + ')' : ''),
+    'Serviço de interesse: ' + (dados.servicos.join(', ') || '-'),
+    'Prazo para começar: ' + dados.prazo
+  ];
+  return 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent(linhas.join('\n'));
+}
+
+function mostrarAgradecimento() {
+  const primeiroNome = (dados.nome || '').trim().split(/\s+/)[0] || '';
+  $('#agradeceTitulo').textContent = primeiroNome ? `Obrigado, ${primeiroNome}!` : 'Obrigado!';
+
+  const itens = [
+    ['Nome', dados.nome],
+    ['Empresa', dados.empresa],
+    ['Segmento', dados.segmento],
+    ['Papel na decisão', dados.papel_decisao],
+    ['Pessoas atendidas/dia', dados.porte],
+    ['Localização', [dados.estado, dados.cidade].filter(Boolean).join(' · ')],
+    ['Serviço de interesse', dados.servicos.join(', ')],
+    ['Situação atual', dados.situacao_atual],
+    ['Prazo para começar', dados.prazo]
+  ].filter(([, valor]) => valor);
+
+  $('#resumoGrade').innerHTML = itens.map(([rotulo, valor]) => `
+    <div class="resumo-item">
+      <dt>${rotulo}</dt>
+      <dd>${String(valor).replace(/</g, '&lt;')}</dd>
+    </div>`).join('');
+
+  $('#btnWhats').href = montarMensagemWhats();
+
+  $('#app').style.display = 'none';
+  const tela = $('#agradecimento');
+  tela.classList.add('visivel');
+  tela.setAttribute('aria-hidden', 'false');
+  window.scrollTo({ top: 0, behavior: 'auto' });
+  $('#agradeceTitulo').setAttribute('tabindex', '-1');
+  $('#agradeceTitulo').focus({ preventScroll: true });
+
+  /* rascunho não é mais necessário após o envio */
+  try { localStorage.removeItem(CHAVE_RASCUNHO); } catch (e) {}
+}
+
+/* ============================================================
+   FLUXO DE ENVIO
+   ============================================================ */
+async function processarEnvio() {
+  if (!validarTela(indiceAtual)) return;
+
+  /* consolida campos de texto finais */
+  dados.nome = $('#nome').value.trim();
+  dados.empresa = $('#empresa').value.trim();
+  dados.cidade = $('#cidade').value.trim();
+  dados.email = $('#email').value.trim();
+  dados.whatsapp = $('#whatsapp').value.trim();
+  dados.consentimento = $('#consentimento').checked;
+  dados.servicos = $$('input[name="servico"]:checked').map((i) => i.value);
+  salvarRascunho();
+
+  const payload = montarPayload();
+
+  /* guarda localmente para permitir reenvio em caso de falha */
+  try { localStorage.setItem(CHAVE_PENDENTE, JSON.stringify(payload)); } catch (e) {}
+
+  const overlay = $('#overlay');
+  overlay.classList.add('visivel');
+  overlay.setAttribute('aria-hidden', 'false');
+  $('#btnEnviar').disabled = true;
+
+  /* animação de 1,5 s "Analisando seu perfil..." + envio em paralelo */
+  const [, sucesso] = await Promise.all([espera(1500), enviarParaApi(payload)]);
+
+  overlay.classList.remove('visivel');
+  overlay.setAttribute('aria-hidden', 'true');
+  $('#btnEnviar').disabled = false;
+
+  if (sucesso) {
+    try { localStorage.removeItem(CHAVE_PENDENTE); } catch (e) {}
+    $('#erroEnvio').classList.remove('visivel');
+    mostrarAgradecimento();
+  } else {
+    /* falha: dados preservados + convite para tentar novamente */
+    $('#erroEnvio').classList.add('visivel');
+    $('#erroEnvio').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+/* ============================================================
+   CARDS JÁ SELECIONADOS — clique de novo para avançar
+   ============================================================ */
+const selecaoNaEntrada = {};
+
+function atualizarSelecaoDaTela(tela) {
+  $$('input[type="radio"]', tela).forEach((input) => {
+    selecaoNaEntrada[input.name] = valorEscolhido(input.name);
+  });
+}
+
+function ligarCards() {
+  $$('.opcao, .uf-opcao').forEach((card) => {
+    const input = card.querySelector('input');
+    if (!input || input.type !== 'radio') return;
+    card.addEventListener('click', () => {
+      const jaEraEscolhido = selecaoNaEntrada[input.name] === input.value;
+      if (input.checked && jaEraEscolhido) {
+        window.setTimeout(() => {
+          if (telas[indiceAtual].contains(input)) avancar();
+        }, AVANCAR_AUTO_MS);
+      }
+    });
+  });
+}
+
+/* ============================================================
+   CAPA INICIAL — sobe ao clicar e revela o formulário
+   ============================================================ */
+function iniciarFormulario() {
+  const capa = $('#capa');
+  if (!capa || capa.classList.contains('sobe')) return;
+
+  const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  capa.classList.add('sobe');
+  document.body.classList.remove('capa-aberta');
+
+  window.setTimeout(() => {
+    capa.classList.add('oculta');
+    capa.setAttribute('aria-hidden', 'true');
+  }, reduzir ? 0 : 950);
+
+  /* foco automático no primeiro campo */
+  window.setTimeout(() => {
+    const primeiro = $('#nome');
+    if (primeiro) primeiro.focus({ preventScroll: true });
+  }, reduzir ? 60 : 620);
+}
+
+function ligarCapa() {
+  const capa = $('#capa');
+  if (!capa) return;
+  $('#capaBtn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    iniciarFormulario();
+  });
+  capa.addEventListener('click', iniciarFormulario);
+}
+
+/* ============================================================
+   EVENTOS
+   ============================================================ */
+function ligarEventos() {
+  /* botões */
+  $$('[data-avancar]').forEach((btn) => btn.addEventListener('click', () => {
+    if (validarTela(indiceAtual)) avancar();
+  }));
+  $$('[data-voltar]').forEach((btn) => btn.addEventListener('click', voltar));
+
+  /* envio (também cobre o Enter dentro dos campos de texto) */
+  $('#formulario').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const id = telas[indiceAtual].id;
+    if (id === 'screen-contato') { processarEnvio(); return; }
+    if (validarTela(indiceAtual)) avancar();
+  });
+
+  /* cards de escolha */
+  $$('.opcao input, .uf-opcao input').forEach((input) => {
+    input.addEventListener('change', () => aoEscolherOpcao(input));
+  });
+
+  /* clique em card já selecionado também avança (escolha única).
+     A comparação usa o valor gravado na entrada da tela, de modo
+     independente da ordem dos eventos do navegador/dispositivo. */
+  ligarCards();
+
+  /* validação em tempo real nos campos de texto */
+  const camposTexto = [
+    ['nome', validadores.nome],
+    ['empresa', validadores.empresa],
+    ['cidade', validadores.cidade],
+    ['email', validadores.email],
+    ['whatsapp', validadores.whatsapp]
+  ];
+  camposTexto.forEach(([id, validador]) => {
+    const input = $('#' + id);
+    input.addEventListener('input', () => {
+      dados[id] = input.value;
+      salvarRascunho();
+      if ($('#campo-' + id).classList.contains('invalido')) {
+        validarCampoTexto(id, validador); /* corrige o erro assim que o usuário digita */
+      }
+    });
+    input.addEventListener('blur', () => {
+      if (input.value.trim()) validarCampoTexto(id, validador);
+    });
+  });
+
+  /* máscara do WhatsApp */
+  $('#whatsapp').addEventListener('input', (e) => {
+    e.target.value = aplicarMascaraTelefone(e.target.value);
+    dados.whatsapp = e.target.value;
+    salvarRascunho();
+  });
+
+  /* consentimento */
+  $('#consentimento').addEventListener('change', (e) => {
+    dados.consentimento = e.target.checked;
+    salvarRascunho();
+    if (e.target.checked) limparErro('consentimento', 'erro-consentimento');
+    else mostrarErro('consentimento', 'erro-consentimento', 'Para seguir, confirme o consentimento acima.');
+  });
+
+  /* Enter dentro do campo de nome leva ao campo de empresa */
+  $('#nome').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (validarCampoTexto('nome', validadores.nome)) $('#empresa').focus();
+    }
+  });
+}
+
+/* ============================================================
+   RESTAURAÇÃO DO RASCUNHO
+   ============================================================ */
+function aplicarRascunhoNaTela() {
+  $('#nome').value = dados.nome || '';
+  $('#empresa').value = dados.empresa || '';
+  $('#cidade').value = dados.cidade || '';
+  $('#email').value = dados.email || '';
+  $('#whatsapp').value = dados.whatsapp ? aplicarMascaraTelefone(dados.whatsapp) : '';
+  /* o consentimento NÃO é restaurado do rascunho: precisa ser um ato
+     afirmativo do usuário a cada envio (LGPD) */
+
+  const marcar = (nomeCampo, valor) => {
+    if (!valor) return;
+    const alvo = $$(`input[name="${nomeCampo}"]`).find((i) => i.value === valor);
+    if (alvo) alvo.checked = true;
+  };
+  marcar('segmento', dados.segmento);
+  marcar('papel', dados.papel_decisao);
+  marcar('porte', dados.porte);
+  marcar('estado', dados.estado);
+  marcar('situacao', dados.situacao_atual);
+  marcar('prazo', dados.prazo);
+  (dados.servicos || []).forEach((v) => {
+    const alvo = $$('input[name="servico"]').find((i) => i.value === v);
+    if (alvo) alvo.checked = true;
+  });
+
+  sincronizarCards();
+}
+
+/* ============================================================
+   LOGO (fallback amigável se o arquivo não existir)
+   ============================================================ */
+function configurarLogo() {
+  [$('#logo'), $('#logo2')].forEach((img) => {
+    if (!img) return;
+    img.addEventListener('error', () => {
+      img.style.display = 'none';
+      const fb = $('#logoFallback');
+      if (fb) fb.style.display = 'block';
+    });
+  });
+}
+
+/* ============================================================
+   INICIALIZAÇÃO
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  montarUfs();
+  carregarRascunho();
+  aplicarRascunhoNaTela();
+  configurarLogo();
+  ligarCapa();
+  ligarEventos();
+  sincronizarCards();
+  atualizarSelecaoDaTela(telas[0]);
+  atualizarProgresso(0);
+  atualizarFundo(0);
+});
+</script>
+</body>
+</html>
