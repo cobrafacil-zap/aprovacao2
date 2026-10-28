@@ -23,6 +23,15 @@ python3 -m http.server 8000
 # abra http://localhost:8000
 ```
 
+## Publicação
+
+Este projeto está no ar em **https://aprovacao2.vercel.app** (projeto Vercel
+`aprovacao2`). Para republicar depois de alterar os arquivos:
+
+```bash
+vercel deploy --prod
+```
+
 ## Arquivos
 
 | Arquivo | Descrição |
