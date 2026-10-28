@@ -60,6 +60,7 @@
   --sombra-card:0 30px 70px -30px rgba(0,0,0,.75);
   --sombra-hover:0 22px 44px -22px rgba(0,0,0,.7);
   --t-transicao:400ms;
+  --distancia:34px;
   --ease:cubic-bezier(.22,.61,.36,1);
 
   --fonte:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -278,17 +279,18 @@ body.capa-aberta{overflow:hidden}
   box-shadow:var(--sombra-card);
   padding:clamp(22px,3.6vw,42px);
 }
-.stage{display:grid;align-items:center}
+.stage{position:relative;transition:height .42s var(--ease)}
 .screen{
-  grid-area:1/1;
+  position:absolute;top:0;left:0;right:0;
+  max-height:100%;overflow-y:auto;overflow-x:hidden;
   opacity:0;visibility:hidden;pointer-events:none;
-  transform:translateX(34px);
+  transform:translateX(var(--distancia));
   transition:
     transform var(--t-transicao) var(--ease),
     opacity var(--t-transicao) var(--ease),
     visibility 0s linear var(--t-transicao);
 }
-.stage.back .screen{transform:translateX(-34px)}
+.stage.back .screen{transform:translateX(calc(var(--distancia) * -1))}
 .screen.is-active{
   opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0);
   transition:
@@ -296,8 +298,8 @@ body.capa-aberta{overflow:hidden}
     opacity var(--t-transicao) var(--ease),
     visibility 0s;
 }
-.screen.saindo-esquerda{opacity:0;visibility:visible;transform:translateX(-34px)}
-.screen.saindo-direita{opacity:0;visibility:visible;transform:translateX(34px)}
+.screen.saindo-esquerda{opacity:0;visibility:visible;transform:translateX(calc(var(--distancia) * -1))}
+.screen.saindo-direita{opacity:0;visibility:visible;transform:translateX(var(--distancia))}
 .screen:focus{outline:none}
 
 /* ============================================================
@@ -355,7 +357,7 @@ body.capa-aberta{overflow:hidden}
    ============================================================ */
 fieldset{border:0;margin:0;padding:0;min-width:0}
 .opcoes{display:grid;gap:11px;margin-top:6px}
-.opcoes.duas-colunas{grid-template-columns:1fr}
+.opcoes.duas-colunas{grid-template-columns:1fr 1fr}
 @media (min-width:620px){ .opcoes.duas-colunas{grid-template-columns:1fr 1fr} }
 
 .opcao{
@@ -404,8 +406,14 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .opcao.selecionada .marca svg{opacity:1;transform:scale(1)}
 .marca.multiplo{border-radius:8px}
 
-/* Chips de estado (27 UFs) */
-.uf-grid{display:grid;gap:9px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));margin-top:6px}
+/* Chips de estado (27 UFs) — lista compacta, com rolagem interna */
+.uf-grid{
+  display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));
+  margin-top:6px;
+  max-height:min(38vh,296px);overflow-y:auto;overflow-x:hidden;
+  padding-right:4px;
+  scrollbar-width:thin;
+}
 .uf-opcao{
   position:relative;display:flex;align-items:center;gap:10px;
   padding:11px 12px;cursor:pointer;
@@ -621,6 +629,119 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 }
 @media (min-width:1024px){
   .logo{height:52px}
+}
+
+/* ============================================================
+   13b) SIMPLIFICAÇÃO MOBILE — visual mais limpo e leve
+   ============================================================ */
+@media (max-width:640px){
+  /* --- desempenho: efeitos pesados aliviados para animar fluido --- */
+  :root{
+    --t-transicao:320ms;
+    --distancia:18px;
+    --sombra-card:0 16px 34px -22px rgba(0,0,0,.7);
+    --sombra-hover:0 12px 24px -16px rgba(0,0,0,.65);
+  }
+  body::after{mix-blend-mode:normal;opacity:.05}   /* grão sem blend em tela cheia */
+  body::before{background:radial-gradient(900px 520px at 82% -12%, rgba(224,150,80,.12), transparent 62%)}
+  .cartao,.agradece-topo,.cartao-resumo{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .logo-chip,.progress-wrap,.rodape-marca,.capa-marca,.overlay{
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+  }
+  .capa{transition:transform .7s cubic-bezier(.76,0,.24,1)}
+  .capa.sobe{transform:translate3d(0,-102%,0)}
+  .screen{will-change:transform,opacity}
+
+  /* --- capa: só o essencial --- */
+  .capa-interno{padding:22px 20px 26px;gap:18px}
+  .capa-marca{margin-bottom:16px;padding:8px 13px}
+  .capa-marca img{height:38px}
+  .capa-eyebrow{font-size:.68rem;letter-spacing:.18em}
+  .capa-titulo{font-size:clamp(1.95rem,8.4vw,2.4rem);max-width:15ch;margin-top:12px}
+  .capa-sub{font-size:.96rem;line-height:1.6;margin-top:14px}
+  .capa-acoes{margin-top:22px;flex-direction:column;align-items:stretch;gap:11px}
+  .capa-btn{width:100%;justify-content:center;padding:17px 24px;font-size:1.02rem}
+  .capa-nota{max-width:none;text-align:center;font-size:.82rem}
+  .capa-fatos{display:none}                 /* menos poluição na capa */
+  .capa-foto{width:min(54vw,220px);justify-self:center}
+  .capa-foto img{border-radius:8px;transform:rotate(-1.2deg)}
+  .capa-foto figcaption{display:none}
+
+  /* --- formulário: cabeçalho e progresso discretos --- */
+  .form-header{padding:14px 16px 0}
+  .logo-chip{padding:7px 12px;border-radius:11px}
+  .logo{height:38px}
+  .progress-wrap{
+    min-width:100%;margin-left:0;padding:10px 14px 12px;border-radius:14px;
+    box-shadow:0 14px 30px -22px rgba(0,0,0,.8);
+  }
+  .progresso-topo{font-size:.72rem;letter-spacing:.04em}
+  #etapaTema{display:none}                  /* só "Etapa X de 5" */
+  .progresso{height:6px;margin-top:7px}
+
+  /* --- cartão e campos mais leves --- */
+  .stage-wrap{padding:14px 14px 8px}
+  .cartao{padding:20px 17px;border-radius:18px}
+  .etapa-tag{font-size:.66rem;letter-spacing:.13em;padding:5px 10px}
+  .pergunta{font-size:1.34rem;margin:11px 0 5px}
+  .sub-pergunta{font-size:.91rem;margin-bottom:15px}
+  .campo{margin-top:15px}
+  .campo input[type="text"],
+  .campo input[type="email"],
+  .campo input[type="tel"]{padding:14px;font-size:1rem}
+
+  /* --- cards de escolha: ícone menor, menos ruído --- */
+  .opcoes{gap:8px}
+  .opcoes.duas-colunas{grid-template-columns:1fr}   /* texto longo: 1 coluna é mais compacto */
+  .opcao{padding:10px 11px;gap:9px;border-radius:12px}
+  .opcao-icone{width:32px;height:32px;border-radius:9px}
+  .opcao-icone svg{width:18px;height:18px}
+  .opcao-texto .titulo{font-size:.88rem;line-height:1.26}
+  .marca{width:19px;height:19px}
+  .marca svg{width:10px;height:10px}
+  .uf-grid{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px}
+  .uf-opcao{padding:10px 11px}
+  .uf-nome{font-size:.87rem}
+  .consentimento{padding:13px}
+  .consentimento span{font-size:.86rem}
+
+  .acoes{margin-top:20px}
+  .btn{min-height:52px;padding:14px 20px;font-size:.98rem}
+  .link-voltar-site{font-size:.85rem}
+
+  .rodape-marca{font-size:.75rem;padding:9px 16px;gap:4px 10px;margin-bottom:16px}
+
+  /* --- agradecimento --- */
+  .agradece-topo{padding:22px 18px;border-radius:18px}
+  .agradece-check{width:50px;height:50px;margin:20px 0 16px}
+  .agradece-titulo{font-size:1.72rem}
+  .agradece-texto{font-size:.98rem;margin-top:11px}
+  .cartao-resumo{padding:18px 16px;border-radius:18px}
+  .resumo-grade{grid-template-columns:1fr 1fr;gap:8px}
+  .resumo-item{padding:10px 12px}
+  .resumo-item dd{font-size:.88rem}
+  .btn-whats{width:100%;justify-content:center}
+  .contatos-secundarios{flex-direction:column}
+  .contato-chip{justify-content:center}
+}
+
+/* telas baixas (notebook, celular deitado): espaços mais compactos */
+@media (max-height:700px){
+  .stage-wrap{padding-top:10px;padding-bottom:10px}
+  .cartao{padding-top:18px;padding-bottom:18px}
+  .pergunta{margin:8px 0 4px}
+  .sub-pergunta{margin-bottom:12px}
+  .campo{margin-top:12px}
+  .acoes{margin-top:16px}
+  .uf-grid{max-height:min(32vh,240px)}
+  .form-header{padding-top:12px}
+}
+
+/* toque não tem hover: evita estados "grudados" no celular */
+@media (hover:none){
+  .opcao:hover,.uf-opcao:hover,.btn:hover,.contato-chip:hover,.capa-btn:hover{
+    transform:none;
+  }
 }
 
 /* ============================================================
@@ -902,13 +1023,79 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
             </section>
 
             <!-- ======================================================
+                 ETAPA 3 — FUNCIONÁRIOS DA EMPRESA
+                 ====================================================== -->
+            <section class="screen" id="screen-funcionarios" data-etapa="3" data-tema="Porte e localização" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 3 de 5: funcionários">
+              <span class="etapa-tag">Etapa 3 · Porte</span>
+              <fieldset>
+                <legend class="pergunta">Quantos funcionários tem a empresa?</legend>
+                <p class="sub-pergunta">Pessoas que trabalham na operação atendida.</p>
+                <div class="opcoes">
+
+                  <label class="opcao" data-valor="Até 100">
+                    <input type="radio" name="funcionarios" value="Até 100" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.5" r="3.3"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Até 100</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="101 a 500">
+                    <input type="radio" name="funcionarios" value="101 a 500" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.1"/><path d="M3 19.5a6 6 0 0 1 12 0"/><path d="M16 5.3a3.1 3.1 0 0 1 0 5.7"/><path d="M17.3 13.8a6 6 0 0 1 3.7 5.7"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">101 a 500</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="501 a 2.000">
+                    <input type="radio" name="funcionarios" value="501 a 2.000" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="8.5" r="2.5"/><circle cx="12" cy="7" r="2.8"/><circle cx="18" cy="8.5" r="2.5"/><path d="M1.8 19a4.4 4.4 0 0 1 8.4 0"/><path d="M8.2 19a4.4 4.4 0 0 1 7.6 0"/><path d="M13.8 19a4.4 4.4 0 0 1 8.4 0"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">501 a 2.000</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="2.001 a 5.000">
+                    <input type="radio" name="funcionarios" value="2.001 a 5.000" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="5" r="1.4"/><circle cx="12" cy="5" r="1.4"/><circle cx="19" cy="5" r="1.4"/><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/><circle cx="5" cy="19" r="1.4"/><circle cx="12" cy="19" r="1.4"/><circle cx="19" cy="19" r="1.4"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">2.001 a 5.000</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                  <label class="opcao" data-valor="Acima de 5.000">
+                    <input type="radio" name="funcionarios" value="Acima de 5.000" required>
+                    <span class="opcao-icone" aria-hidden="true">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 21h19"/><path d="M5 21V9h5v12"/><path d="M12 21V4h6v17"/><path d="M7 12h1"/><path d="M7 15.5h1"/><path d="M14.5 8h1"/><path d="M14.5 12h1"/><path d="M14.5 16h1"/></svg>
+                    </span>
+                    <span class="opcao-texto"><span class="titulo">Acima de 5.000</span></span>
+                    <span class="marca" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span>
+                  </label>
+
+                </div>
+                <p class="mensagem-erro" id="erro-funcionarios" role="alert"></p>
+              </fieldset>
+              <div class="acoes">
+                <button type="button" class="btn btn-ghost" data-voltar>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+                  Voltar
+                </button>
+              </div>
+            </section>
+
+            <!-- ======================================================
                  ETAPA 3 — PORTE (pessoas atendidas por dia)
                  ====================================================== -->
             <section class="screen" id="screen-porte" data-etapa="3" data-tema="Porte e localização" tabindex="-1" inert aria-hidden="true" aria-label="Etapa 3 de 5: porte">
               <span class="etapa-tag">Etapa 3 · Porte</span>
               <fieldset>
-                <legend class="pergunta">Quantas pessoas seriam atendidas por dia?</legend>
-                <p class="sub-pergunta">Funcionários, alunos, pacientes ou participantes.</p>
+                <legend class="pergunta">Quantas alimentações seriam servidas por dia?</legend>
+                <p class="sub-pergunta">Refeições e lanches para alunos, pacientes, colaboradores ou participantes.</p>
                 <div class="opcoes">
 
                   <label class="opcao" data-valor="Até 100">
@@ -1340,10 +1527,11 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
    ============================================================ */
 
 /* 1) ENDPOINT DO FORMULÁRIO
-   Substitua pelo URL real da sua API / webhook (RD Station, Bling, Make, etc.).
-   Enquanto o valor estiver com o placeholder, o formulário roda em MODO DEMONSTRAÇÃO:
-   gera o payload completo, registra no console do navegador e segue para o agradecimento. */
-const FORM_ENDPOINT = '{ENDPOINT_DO_FORMULARIO}';
+   Em produção o formulário envia para a própria API deste projeto (/api/leads),
+   que grava o lead e avisa o grupo no WhatsApp (Evolution API).
+   Para usar uma API externa, troque pelo URL completo — enquanto o valor contiver
+   "{...}" o formulário roda em MODO DEMONSTRAÇÃO (loga o payload no console). */
+const FORM_ENDPOINT = '/api/leads';
 
 /* 2) WHATSAPP COMERCIAL (apenas números, com DDI 55) */
 const WHATSAPP_NUMERO = '5543991662424';
@@ -1365,7 +1553,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /* ============================================================
-   ORIGEM DO LEAD (UTM + referrer)
+   ORIGEM DO LEAD (UTM + referrer) e SESSÃO (analytics)
    ============================================================ */
 function capturarOrigem() {
   const p = new URLSearchParams(window.location.search);
@@ -1378,6 +1566,36 @@ function capturarOrigem() {
     referrer:     document.referrer     || '',
     pagina:       window.location.href
   };
+}
+
+/* identificador anônimo da visita (para as métricas do painel) */
+function sessaoAtualId() {
+  try {
+    let s = localStorage.getItem('cf_sessao');
+    if (!s) {
+      s = 'ses_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem('cf_sessao', s);
+    }
+    return s;
+  } catch (e) {
+    return null;
+  }
+}
+
+function registrarEvento(tipo) {
+  try {
+    fetch('/api/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tipo,
+        sessao: sessaoAtualId(),
+        pagina: window.location.href,
+        utm: capturarOrigem(),
+        referrer: document.referrer || ''
+      })
+    }).catch(() => {});
+  } catch (e) { /* analytics nunca deve quebrar o formulário */ }
 }
 
 /* ============================================================
@@ -1433,6 +1651,16 @@ function calcularPontuacao(dados) {
   };
   pontos += segmento[dados.segmento] || 0;
 
+  /* Porte de funcionários da empresa */
+  const funcionarios = {
+    'Até 100': 1,
+    '101 a 500': 3,
+    '501 a 2.000': 5,
+    '2.001 a 5.000': 7,
+    'Acima de 5.000': 9
+  };
+  pontos += funcionarios[dados.funcionarios] || 0;
+
   /* Situação atual (bônus pequeno) */
   const situacao = {
     'Já tenho fornecedor e quero trocar': 4,
@@ -1441,7 +1669,7 @@ function calcularPontuacao(dados) {
   };
   pontos += situacao[dados.situacao_atual] || 0;
 
-  return pontos; /* máximo possível: 59 */
+  return pontos; /* máximo possível: 68 */
 }
 
 function classificarPontuacao(pontos) {
@@ -1455,7 +1683,7 @@ function classificarPontuacao(pontos) {
    ============================================================ */
 const dados = {
   nome: '', empresa: '', segmento: '', papel_decisao: '',
-  porte: '', estado: '', cidade: '', servicos: [],
+  funcionarios: '', porte: '', estado: '', cidade: '', servicos: [],
   situacao_atual: '', prazo: '', email: '', whatsapp: '', consentimento: false
 };
 
@@ -1497,7 +1725,8 @@ function montarUfs() {
    ============================================================ */
 const stage = $('#stage');
 const telas = $$('.screen', stage);
-const TEMPO_TRANSICAO = 400;
+/* no celular a transição é mais curta: menos tempo de composição, mais leve */
+const TEMPO_TRANSICAO = window.matchMedia('(max-width: 640px)').matches ? 320 : 400;
 let indiceAtual = 0;
 let animando = false;
 let navegacaoPendente = null;   /* clique recebido durante a transição */
@@ -1548,6 +1777,28 @@ function atualizarProgresso(indice) {
   prog.setAttribute('aria-valuenow', String(pct));
 }
 
+/* ============================================================
+   ALTURA DO CARTÃO — sem espaço em branco e sem rolar a página
+   O cartão cresce/reduz conforme a etapa; se o conteúdo for
+   maior que a tela, ele rola dentro do cartão (ex.: lista de UF).
+   ============================================================ */
+function alturaMaximaTela() {
+  const wrap = document.querySelector('.stage-wrap');
+  const cartao = document.querySelector('.cartao');
+  if (!wrap) return 9999;
+  const estilos = getComputedStyle(wrap);
+  const padCartao = cartao
+    ? parseFloat(getComputedStyle(cartao).paddingTop) + parseFloat(getComputedStyle(cartao).paddingBottom)
+    : 0;
+  const reservado = parseFloat(estilos.paddingTop) + parseFloat(estilos.paddingBottom) + padCartao + 26;
+  return Math.max(250, wrap.clientHeight - reservado);
+}
+
+function ajustarAltura(tela) {
+  if (!tela) return;
+  stage.style.height = Math.min(tela.scrollHeight, alturaMaximaTela()) + 'px';
+}
+
 function irPara(indice, direcao) {
   if (indice === indiceAtual) return;
   if (indice < 0 || indice >= telas.length) return;
@@ -1563,6 +1814,7 @@ function irPara(indice, direcao) {
   anterior.classList.remove('is-active');
   proxima.classList.add('is-active');
   atualizarSelecaoDaTela(proxima);
+  ajustarAltura(proxima);
 
   indiceAtual = indice;
   atualizarProgresso(indice);
@@ -1652,6 +1904,7 @@ function limparErroEscolha(idErro) {
 const GRUPOS_ESCOLHA = {
   'screen-segmento': ['segmento', 'erro-segmento', 'Selecione uma opção para continuar.'],
   'screen-papel':    ['papel',    'erro-papel',    'Selecione uma opção para continuar.'],
+  'screen-funcionarios': ['funcionarios', 'erro-funcionarios', 'Selecione a faixa de funcionários.'],
   'screen-porte':    ['porte',    'erro-porte',    'Selecione a faixa de pessoas atendidas.'],
   'screen-estado':   ['estado',   'erro-estado',   'Selecione o estado da operação.'],
   'screen-situacao': ['situacao', 'erro-situacao', 'Selecione uma opção para continuar.'],
@@ -1819,7 +2072,9 @@ function aplicarMascaraTelefone(valor) {
    ENVIO PARA A API
    ============================================================ */
 function endpointConfigurado() {
-  return /^https?:\/\//i.test(FORM_ENDPOINT) && !FORM_ENDPOINT.includes('{');
+  /* aceita URL completa ou caminho relativo (ex.: /api/leads);
+     só entra em modo demonstração se o placeholder não foi preenchido */
+  return Boolean(FORM_ENDPOINT) && !String(FORM_ENDPOINT).includes('{');
 }
 
 function montarPayload() {
@@ -1830,6 +2085,7 @@ function montarPayload() {
     empresa: dados.empresa,
     segmento: dados.segmento,
     papel_decisao: dados.papel_decisao,
+    funcionarios: dados.funcionarios,
     porte_diario: dados.porte,
     estado: dados.estado,
     cidade: dados.cidade,
@@ -1839,6 +2095,7 @@ function montarPayload() {
     email: dados.email,
     whatsapp: dados.whatsapp.replace(/\D/g, ''),
     consentimento: dados.consentimento,
+    sessao: sessaoAtualId(),
     data_hora: agora.toISOString(),
     data_hora_local: agora.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
     fuso_horario: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Sao_Paulo',
@@ -1884,6 +2141,8 @@ function montarMensagemWhats() {
     'Nome: ' + dados.nome,
     'Empresa: ' + dados.empresa,
     'Segmento: ' + dados.segmento,
+    'Funcionários: ' + (dados.funcionarios || '-'),
+    'Alimentações por dia: ' + (dados.porte || '-'),
     'Estado: ' + (dados.estado || '-') + (dados.cidade ? ' (' + dados.cidade + ')' : ''),
     'Serviço de interesse: ' + (dados.servicos.join(', ') || '-'),
     'Prazo para começar: ' + dados.prazo
@@ -1900,7 +2159,8 @@ function mostrarAgradecimento() {
     ['Empresa', dados.empresa],
     ['Segmento', dados.segmento],
     ['Papel na decisão', dados.papel_decisao],
-    ['Pessoas atendidas/dia', dados.porte],
+    ['Funcionários', dados.funcionarios],
+    ['Alimentações/dia', dados.porte],
     ['Localização', [dados.estado, dados.cidade].filter(Boolean).join(' · ')],
     ['Serviço de interesse', dados.servicos.join(', ')],
     ['Situação atual', dados.situacao_atual],
@@ -2007,6 +2267,7 @@ function iniciarFormulario() {
   const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   capa.classList.add('sobe');
   document.body.classList.remove('capa-aberta');
+  registrarEvento('form_start');
 
   window.setTimeout(() => {
     capa.classList.add('oculta');
@@ -2123,6 +2384,7 @@ function aplicarRascunhoNaTela() {
   };
   marcar('segmento', dados.segmento);
   marcar('papel', dados.papel_decisao);
+  marcar('funcionarios', dados.funcionarios);
   marcar('porte', dados.porte);
   marcar('estado', dados.estado);
   marcar('situacao', dados.situacao_atual);
@@ -2163,6 +2425,15 @@ document.addEventListener('DOMContentLoaded', () => {
   atualizarSelecaoDaTela(telas[0]);
   atualizarProgresso(0);
   atualizarFundo(0);
+  ajustarAltura(telas[0]);
+  registrarEvento('pageview');
+
+  /* mantém a altura correta ao girar o aparelho ou redimensionar */
+  let tempoRedimensionar = null;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(tempoRedimensionar);
+    tempoRedimensionar = window.setTimeout(() => ajustarAltura(telas[indiceAtual]), 150);
+  });
 });
 </script>
 </body>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de leads | Cassarotti Foods</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div class="login-wrap" id="login-admin">
+  <form class="login-card" id="form-admin">
+    <img src="/logo-cassarotti.png" alt="Cassarotti Foods">
+    <h1>Painel de leads</h1>
+    <p>Acesso restrito à equipe Cassarotti Foods.</p>
+    <label class="sr-only" for="senha-admin">Senha</label>
+    <input type="password" id="senha-admin" placeholder="Senha de acesso" autocomplete="current-password">
+    <p class="erro" id="erro-admin"></p>
+    <button class="btn" style="width:100%" type="submit">Entrar</button>
+  </form>
+</div>
+
+<!-- ================= PAINEL ================= -->
+<div id="painel" class="oculto">
+  <header class="admin-topo">
+    <div class="marca">
+      <img src="/logo-cassarotti.png" alt="Cassarotti Foods">
+      <h1>Painel de leads</h1>
+    </div>
+    <div class="acoes-topo">
+      <a class="btn-topo" href="/" target="_blank" rel="noopener">Ver site</a>
+      <button class="btn-topo" id="btn-sair-admin">Sair</button>
+    </div>
+  </header>
+
+  <nav class="abas" id="abas-admin">
+    <button data-aba="metricas" class="ativo">📊 Métricas</button>
+    <button data-aba="leads">📋 Leads</button>
+    <button data-aba="config">⚙️ Configurações</button>
+  </nav>
+
+  <main>
+    <!-- ================= MÉTRICAS ================= -->
+    <section id="aba-metricas">
+      <div class="barra-filtros">
+        <label for="periodo-metricas"><strong>Período:</strong></label>
+        <select id="periodo-metricas">
+          <option value="7">últimos 7 dias</option>
+          <option value="14" selected>últimos 14 dias</option>
+          <option value="30">últimos 30 dias</option>
+          <option value="90">últimos 90 dias</option>
+        </select>
+      </div>
+
+      <div class="metrica-grid" id="metricas-cards"></div>
+
+      <div class="painel-card">
+        <h2>Leads por dia</h2>
+        <div class="barras" id="grafico-diario"></div>
+        <div class="legenda">
+          <span><i style="background:#9BB8AA"></i>Visitas</span>
+          <span><i style="background:#1B5E43"></i>Leads enviados</span>
+        </div>
+      </div>
+
+      <div class="grade-2">
+        <div class="painel-card">
+          <h2>Funil de qualificação</h2>
+          <div class="lista-simples" id="lista-funil"></div>
+          <p class="nota" style="margin-top:14px">Conversão = leads enviados ÷ visitas no período.</p>
+        </div>
+        <div class="painel-card">
+          <h2>Origem do tráfego</h2>
+          <div class="lista-simples" id="lista-origens"></div>
+        </div>
+        <div class="painel-card">
+          <h2>Segmentos</h2>
+          <div class="lista-simples" id="lista-segmentos"></div>
+        </div>
+        <div class="painel-card">
+          <h2>Prazo para começar</h2>
+          <div class="lista-simples" id="lista-prazos"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LEADS ================= -->
+    <section id="aba-leads" class="oculto">
+      <div class="barra-filtros">
+        <input type="search" id="busca-leads" placeholder="Buscar por nome, empresa, cidade...">
+        <select id="filtro-status">
+          <option value="">todos os status</option>
+          <option value="novo">novo</option>
+          <option value="em_contato">em contato</option>
+          <option value="convertido">convertido</option>
+          <option value="perdido">perdido</option>
+        </select>
+        <button class="btn btn-secundario" id="btn-csv">Exportar CSV</button>
+      </div>
+
+      <div class="painel-card">
+        <div class="tabela-wrap">
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>Data</th><th>Lead</th><th>Empresa</th><th>Segmento</th><th>Local</th>
+                <th>Funcionários</th><th>Refeições/dia</th><th>Prazo</th><th>Prioridade</th>
+                <th>Status</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="tabela-leads"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONFIGURAÇÕES ================= -->
+    <section id="aba-config" class="oculto">
+      <div class="painel-card">
+        <h2>Grupo do WhatsApp — aviso de novos leads</h2>
+        <p class="nota">Escolha o grupo que vai receber a mensagem “chegou lead” a cada formulário enviado. A lista vem direto da sua Evolution API.</p>
+        <div class="barra-filtros" style="margin-top:14px">
+          <select id="sel-grupos" style="min-width:280px"><option>— clique em “Carregar grupos” —</option></select>
+          <button class="btn btn-secundario" id="btn-carregar-grupos">Carregar grupos</button>
+          <button class="btn" id="btn-salvar-grupo">Salvar grupo</button>
+          <button class="btn btn-secundario" id="btn-msg-teste">Enviar mensagem de teste</button>
+        </div>
+        <p class="ajuda" id="grupo-atual" style="margin-top:10px">Nenhum grupo escolhido ainda.</p>
+        <div class="aviso-ok" id="aviso-grupo"></div>
+      </div>
+
+      <div class="painel-card">
+        <h2>Credenciais da Evolution API</h2>
+        <p class="nota">Se as variáveis <strong>EVOLUTION_API_URL</strong>, <strong>EVOLUTION_API_KEY</strong> e <strong>EVOLUTION_INSTANCE</strong> estiverem configuradas na Vercel, elas têm prioridade — aí este formulário pode ficar em branco.</p>
+        <div class="form-grade" style="margin-top:14px">
+          <div class="campo">
+            <label for="cfg-evo-url">URL da Evolution API</label>
+            <input type="text" id="cfg-evo-url" placeholder="https://sua-evolution.com">
+          </div>
+          <div class="campo">
+            <label for="cfg-evo-key">API key</label>
+            <input type="text" id="cfg-evo-key" placeholder="••••••••">
+          </div>
+          <div class="campo">
+            <label for="cfg-evo-instance">Nome da instância</label>
+            <input type="text" id="cfg-evo-instance" placeholder="cassarotti">
+          </div>
+        </div>
+        <div class="barra-filtros" style="margin-top:14px">
+          <button class="btn" id="btn-salvar-config">Salvar credenciais</button>
+        </div>
+        <div class="aviso-ok" id="aviso-config"></div>
+      </div>
+
+      <div class="painel-card">
+        <h2>Acesso ao painel</h2>
+        <div class="form-grade">
+          <div class="campo">
+            <label for="cfg-senha">Nova senha do painel</label>
+            <input type="text" id="cfg-senha" placeholder="deixe em branco para manter a atual">
+          </div>
+        </div>
+        <div class="barra-filtros" style="margin-top:14px">
+          <button class="btn" id="btn-salvar-senha">Salvar senha</button>
+        </div>
+        <div class="aviso-ok" id="aviso-senha"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

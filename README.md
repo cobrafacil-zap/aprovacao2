@@ -1,106 +1,79 @@
-# Formulário de Qualificação — Cassarotti Foods
+# Cassarotti Foods — Formulário de leads + Painel administrativo
 
-Formulário interativo de captação e qualificação de leads, em 5 etapas, com
-envio para a equipe comercial via WhatsApp.
-
-Pessoas chegam vindas do Instagram e da página de vendas, respondem a algumas
-perguntas rápidas e, ao final, o botão principal abre o WhatsApp comercial com a
-mensagem já preenchida.
+Formulário interativo de qualificação de leads (5 etapas) com capa animada, tema
+de vidro escuro e envio direto para a equipe comercial. Inclui painel em `/admin`
+com métricas de leads e notificação de novos leads em um grupo do WhatsApp via
+**Evolution API**.
 
 ## Como rodar
 
-É um único arquivo HTML com CSS e JavaScript embutidos — sem build, sem
-dependências de servidor.
-
-- Basta abrir o `index.html` em qualquer navegador; ou
-- subir a pasta em qualquer hospedagem estática (Hostinger, Vercel, Netlify,
-  GitHub Pages, Apache/Nginx).
-
-Para testar localmente:
-
 ```bash
-python3 -m http.server 8000
-# abra http://localhost:8000
+npm install
+npm start          # http://localhost:3000  (painel em /admin)
 ```
+
+- **Site (formulário):** `public/index.html`
+- **Painel:** `/admin` — senha padrão `Comsoc1#`
+
+Em produção (Vercel) o banco é o **Upstash Redis**; em desenvolvimento os dados
+ficam em arquivos JSON dentro de `data/` (criado automaticamente).
+
+## Estrutura
+
+```
+api/index.js          entrypoint serverless da Vercel
+server.js             servidor local
+src/app.js            app Express
+src/routes/leads.js   POST /api/leads, POST /api/track e /api/admin/*
+src/lib/db.js         Upstash Redis (prod) ou JSON em data/ (dev)
+src/lib/auth.js       login do painel (senha + cookie de sessão)
+src/lib/analytics.js  métricas de leads
+src/lib/evolution.js  notificação em grupo do WhatsApp (Evolution API)
+public/               formulário, painel, imagens
+```
+
+## Configuração (arquivo `.env.example`)
+
+| Variável | O que é |
+| --- | --- |
+| `ADMIN_SENHA` | senha do `/admin` (padrão `Comsoc1#`) |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Upstash Redis (obrigatório em produção) |
+| `EVOLUTION_API_URL` / `EVOLUTION_API_KEY` / `EVOLUTION_INSTANCE` / `EVOLUTION_GROUP_ID` | notificação de leads em grupo — também configuráveis no próprio painel |
+
+Os pontos de configuração do formulário (WhatsApp comercial, cores, logo, fotos)
+estão comentados no topo do `public/index.html` e do `<style>`.
+
+## Métricas do painel
+
+Cards: visitas, formulários iniciados, leads recebidos, alta prioridade,
+**refeições/dia (potencial)**, **funcionários (potencial)**, conversão e leads do
+último dia. Mais gráfico diário, funil de qualificação, origem do tráfego,
+segmentos e prazos. A aba **Leads** tem busca, filtro de status (novo / em
+contato / convertido / perdido) e exportação em CSV.
+
+As somas de refeições/dia e funcionários usam o ponto médio de cada faixa
+respondida no formulário (ex.: `501 a 2.000` → 1.250) — são estimativas de
+potencial, não contagens exatas.
+
+## Evolution API (grupo do WhatsApp)
+
+Ao cadastrar um lead, o servidor envia uma mensagem com nome, empresa, segmento,
+local, funcionários, refeições/dia, prazo, contato e pontuação de prioridade para
+o grupo configurado. Configure em **/admin → Configurações**:
+
+1. Preencha URL, API key e nome da instância.
+2. Clique em **Testar conexão e listar grupos**.
+3. Escolha o grupo na lista (o JID é copiado automaticamente) e salve.
+4. Use **Enviar mensagem de teste** para conferir.
 
 ## Publicação
 
-Este projeto está no ar em **https://aprovacao2.vercel.app** (projeto Vercel
-`aprovacao2`). Para republicar depois de alterar os arquivos:
-
-```bash
-vercel deploy --prod
-```
-
-## Arquivos
-
-| Arquivo | Descrição |
-| --- | --- |
-| `index.html` | Formulário completo (CSS + JS embutidos) |
-| `logo-cassarotti-claro.png` | Logo em versão clara (wordmark creme + ícone dourado), usado sobre o vidro escuro |
-| `logo-cassarotti.png` | Logo original (preto e dourado), mantido para uso em fundos claros |
-| `capa-fundadora.png` | Foto da capa inicial (foto real da fundadora) |
-
-## Onde configurar
-
-Tudo está comentado no próprio `index.html`.
-
-1. **Endpoint do formulário** — no bloco `CONFIGURAÇÃO` do `<script>`:
-
-   ```js
-   const FORM_ENDPOINT = '{ENDPOINT_DO_FORMULARIO}';
-   ```
-
-   Troque pelo URL real da sua API/webhook (RD Station, Make, Pipedrive etc.).
-   Enquanto estiver com o placeholder, o formulário roda em **modo demonstração**:
-   monta o payload completo, registra no console do navegador e segue para a tela
-   de agradecimento.
-
-   O envio é um `POST` em JSON com todas as respostas, data/hora, origem (parâmetros
-   UTM da URL) e a `pontuacao_prioridade` (cálculo interno, nunca exibida ao lead).
-
-2. **WhatsApp comercial** — logo abaixo:
-
-   ```js
-   const WHATSAPP_NUMERO = '5543991662424';
-   ```
-
-3. **Telefone e e-mail exibidos** — na tela de agradecimento (trecho `contatos-secundarios`
-   do HTML) e no rodapé.
-
-4. **Cores** — no bloco `CORES E TOKENS` do `<style>` (variáveis CSS no topo):
-   tema de **vidro escuro translúcido** (`--vidro`, `--vidro-forte`), textos claros
-   (`--texto`, `--texto-suave`) e o acento em laranja queimado (`--acento`) para
-   botões e destaques. O dourado (`--dourado`) aparece nas seleções e detalhes.
-
-5. **Logo** — os arquivos `logo-cassarotti-claro.png` (usado na interface escura)
-   e `logo-cassarotti.png` (original, para fundos claros). Ao trocar o logo,
-   mantenha os dois ou aponte os `src` do HTML para o seu arquivo.
-
-6. **Foto da capa** — substitua `capa-fundadora.png`. Se não quiser foto na capa,
-   basta remover o bloco `<figure class="capa-foto">` do HTML.
-
-## Como funciona
-
-- **Capa inicial** com foto real da empresa; ao clicar, a capa sobe e o formulário
-  aparece.
-- **Fundo que clareia**: nasce quase preto e vai abrindo para um cinza grafite
-  conforme as etapas avançam (`atualizarFundo` no JS). Os painéis são de
-  **vidro escuro translúcido**, sempre um pouco menos escuros que o fundo.
-- **Uma pergunta por tela**, com transição suave de ~400 ms. Perguntas de escolha
-  única avançam sozinhas em 300 ms; telas com campo de texto usam o botão
-  *Continuar*. Enter também avança quando a validação passa.
-- **Validação em tempo real** com mensagens suaves, foco automático no próximo
-  campo e botão *Voltar* em todas as etapas (sem perder respostas).
-- **Rascunho salvo no `localStorage`**: se a página for fechada, as respostas
-  continuam ali. Se o envio falhar, os dados ficam guardados e o botão
-  *Tentar novamente* reenvia.
-- **Pontuação de prioridade** (uso interno): porte, prazo, papel na decisão e
-  segmento — incluída no JSON enviado.
+Publicado em **https://aprovacao2.vercel.app** (projeto Vercel `aprovacao2`).
+Para republicar: `vercel deploy --prod`.
 
 ## Acessibilidade
 
-Contraste AA em todos os textos, `label` em todos os campos, navegação por
-teclado, `fieldset`/`legend` nas perguntas, foco visível, `prefers-reduced-motion`
-respeitado e alvos de toque grandes (mobile first). Auditoria do Lighthouse:
-100% em acessibilidade, boas práticas e SEO.
+Contraste AA, labels em todos os campos, navegação por teclado, foco visível,
+`prefers-reduced-motion` respeitado, mobile first e layout sem rolagem
+(o cartão se ajusta a cada etapa). Lighthouse: 100% em acessibilidade, boas
+práticas e SEO.
