@@ -57,14 +57,26 @@ potencial, não contagens exatas.
 
 ## Evolution API (grupo do WhatsApp)
 
-Ao cadastrar um lead, o servidor envia uma mensagem com nome, empresa, segmento,
-local, funcionários, refeições/dia, prazo, contato e pontuação de prioridade para
-o grupo configurado. Configure em **/admin → Configurações**:
+A integração segue o padrão do projeto `P/repo` (`server/lib/whatsapp.js`): o
+admin escolhe o grupo no painel e todo lead recebido vira uma mensagem lá com
+nome, empresa, segmento, local, funcionários, refeições/dia, prazo, contato e
+pontuação de prioridade. A notificação nunca bloqueia o formulário.
 
-1. Preencha URL, API key e nome da instância.
-2. Clique em **Testar conexão e listar grupos**.
-3. Escolha o grupo na lista (o JID é copiado automaticamente) e salve.
-4. Use **Enviar mensagem de teste** para conferir.
+Credenciais (já configuradas em produção):
+
+```
+EVOLUTION_API_URL=https://evolution.metodogl.site
+EVOLUTION_API_KEY=...            (a mesma do projeto PAINEL GL)
+EVOLUTION_INSTANCE=painel-gl
+```
+
+Também podem ser preenchidas em **/admin → Configurações** (as variáveis de
+ambiente têm prioridade). Para escolher o grupo:
+
+1. Em **/admin → Configurações**, clique em **Carregar grupos** (a lista vem
+   direto da Evolution — 42 grupos na conta atual).
+2. Selecione o grupo desejado no seletor e clique em **Salvar grupo**.
+3. Use **Enviar mensagem de teste** para conferir o aviso no grupo.
 
 ## Publicação
 
