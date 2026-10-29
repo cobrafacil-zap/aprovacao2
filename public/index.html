@@ -211,17 +211,17 @@ body.capa-aberta{overflow:hidden}
   flex:1;display:flex;flex-direction:column;min-width:0;
 }
 .form-header{
-  padding:clamp(16px,2.4vw,28px) clamp(18px,4vw,42px) 0;
+  padding:clamp(10px,1.6vw,18px) clamp(18px,4vw,42px) 0;
   display:flex;align-items:center;gap:16px;flex-wrap:wrap;
 }
 .logo-chip{
   background:var(--vidro);border:1px solid var(--vidro-borda);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-radius:13px;padding:9px 15px;
+  border-radius:13px;padding:7px 13px;
   display:inline-flex;align-items:center;
   box-shadow:0 18px 40px -22px rgba(0,0,0,.8);
 }
-.logo{height:46px;width:auto;object-fit:contain}
+.logo{height:40px;width:auto;object-fit:contain}
 .logo-fallback{ /* só aparece se a imagem do logo não carregar */
   display:none;font-weight:800;letter-spacing:.06em;font-size:1.05rem;line-height:1.1;
 }
@@ -234,7 +234,7 @@ body.capa-aberta{overflow:hidden}
   margin-left:auto;
   background:var(--vidro);border:1px solid var(--vidro-borda);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-radius:18px;padding:12px 18px 14px;
+  border-radius:18px;padding:9px 16px 11px;
   box-shadow:0 18px 40px -22px rgba(0,0,0,.8);
   min-width:min(330px,100%);
 }
@@ -267,7 +267,7 @@ body.capa-aberta{overflow:hidden}
    ============================================================ */
 .stage-wrap{
   flex:1;display:flex;align-items:center;justify-content:center;
-  padding:clamp(18px,3vw,34px) clamp(18px,4vw,40px);
+  padding:clamp(10px,1.6vw,18px) clamp(14px,4vw,40px);
 }
 .cartao{
   width:100%;max-width:660px;
@@ -277,7 +277,7 @@ body.capa-aberta{overflow:hidden}
   -webkit-backdrop-filter:blur(22px) saturate(1.15);
   border-radius:var(--raio-card);
   box-shadow:var(--sombra-card);
-  padding:clamp(22px,3.6vw,42px);
+  padding:clamp(18px,2.4vw,28px);
 }
 .stage{position:relative;transition:height .42s var(--ease)}
 .screen{
@@ -306,22 +306,23 @@ body.capa-aberta{overflow:hidden}
    6) TIPOGRAFIA DAS PERGUNTAS E CAMPOS
    ============================================================ */
 .etapa-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  display:none;   /* a barra de progresso já informa a etapa e o tema */
+  align-items:center;gap:8px;
+  font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
   color:var(--acento-claro);background:var(--dourado-fundo);
   border:1px solid rgba(239,207,146,.22);
-  padding:6px 12px;border-radius:99px;
+  padding:5px 11px;border-radius:99px;
 }
 .pergunta{
   font-family:var(--fonte-titulo);font-weight:600;
-  font-size:clamp(1.45rem,2.6vw,1.95rem);
+  font-size:clamp(1.32rem,2.1vw,1.68rem);
   line-height:1.2;letter-spacing:-.015em;
-  color:var(--texto);margin:14px 0 6px;
+  color:var(--texto);margin:10px 0 5px;
   border:0;padding:0;   /* legend legível */
 }
-.sub-pergunta{color:var(--texto-suave);font-size:.97rem;margin-bottom:20px}
+.sub-pergunta{color:var(--texto-suave);font-size:.92rem;margin-bottom:13px;line-height:1.45}
 
-.campo{margin-top:18px}
+.campo{margin-top:14px}
 .campo label.rotulo{
   display:block;font-size:.92rem;font-weight:700;color:var(--texto);
   margin-bottom:7px;
@@ -356,13 +357,13 @@ body.capa-aberta{overflow:hidden}
    7) CARDS DE ESCOLHA (segmento, serviços, faixas etc.)
    ============================================================ */
 fieldset{border:0;margin:0;padding:0;min-width:0}
-.opcoes{display:grid;gap:11px;margin-top:6px}
+.opcoes{display:grid;gap:9px;margin-top:5px}
 .opcoes.duas-colunas{grid-template-columns:1fr 1fr}
 @media (min-width:620px){ .opcoes.duas-colunas{grid-template-columns:1fr 1fr} }
 
 .opcao{
-  position:relative;display:flex;align-items:center;gap:13px;
-  padding:14px 15px;cursor:pointer;
+  position:relative;display:flex;align-items:center;gap:12px;
+  padding:11px 13px;cursor:pointer;
   border:1.5px solid var(--vidro-borda);border-radius:var(--raio-campo);
   background:rgba(255,255,255,.05);
   transition:border-color .2s ease, box-shadow .22s ease, transform .22s ease, background-color .2s ease;
@@ -383,7 +384,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   outline:3px solid rgba(239,207,146,.75);outline-offset:3px;
 }
 .opcao-icone{
-  flex:none;width:44px;height:44px;border-radius:12px;
+  flex:none;width:38px;height:38px;border-radius:11px;
   display:grid;place-items:center;
   background:rgba(255,255,255,.07);color:var(--dourado);
   border:1px solid var(--vidro-borda);
@@ -406,18 +407,15 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .opcao.selecionada .marca svg{opacity:1;transform:scale(1)}
 .marca.multiplo{border-radius:8px}
 
-/* Chips de estado (27 UFs) — lista compacta, com rolagem interna */
+/* Chips de estado (27 UFs) — todas visíveis de uma vez, sem rolagem interna */
 .uf-grid{
-  display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));
-  margin-top:6px;
-  max-height:min(38vh,296px);overflow-y:auto;overflow-x:hidden;
-  padding-right:4px;
-  scrollbar-width:thin;
+  display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));
+  margin-top:5px;
 }
 .uf-opcao{
-  position:relative;display:flex;align-items:center;gap:10px;
-  padding:11px 12px;cursor:pointer;
-  border:1.5px solid var(--vidro-borda);border-radius:12px;
+  position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  gap:2px;padding:7px 9px;cursor:pointer;min-width:0;
+  border:1.5px solid var(--vidro-borda);border-radius:11px;
   background:rgba(255,255,255,.05);
   transition:border-color .2s ease, background-color .2s ease, transform .2s ease, box-shadow .2s ease;
 }
@@ -429,19 +427,22 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .uf-opcao input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
 .uf-opcao:has(input:focus-visible){outline:3px solid rgba(239,207,146,.75);outline-offset:3px}
 .uf-sigla{
-  font-weight:800;font-size:.82rem;letter-spacing:.06em;color:var(--dourado);
-  background:rgba(255,255,255,.07);border:1px solid var(--vidro-borda);border-radius:8px;
-  padding:3px 8px;
+  font-weight:800;font-size:.74rem;letter-spacing:.06em;color:var(--dourado);
+  line-height:1.1;flex:none;
 }
-.uf-opcao.selecionada .uf-sigla{background:rgba(239,207,146,.22);border-color:rgba(239,207,146,.5)}
-.uf-nome{font-size:.92rem;font-weight:600;color:var(--texto)}
+.uf-opcao.selecionada .uf-sigla{color:var(--texto)}
+.uf-nome{
+  font-size:.68rem;font-weight:600;color:var(--texto-suave);line-height:1.2;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;
+}
+.uf-opcao.selecionada .uf-nome{color:var(--texto)}
 
 /* ============================================================
    8) CONSENTIMENTO
    ============================================================ */
 .consentimento{
   display:flex;gap:12px;align-items:flex-start;
-  margin-top:22px;padding:15px;border-radius:var(--raio-campo);
+  margin-top:17px;padding:14px;border-radius:var(--raio-campo);
   background:rgba(255,255,255,.05);border:1.5px solid var(--vidro-borda);
   cursor:pointer;transition:border-color .2s ease, background-color .2s ease;
 }
@@ -460,12 +461,12 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
    ============================================================ */
 .acoes{
   display:flex;align-items:center;gap:12px;
-  margin-top:26px;
+  margin-top:18px;
 }
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  min-height:54px;padding:15px 26px;border-radius:14px;border:1.5px solid transparent;
-  font-size:1.02rem;font-weight:700;letter-spacing:.01em;cursor:pointer;
+  min-height:50px;padding:13px 24px;border-radius:14px;border:1.5px solid transparent;
+  font-size:.99rem;font-weight:700;letter-spacing:.01em;cursor:pointer;
   transition:transform .18s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease;
 }
 .btn-primario{
@@ -505,7 +506,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
    10) RODAPÉ
    ============================================================ */
 .rodape-marca{
-  margin:0 auto clamp(18px,3vw,32px);
+  margin:0 auto clamp(10px,1.6vw,18px);
   display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:center;
   background:var(--vidro);border:1px solid var(--vidro-borda);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
@@ -668,48 +669,61 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
   .capa-foto figcaption{display:none}
 
   /* --- formulário: cabeçalho e progresso discretos --- */
-  .form-header{padding:14px 16px 0}
-  .logo-chip{padding:7px 12px;border-radius:11px}
-  .logo{height:38px}
+  .form-header{padding:12px 14px 0}
+  .logo-chip{padding:6px 11px;border-radius:11px}
+  .logo{height:34px}
   .progress-wrap{
-    min-width:100%;margin-left:0;padding:10px 14px 12px;border-radius:14px;
+    min-width:100%;margin-left:0;padding:8px 12px 10px;border-radius:13px;
     box-shadow:0 14px 30px -22px rgba(0,0,0,.8);
   }
-  .progresso-topo{font-size:.72rem;letter-spacing:.04em}
+  .progresso-topo{font-size:.7rem;letter-spacing:.04em}
   #etapaTema{display:none}                  /* só "Etapa X de 5" */
-  .progresso{height:6px;margin-top:7px}
+  .progresso{height:5px;margin-top:6px}
 
-  /* --- cartão e campos mais leves --- */
-  .stage-wrap{padding:14px 14px 8px}
-  .cartao{padding:20px 17px;border-radius:18px}
-  .etapa-tag{font-size:.66rem;letter-spacing:.13em;padding:5px 10px}
-  .pergunta{font-size:1.34rem;margin:11px 0 5px}
-  .sub-pergunta{font-size:.91rem;margin-bottom:15px}
-  .campo{margin-top:15px}
+  /* --- cartão e campos: tudo cabe na tela, sem rolagem --- */
+  .stage-wrap{
+    padding:10px 12px 6px;
+    align-items:flex-start;   /* o cartão fica sempre logo abaixo do progresso */
+  }
+  .cartao{padding:16px 15px;border-radius:17px}
+  .etapa-tag{display:none}                  /* a barra de progresso já mostra a etapa */
+  .pergunta{font-size:1.22rem;margin:2px 0 3px;line-height:1.18}
+  .sub-pergunta{font-size:.86rem;margin-bottom:11px;line-height:1.4}
+  .campo{margin-top:11px}
+  .campo label.rotulo{font-size:.85rem;margin-bottom:5px}
   .campo input[type="text"],
   .campo input[type="email"],
-  .campo input[type="tel"]{padding:14px;font-size:1rem}
+  .campo input[type="tel"]{padding:11px 12px;font-size:.95rem}
 
-  /* --- cards de escolha: ícone menor, menos ruído --- */
-  .opcoes{gap:8px}
-  .opcoes.duas-colunas{grid-template-columns:1fr}   /* texto longo: 1 coluna é mais compacto */
-  .opcao{padding:10px 11px;gap:9px;border-radius:12px}
-  .opcao-icone{width:32px;height:32px;border-radius:9px}
-  .opcao-icone svg{width:18px;height:18px}
-  .opcao-texto .titulo{font-size:.88rem;line-height:1.26}
-  .marca{width:19px;height:19px}
-  .marca svg{width:10px;height:10px}
-  .uf-grid{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px}
-  .uf-opcao{padding:10px 11px}
-  .uf-nome{font-size:.87rem}
-  .consentimento{padding:13px}
-  .consentimento span{font-size:.86rem}
+  /* --- cards de escolha compactos --- */
+  .opcoes{gap:6px}
+  .opcoes.duas-colunas{grid-template-columns:1fr 1fr;gap:6px}
+  /* listas longas em 2 colunas: sem ícone, o texto cabe em 2-3 linhas */
+  .opcoes.duas-colunas .opcao-icone{display:none}
+  .opcoes.duas-colunas .opcao{padding:9px 10px}
+  .opcao{padding:8px 9px;gap:8px;border-radius:11px}
+  .opcao-icone{width:28px;height:28px;border-radius:8px}
+  .opcao-icone svg{width:16px;height:16px}
+  .opcao-texto .titulo{font-size:.82rem;line-height:1.24}
+  .marca{width:17px;height:17px}
+  .marca svg{width:9px;height:9px}
 
-  .acoes{margin-top:20px}
-  .btn{min-height:52px;padding:14px 20px;font-size:.98rem}
-  .link-voltar-site{font-size:.85rem}
+  /* lista de estados: 27 UFs visíveis de uma vez, sem rolagem interna */
+  .uf-grid{grid-template-columns:repeat(4,1fr);gap:5px;margin-top:4px}
+  .uf-opcao{padding:5px 6px;border-radius:9px}
+  .uf-sigla{font-size:.68rem;letter-spacing:.03em}
+  .uf-nome{font-size:.56rem}
 
-  .rodape-marca{font-size:.75rem;padding:9px 16px;gap:4px 10px;margin-bottom:16px}
+  .consentimento{padding:11px;margin-top:14px}
+  .consentimento span{font-size:.81rem;line-height:1.42}
+  .consentimento input{width:19px;height:19px}
+
+  .acoes{margin-top:14px;gap:8px}
+  .btn{min-height:46px;padding:11px 16px;font-size:.92rem}
+  .btn-ghost{padding-left:4px;padding-right:8px;font-size:.85rem}
+  .link-voltar-site{font-size:.82rem}
+
+  .rodape-marca{font-size:.72rem;padding:8px 14px;gap:4px 10px;margin-bottom:12px}
 
   /* --- agradecimento --- */
   .agradece-topo{padding:22px 18px;border-radius:18px}
@@ -727,15 +741,62 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 
 /* telas baixas (notebook, celular deitado): espaços mais compactos */
 @media (max-height:700px){
-  .stage-wrap{padding-top:10px;padding-bottom:10px}
-  .cartao{padding-top:18px;padding-bottom:18px}
-  .pergunta{margin:8px 0 4px}
-  .sub-pergunta{margin-bottom:12px}
-  .campo{margin-top:12px}
-  .acoes{margin-top:16px}
-  .uf-grid{max-height:min(32vh,240px)}
-  .form-header{padding-top:12px}
+  .capa-interno{padding:14px 18px 14px;gap:12px}
+  .capa-marca{margin-bottom:10px;padding:6px 11px}
+  .capa-marca img{height:32px}
+  .capa-titulo{font-size:clamp(1.6rem,7.6vw,1.95rem);margin-top:8px}
+  .capa-sub{font-size:.88rem;line-height:1.5;margin-top:10px}
+  .capa-acoes{margin-top:14px;gap:8px}
+  .capa-btn{padding:13px 20px;font-size:.94rem}
+  .capa-nota{font-size:.78rem}
+  .capa-foto{width:min(42vw,150px)}
+  .capa-foto img{transform:none;max-height:26vh;object-fit:cover}
+  .stage-wrap{padding-top:8px;padding-bottom:6px}
+  .cartao{padding-top:15px;padding-bottom:15px}
+  .etapa-tag{display:none}
+  .pergunta{margin:6px 0 3px;font-size:clamp(1.15rem,1.7vw,1.42rem);line-height:1.16}
+  .sub-pergunta{margin-bottom:9px}
+  .campo{margin-top:10px}
+  .acoes{margin-top:12px}
+  .form-header{padding-top:10px}
+  .opcoes{gap:7px}
+  .opcao{padding:10px 12px}
+  .opcao-icone{width:34px;height:34px}
+  /* listas longas: 2 colunas sem ícone, para caber inteiro na tela */
+  .opcoes.duas-colunas .opcao-icone{display:none}
+  .opcoes.duas-colunas .opcao{padding:10px 12px}
 }
+
+/* telas baixas e largas (notebook / tablet deitado): UFs mais compactas */
+@media (max-height:700px) and (min-width:641px){
+  .uf-grid{gap:6px}
+  .uf-opcao{padding:5px 7px}
+  .uf-sigla{font-size:.7rem}
+  .uf-nome{font-size:.66rem}
+}
+
+/* celular deitado (altura muito baixa): prioriza o conteúdo do formulário */
+@media (max-height:480px){
+  .logo-chip{display:none}
+  .form-header{padding-top:6px}
+  .progress-wrap{min-width:100%;margin-left:0;padding:6px 10px 8px}
+  .rodape-marca{display:none}
+  .stage-wrap{padding:4px 8px}
+  .cartao{padding:12px 14px}
+}
+
+/* Último recurso: telas muito baixas recebem .compacta automaticamente
+   (via JS) — um aperto discreto para caber inteira, sem rolar. */
+.screen.compacta .sub-pergunta{display:none}
+.screen.compacta .pergunta{margin:4px 0 3px}
+.screen.compacta .opcoes{gap:6px;margin-top:4px}
+.screen.compacta .opcao{padding:8px 11px;gap:10px}
+.screen.compacta .opcao-icone{width:32px;height:32px}
+.screen.compacta .uf-grid{gap:5px}
+.screen.compacta .uf-opcao{padding:5px 7px}
+.screen.compacta .consentimento{margin-top:11px;padding:11px}
+.screen.compacta .acoes{margin-top:11px}
+.screen.compacta .campo{margin-top:9px}
 
 /* toque não tem hover: evita estados "grudados" no celular */
 @media (hover:none){
@@ -1030,7 +1091,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
               <fieldset>
                 <legend class="pergunta">Quantos funcionários tem a empresa?</legend>
                 <p class="sub-pergunta">Pessoas que trabalham na operação atendida.</p>
-                <div class="opcoes">
+                <div class="opcoes duas-colunas">
 
                   <label class="opcao" data-valor="Até 100">
                     <input type="radio" name="funcionarios" value="Até 100" required>
@@ -1096,7 +1157,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
               <fieldset>
                 <legend class="pergunta">Quantas alimentações seriam servidas por dia?</legend>
                 <p class="sub-pergunta">Refeições e lanches para alunos, pacientes, colaboradores ou participantes.</p>
-                <div class="opcoes">
+                <div class="opcoes duas-colunas">
 
                   <label class="opcao" data-valor="Até 100">
                     <input type="radio" name="porte" value="Até 100" required>
@@ -1790,13 +1851,25 @@ function alturaMaximaTela() {
   const padCartao = cartao
     ? parseFloat(getComputedStyle(cartao).paddingTop) + parseFloat(getComputedStyle(cartao).paddingBottom)
     : 0;
-  const reservado = parseFloat(estilos.paddingTop) + parseFloat(estilos.paddingBottom) + padCartao + 26;
+  const reservado = parseFloat(estilos.paddingTop) + parseFloat(estilos.paddingBottom) + padCartao + 14;
   return Math.max(250, wrap.clientHeight - reservado);
 }
 
+/**
+ * Ajusta a altura do palco para a tela atual.
+ * Se a tela ainda não couber, aplica .compacta (uma versão mais
+ * apertada) e mede de novo — o formulário nunca pede rolagem.
+ */
 function ajustarAltura(tela) {
   if (!tela) return;
-  stage.style.height = Math.min(tela.scrollHeight, alturaMaximaTela()) + 'px';
+  const limite = alturaMaximaTela();
+  tela.classList.remove('compacta');
+  let altura = tela.scrollHeight;
+  if (altura > limite + 2) {
+    tela.classList.add('compacta');
+    altura = tela.scrollHeight;
+  }
+  stage.style.height = Math.min(altura, limite) + 'px';
 }
 
 function irPara(indice, direcao) {
@@ -1836,6 +1909,7 @@ function irPara(indice, direcao) {
     anterior.setAttribute('aria-hidden', 'true');
     proxima.removeAttribute('inert');
     proxima.removeAttribute('aria-hidden');
+    ajustarAltura(proxima);   /* medida final, sem sobra de espaço */
     animando = false;
     /* se o usuário clicou durante a transição, o pedido é executado agora */
     if (navegacaoPendente) {
@@ -1867,6 +1941,12 @@ function voltar()  { solicitarNavegacao('prev'); }
 /* ============================================================
    VALIDAÇÃO (mensagens suaves, em tempo real)
    ============================================================ */
+/* mantém o cartão do tamanho certo quando uma mensagem aparece/some */
+function reajustarTelaAtual() {
+  const ativa = document.querySelector('.screen.is-active');
+  if (ativa) ajustarAltura(ativa);
+}
+
 function mostrarErro(idCampo, idErro, mensagem) {
   const campo = $('#campo-' + idCampo) || $('#' + idCampo)?.closest('.campo, .consentimento, fieldset');
   const erro = $('#' + idErro);
@@ -1877,6 +1957,7 @@ function mostrarErro(idCampo, idErro, mensagem) {
       : '';
     erro.classList.toggle('visivel', Boolean(mensagem));
   }
+  reajustarTelaAtual();
 }
 
 function limparErro(idCampo, idErro) {
@@ -1884,6 +1965,7 @@ function limparErro(idCampo, idErro) {
   if (campo) campo.classList.remove('invalido');
   const erro = $('#' + idErro);
   if (erro) { erro.classList.remove('visivel'); erro.innerHTML = ''; }
+  reajustarTelaAtual();
 }
 
 /* mensagem simples para as telas de escolha (cards) */
@@ -1892,12 +1974,14 @@ function mostrarErroEscolha(idErro, mensagem) {
   if (!erro) return;
   erro.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5"/><path d="M12 16h.01"/></svg><span>${mensagem}</span>`;
   erro.classList.add('visivel');
+  reajustarTelaAtual();
 }
 function limparErroEscolha(idErro) {
   const erro = $('#' + idErro);
   if (!erro) return;
   erro.classList.remove('visivel');
   erro.innerHTML = '';
+  reajustarTelaAtual();
 }
 
 /* grupos de escolha única que precisam de uma resposta para avançar */
