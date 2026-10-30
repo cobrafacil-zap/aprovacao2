@@ -1,6 +1,7 @@
 /**
  * Servidor local (npm start / npm run dev).
  */
+import './src/lib/loadEnv.js';   /* carrega o .env antes de tudo */
 import app from './src/app.js';
 import { usaRedis } from './src/lib/db.js';
 
