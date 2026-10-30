@@ -77,10 +77,12 @@ const CHAVE_GRUPO = 'grupoNotificacao';
 export async function getGrupoNotificacao() {
   try {
     const s = await read('settings', {});
-    return s[CHAVE_GRUPO] || null;
-  } catch {
-    return null;
-  }
+    const salvo = s[CHAVE_GRUPO];
+    if (salvo && salvo.jid) return salvo;
+  } catch {}
+  /* fallback: grupo definido por variável de ambiente (útil em novos servidores) */
+  const jid = String(process.env.EVOLUTION_GROUP_ID || '').trim();
+  return jid ? { jid, nome: '' } : null;
 }
 
 export async function setGrupoNotificacao({ jid, nome } = {}) {

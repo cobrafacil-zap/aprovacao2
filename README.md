@@ -34,11 +34,14 @@ public/               formulário, painel, imagens
 
 ## Configuração (arquivo `.env.example`)
 
-| Variável | O que é |
-| --- | --- |
-| `ADMIN_SENHA` | senha do `/admin` (padrão `Comsoc1#`) |
-| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Upstash Redis (obrigatório em produção) |
-| `EVOLUTION_API_URL` / `EVOLUTION_API_KEY` / `EVOLUTION_INSTANCE` / `EVOLUTION_GROUP_ID` | notificação de leads em grupo — também configuráveis no próprio painel |
+| Variável | O que é | Obrigatória? |
+| --- | --- | --- |
+| `ADMIN_SENHA` | senha do `/admin` (padrão `Comsoc1#`) | não |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | banco de dados (nomes oficiais Upstash) | **sim, em produção** |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | os mesmos, com nomes alternativos | alternativa |
+| `EVOLUTION_API_URL` / `EVOLUTION_API_KEY` / `EVOLUTION_INSTANCE` | WhatsApp — notificação de leads | não |
+| `EVOLUTION_GROUP_ID` | JID do grupo que recebe os avisos (alternativa ao seletor do painel) | não |
+| `PORT` | porta do servidor local (`npm start`) | não |
 
 Os pontos de configuração do formulário (WhatsApp comercial, cores, logo, fotos)
 estão comentados no topo do `public/index.html` e do `<style>`.
@@ -82,6 +85,39 @@ ambiente têm prioridade). Para escolher o grupo:
 
 Publicado em **https://aprovacao2.vercel.app** (projeto Vercel `aprovacao2`).
 Para republicar: `vercel deploy --prod`.
+
+## Exportar e instalar em outro servidor
+
+O projeto inteiro é o conteúdo desta pasta (sem `node_modules`, `data` nem
+`.vercel`). Para colocar em outra conta/servidor:
+
+### Opção 1 — Vercel (recomendada, sem servidor para cuidar)
+1. Suba a pasta para um repositório Git (GitHub/GitLab).
+2. Na Vercel: **New Project → Import** o repositório (detecção automática).
+3. Em **Settings → Environment Variables**, cadastre as do `.env.example`
+   (obrigatórias: as duas do banco; as demais são opcionais).
+4. **Deploy**. Pronto — `https://SEU-PROJETO.vercel.app`.
+
+### Opção 2 — servidor Node comum (VPS, cPanel, Railway, Render…)
+```bash
+npm install
+# crie o .env a partir do .env.example e preencha
+npm start          # sobe em http://localhost:3000
+```
+- Coloque um proxy (nginx/Caddy) com HTTPS na frente da porta 3000.
+- O banco (Upstash) continua sendo na nuvem — funciona de qualquer servidor.
+- Sem banco configurado, os dados ficam em `data/*.json` (bom só para testes).
+
+### Banco de dados
+Crie um banco gratuito em <https://upstash.com>, copie a **URL** e o **token**
+REST e cadastre nas variáveis. As chaves usam o prefixo `cfdb:`, então podem
+compartilhar o mesmo banco de outros projetos sem conflito.
+
+### WhatsApp (opcional)
+Precisa de uma instância da **Evolution API**. Depois de subir o site:
+1. `/admin` → **Configurações** → **Carregar grupos**.
+2. Escolha o grupo → **Salvar grupo** (ou use `EVOLUTION_GROUP_ID`).
+3. **Enviar mensagem de teste** para conferir.
 
 ## Acessibilidade
 
