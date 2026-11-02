@@ -14,6 +14,10 @@
       "destination": "/admin.html"
     },
     {
+      "source": "/formulario",
+      "destination": "/formulario.html"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/index"
     }

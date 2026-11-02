@@ -20,6 +20,7 @@ app.use('/api', routes);
 
 /* páginas */
 app.get('/admin', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'admin.html')));
+app.get('/formulario', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'formulario.html')));
 app.use(express.static(PUBLIC_DIR, { extensions: ['html'] }));
 
 /* erros */

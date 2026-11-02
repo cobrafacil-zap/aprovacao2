@@ -1,8 +1,9 @@
-# Cassarotti Foods — Formulário de leads + Painel administrativo
+# Cassarotti Foods — Landing page + Formulário de leads + Painel administrativo
 
-Formulário interativo de qualificação de leads (5 etapas) com capa animada, tema
-de vidro escuro e envio direto para a equipe comercial. Inclui painel em `/admin`
-com métricas de leads e notificação de novos leads em um grupo do WhatsApp via
+Landing page institucional em `/` (apresentação da Cassarotti, com chamada para o
+formulário), formulário interativo de qualificação de leads em `/formulario`
+(5 etapas, capa animada, tema de vidro escuro) e painel em `/admin` com métricas
+de entradas, leads e notificação de novos leads em um grupo do WhatsApp via
 **Evolution API**.
 
 ## Como rodar
@@ -12,7 +13,8 @@ npm install
 npm start          # http://localhost:3000  (painel em /admin)
 ```
 
-- **Site (formulário):** `public/index.html`
+- **Landing page (página inicial):** `public/index.html`
+- **Formulário:** `/formulario` → `public/formulario.html`
 - **Painel:** `/admin` — senha padrão `Comsoc1#`
 
 Em produção (Vercel) o banco é o **Upstash Redis**; em desenvolvimento os dados
@@ -48,11 +50,13 @@ estão comentados no topo do `public/index.html` e do `<style>`.
 
 ## Métricas do painel
 
-Cards: visitas, formulários iniciados, leads recebidos, alta prioridade,
-**refeições/dia (potencial)**, **funcionários (potencial)**, conversão e leads do
-último dia. Mais gráfico diário, funil de qualificação, origem do tráfego,
-segmentos e prazos. A aba **Leads** tem busca, filtro de status (novo / em
-contato / convertido / perdido) e exportação em CSV.
+Cards: **entradas na página** (sessões na landing), **entradas no formulário**,
+formulários iniciados, leads recebidos, alta prioridade, **refeições/dia
+(potencial)**, **funcionários (potencial)**, conversão e leads do último dia.
+Mais gráfico diário (página × formulário × leads), funil de qualificação
+(página → formulário → início → lead), origem do tráfego, segmentos e prazos.
+A aba **Leads** tem busca, filtro de status (novo / em contato / convertido /
+perdido) e exportação em CSV.
 
 As somas de refeições/dia e funcionários usam o ponto médio de cada faixa
 respondida no formulário (ex.: `501 a 2.000` → 1.250) — são estimativas de

@@ -46,10 +46,15 @@ export async function resumo({ de, ate, dias = 14 } = {}) {
   const leads = todosLeads.filter((l) => noPeriodo(l.criadoEm, de, ate));
 
   const pageviews = eventos.filter((e) => e.tipo === 'pageview');
+  const lpViews = eventos.filter((e) => e.tipo === 'lp_view');
+  const lpCliques = eventos.filter((e) => e.tipo === 'lp_cta_click').length;
   const sessoes = (lista) =>
     new Set(lista.map((e) => e.sessao).filter(Boolean)).size || lista.length;
 
-  const visitas = sessoes(pageviews);
+  /* entradas: página (LP) e formulário contam separadamente */
+  const lpEntradas = sessoes(lpViews);
+  const formEntradas = sessoes(pageviews);
+  const visitas = lpEntradas + formEntradas;
   const inicios = eventos.filter((e) => e.tipo === 'form_start').length || 0;
 
   /* ---- números dos leads ---- */
@@ -64,7 +69,9 @@ export async function resumo({ de, ate, dias = 14 } = {}) {
     const d = new Date(hoje.getTime() - i * 864e5).toISOString().slice(0, 10);
     serie.push({
       data: d,
-      visitas: eventos.filter((e) => e.tipo === 'pageview' && dia(e.ts) === d).length,
+      lp: eventos.filter((e) => e.tipo === 'lp_view' && dia(e.ts) === d).length,
+      form: eventos.filter((e) => e.tipo === 'pageview' && dia(e.ts) === d).length,
+      visitas: eventos.filter((e) => (e.tipo === 'pageview' || e.tipo === 'lp_view') && dia(e.ts) === d).length,
       leads: leads.filter((l) => dia(l.criadoEm) === d).length,
     });
   }
@@ -85,18 +92,25 @@ export async function resumo({ de, ate, dias = 14 } = {}) {
   return {
     periodo: { de: de || serie[0].data, ate: ate || serie[serie.length - 1].data },
     visitas,
+    lp_entradas: lpEntradas,
+    form_entradas: formEntradas,
+    lp_cliques: lpCliques,
     form_iniciados: inicios,
     leads: leads.length,
     leads_novos: leads.filter((l) => (l.status || 'novo') === 'novo').length,
     leads_alta_prioridade: leads.filter((l) => l.classificacao_prioridade === 'alta').length,
-    conversao: pct(leads.length, visitas),
+    conversao: pct(leads.length, lpEntradas || visitas),
+    conversao_form: pct(leads.length, formEntradas),
+    entrada_form_pct: pct(formEntradas, lpEntradas),
+    inicio_pct: pct(inicios, formEntradas),
     pontuacao_media: leads.length ? Math.round(soma(pontuacoes, (p) => p) / leads.length * 10) / 10 : 0,
     alimentacoes_dia: alimentacoesDia,
     funcionarios: funcionarios,
     alimentacoes_por_lead: leads.length ? Math.round(alimentacoesDia / leads.length) : 0,
     serie,
     funil: [
-      { etapa: 'Visitas', total: visitas },
+      { etapa: 'Entradas na página', total: lpEntradas },
+      { etapa: 'Entradas no formulário', total: formEntradas },
       { etapa: 'Formulário iniciado', total: inicios },
       { etapa: 'Lead enviado', total: leads.length },
     ],

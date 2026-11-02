@@ -70,13 +70,14 @@ async function carregarMetricas() {
   const m = await api(`/api/admin/metricas?dias=${dias}`);
 
   $('#metricas-cards').innerHTML = [
-    ['👀 Visitas', fmtNum(m.visitas), 'sessões no período'],
-    ['📝 Formulários iniciados', fmtNum(m.form_iniciados), `${m.conversao}% de conversão em lead`],
+    ['🌐 Entradas na página', fmtNum(m.lp_entradas), 'sessões na página inicial'],
+    ['🧾 Entradas no formulário', fmtNum(m.form_entradas), `${fmtNum(m.lp_cliques)} cliques no botão da página`],
+    ['📝 Formulários iniciados', fmtNum(m.form_iniciados), `${m.inicio_pct}% começaram a preencher`],
     ['📋 Leads recebidos', fmtNum(m.leads), `${m.leads_novos} aguardando contato`],
     ['⭐ Alta prioridade', fmtNum(m.leads_alta_prioridade), `pontuação média ${m.pontuacao_media}`],
     ['🍽 Refeições/dia (potencial)', fmtNum(m.alimentacoes_dia), `média de ${fmtNum(m.alimentacoes_por_lead)} por lead`],
     ['👥 Funcionários (potencial)', fmtNum(m.funcionarios), 'somatório estimado dos leads'],
-    ['📊 Conversão', `${m.conversao}%`, 'leads ÷ visitas'],
+    ['📊 Conversão', `${m.conversao}%`, 'leads ÷ entradas na página'],
     ['📈 Leads no último dia', fmtNum(m.serie[m.serie.length - 1]?.leads || 0), m.serie[m.serie.length - 1]?.data || '—'],
   ].map(([rotulo, valor, sub]) => `
     <div class="metrica-card">
@@ -85,12 +86,13 @@ async function carregarMetricas() {
       <div class="delta">${sub}</div>
     </div>`).join('');
 
-  /* barras diárias */
-  const max = Math.max(1, ...m.serie.map((d) => Math.max(d.visitas, d.leads * 3)));
+  /* barras diárias: página × formulário × leads */
+  const max = Math.max(1, ...m.serie.map((d) => Math.max(d.lp || 0, d.form || 0, d.leads * 3)));
   $('#grafico-diario').innerHTML = m.serie.map((d) => `
-    <div class="barra-dia" title="${d.data}: ${d.visitas} visitas, ${d.leads} leads">
+    <div class="barra-dia" title="${d.data}: ${d.lp || 0} na página, ${d.form || 0} no formulário, ${d.leads} leads">
       <div class="barra leads" style="height:${(d.leads * 3 / max) * 100}%"></div>
-      <div class="barra visitas" style="height:${(d.visitas / max) * 100}%"></div>
+      <div class="barra form" style="height:${((d.form || 0) / max) * 100}%"></div>
+      <div class="barra lp" style="height:${((d.lp || 0) / max) * 100}%"></div>
       <div class="data">${d.data.slice(8)}/${d.data.slice(5, 7)}</div>
     </div>`).join('');
 

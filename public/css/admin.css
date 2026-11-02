@@ -110,7 +110,8 @@ main{padding:18px clamp(16px,3vw,32px) 48px;max-width:1280px;margin:0 auto}
 .barras{display:flex;align-items:flex-end;gap:6px;height:190px;overflow-x:auto;padding-bottom:6px}
 .barra-dia{flex:1;min-width:34px;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;height:100%}
 .barra-dia .barra{border-radius:5px 5px 0 0;width:100%}
-.barra-dia .visitas{background:#9BB8AA}
+.barra-dia .visitas,.barra-dia .lp{background:#9BB8AA}
+.barra-dia .form{background:#4E8C6E}
 .barra-dia .leads{background:var(--verde)}
 .barra-dia .data{font-size:.62rem;color:var(--cinza);text-align:center;white-space:nowrap}
 .legenda{display:flex;gap:16px;font-size:.78rem;color:var(--cinza);margin-top:10px}
