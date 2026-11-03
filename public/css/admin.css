@@ -96,6 +96,7 @@ main{padding:18px clamp(16px,3vw,32px) 48px;max-width:1280px;margin:0 auto}
 }
 .metrica-card .valor{font-size:1.75rem;font-weight:800;color:var(--verde-escuro);line-height:1.1}
 .metrica-card .rotulo-m{font-size:.82rem;color:var(--cinza);margin-top:4px;min-height:2.4em;line-height:1.2}
+@media (max-width:640px){ .metrica-card .rotulo-m{min-height:0} }
 .metrica-card .delta{font-size:.76rem;font-weight:700;margin-top:6px;color:var(--dourado)}
 
 /* ---------- gráficos ---------- */
@@ -127,7 +128,7 @@ main{padding:18px clamp(16px,3vw,32px) 48px;max-width:1280px;margin:0 auto}
 
 /* ---------- tabela ---------- */
 .tabela-wrap{overflow-x:auto}
-.tabela{width:100%;border-collapse:collapse;font-size:.85rem}
+.tabela{width:100%;min-width:1020px;border-collapse:collapse;font-size:.85rem}
 .tabela th{
   text-align:left;background:var(--verde-claro);padding:10px 12px;
   font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--verde-escuro);

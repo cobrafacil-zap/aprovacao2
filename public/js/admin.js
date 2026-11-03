@@ -77,7 +77,7 @@ async function carregarMetricas() {
     ['⭐ Alta prioridade', fmtNum(m.leads_alta_prioridade), `pontuação média ${m.pontuacao_media}`],
     ['🍽 Refeições/dia (potencial)', fmtNum(m.alimentacoes_dia), `média de ${fmtNum(m.alimentacoes_por_lead)} por lead`],
     ['👥 Funcionários (potencial)', fmtNum(m.funcionarios), 'somatório estimado dos leads'],
-    ['📊 Conversão', `${m.conversao}%`, 'leads ÷ entradas na página'],
+    ['📊 Conversão', `${m.conversao_form}%`, 'leads ÷ entradas no formulário'],
     ['📈 Leads no último dia', fmtNum(m.serie[m.serie.length - 1]?.leads || 0), m.serie[m.serie.length - 1]?.data || '—'],
   ].map(([rotulo, valor, sub]) => `
     <div class="metrica-card">
