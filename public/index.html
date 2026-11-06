@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="sem-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cassarotti Foods — Refeições coletivas desde 1997</title>
+<meta name="description" content="Há quase 30 anos alimentando empresas, hospitais, escolas, canteiros de obra, o setor público e grandes eventos em todo o Brasil. Conheça a Cassarotti Foods e peça uma proposta.">
+<meta name="theme-color" content="#070709">
+<meta property="og:title" content="Cassarotti Foods — Refeições coletivas desde 1997">
+<meta property="og:description" content="Quem serve muita gente não pode errar na cozinha. Conheça a Cassarotti e peça uma proposta em 1 minuto.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="capa-fundadora.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   CASSAROTTI — LANDING PAGE
+   Mesma linguagem do formulário: vidro escuro, dourado de eco
+   do logo, títulos editoriais (Fraunces) e corpo sóbrio.
+   ============================================================ */
+:root{
+  --fundo:#070709;
+  --fundo-2:#0E0D10;
+  --fundo-3:#141317;
+
+  --vidro:rgba(255,255,255,.06);
+  --vidro-forte:rgba(255,255,255,.11);
+  --vidro-borda:rgba(255,255,255,.12);
+  --vidro-borda-forte:rgba(255,255,255,.22);
+
+  --texto:#F4F1EB;
+  --texto-suave:#C6C2BA;
+
+  --acento:#B8501F;
+  --acento-escuro:#9C4316;
+  --acento-claro:#F2B489;
+
+  --dourado:#EFCF92;
+  --dourado-fundo:rgba(239,207,146,.13);
+
+  --raio:22px;
+  --raio-mi:14px;
+  --sombra:0 30px 70px -30px rgba(0,0,0,.75);
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  --fonte:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --fonte-titulo:'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+
+  --largura:1160px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;color-scheme:dark;scroll-behavior:smooth}
+body{
+  margin:0;font-family:var(--fonte);font-size:16px;line-height:1.65;
+  color:var(--texto);background:var(--fundo);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+/* brilho quente ambiente + grão sutil, como no formulário */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1000px 620px at 82% -8%, rgba(224,150,80,.14), transparent 62%),
+    radial-gradient(900px 700px at -12% 40%, rgba(184,80,31,.10), transparent 60%),
+    radial-gradient(1200px 800px at 50% 118%, rgba(239,207,146,.07), transparent 62%);
+}
+img{max-width:100%;display:block}
+a{color:var(--dourado)}
+
+.skip-link{
+  position:absolute;left:-9999px;top:0;background:var(--dourado);color:#1a1206;
+  padding:10px 16px;border-radius:0 0 12px 0;z-index:200;font-weight:700;
+}
+.skip-link:focus{left:0}
+
+/* ---------------- rótulos editoriais de seção ---------------- */
+.secao-rotulo{
+  display:flex;align-items:center;gap:12px;
+  font-size:.72rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--acento-claro);margin:0 0 18px;
+}
+.secao-rotulo span{
+  color:var(--dourado);font-family:var(--fonte-titulo);font-size:.95rem;
+  letter-spacing:.05em;font-weight:600;
+}
+.secao-rotulo::after{
+  content:"";flex:1;height:1px;background:linear-gradient(90deg, rgba(239,207,146,.35), transparent);
+}
+h1,h2,h3{font-family:var(--fonte-titulo);font-weight:600;letter-spacing:-.015em;line-height:1.12;margin:0}
+h2{font-size:clamp(1.75rem,3.8vw,2.75rem)}
+h2 em, h1 em{font-style:italic;font-weight:400;color:var(--dourado)}
+.lead{color:var(--texto-suave);font-size:clamp(1.02rem,1.5vw,1.16rem);line-height:1.72;max-width:62ch}
+
+.wrap{width:min(100% - 40px, var(--largura));margin-inline:auto;position:relative;z-index:1}
+
+/* ============================================================
+   TOPO
+   ============================================================ */
+.topo{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,10,12,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.topo-interno{
+  width:min(100% - 32px, var(--largura));margin-inline:auto;
+  display:flex;align-items:center;gap:18px;padding:12px 0;
+}
+.topo-marca{display:flex;align-items:center;gap:12px;text-decoration:none}
+.topo-marca img{height:38px;width:auto}
+.topo-links{display:none;gap:26px;margin-left:12px}
+.topo-links a{
+  color:var(--texto-suave);text-decoration:none;font-size:.92rem;font-weight:600;
+  transition:color .2s ease;
+}
+.topo-links a:hover{color:var(--texto)}
+.topo-acoes{margin-left:auto;display:flex;align-items:center;gap:10px}
+
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  border-radius:999px;font-family:var(--fonte);font-weight:700;cursor:pointer;
+  text-decoration:none;border:1.5px solid transparent;
+  transition:transform .22s ease, background-color .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primario{
+  background:var(--acento);color:#FFF3EC;font-size:1.02rem;padding:15px 28px;
+  box-shadow:0 22px 44px -20px rgba(184,80,31,.85);
+}
+.btn-primario:hover{background:var(--acento-escuro)}
+.btn-grande{font-size:1.12rem;padding:19px 36px}
+.btn-fantasma{
+  background:rgba(255,255,255,.05);color:var(--texto);
+  border-color:var(--vidro-borda-forte);font-size:1.02rem;padding:15px 26px;
+}
+.btn-fantasma:hover{background:var(--vidro-forte)}
+.btn-topo{font-size:.92rem;padding:11px 20px}
+.btn svg{flex:none;transition:transform .22s ease}
+.btn:hover svg{transform:translateX(3px)}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{padding:clamp(38px,6vw,72px) 0 clamp(30px,4.5vw,54px)}
+.hero-grade{
+  display:grid;gap:clamp(30px,5vw,56px);align-items:center;
+}
+.hero-chip{
+  display:inline-flex;align-items:center;background:var(--vidro);
+  border:1px solid var(--vidro-borda);border-radius:13px;padding:8px 15px;
+  margin-bottom:22px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.hero-chip img{height:40px;width:auto}
+.hero-eyebrow{
+  font-size:.74rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--dourado);margin:0 0 16px;
+}
+.hero h1{font-size:clamp(2.35rem,6vw,4.15rem);line-height:1.03;margin-bottom:20px;max-width:17ch}
+.hero-sub{color:var(--texto-suave);font-size:clamp(1.04rem,1.6vw,1.22rem);line-height:1.7;max-width:56ch;margin:0 0 30px}
+.hero-acoes{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.hero-nota{font-size:.9rem;color:var(--texto-suave);margin:16px 0 0;max-width:34ch}
+.hero-foto{margin:0;position:relative}
+.hero-foto img{
+  width:100%;height:auto;max-width:460px;margin-inline:auto;
+  filter:drop-shadow(0 26px 55px rgba(0,0,0,.65));
+}
+.hero-foto figcaption{
+  text-align:center;font-family:var(--fonte-titulo);font-style:italic;
+  color:var(--texto-suave);font-size:.95rem;margin-top:18px;
+}
+
+/* ============================================================
+   FAIXA DE CONFIANÇA
+   ============================================================ */
+.faixa{border-block:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)}
+.faixa-interno{
+  display:grid;grid-template-columns:1fr;gap:14px;padding:22px 0;
+}
+.faixa-item{display:flex;align-items:center;gap:11px;font-size:.93rem;color:var(--texto-suave)}
+.faixa-item svg{color:var(--dourado);flex:none}
+.faixa-item b{color:var(--texto);font-weight:700}
+
+/* ============================================================
+   SEÇÕES
+   ============================================================ */
+.secao{padding:clamp(52px,6.5vw,88px) 0}
+.secao-cabeca{margin-bottom:clamp(32px,4.5vw,52px)}
+.secao-cabeca h2{margin-bottom:18px;max-width:22ch}
+
+/* números */
+.numeros-grade{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.numero{
+  background:var(--vidro);border:1px solid var(--vidro-borda);border-radius:var(--raio);
+  padding:clamp(20px,3vw,30px);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.numero-forte{
+  font-family:var(--fonte-titulo);font-size:clamp(2rem,4.6vw,2.9rem);
+  color:var(--dourado);line-height:1;margin-bottom:10px;font-weight:600;
+}
+.numero p{margin:0;color:var(--texto-suave);font-size:.95rem;line-height:1.55}
+
+/* história */
+.historia-grade{display:grid;gap:clamp(28px,4.5vw,56px);align-items:center}
+.historia-texto p{color:var(--texto-suave);font-size:1.05rem;line-height:1.8;margin:0 0 18px;max-width:60ch}
+.historia-texto p.destaque{
+  font-family:var(--fonte-titulo);font-style:italic;font-size:clamp(1.28rem,2.3vw,1.62rem);
+  color:var(--texto);line-height:1.45;
+}
+.historia-citacao{
+  border-left:2px solid var(--dourado);padding:6px 0 6px 22px;margin:26px 0 0;
+  font-family:var(--fonte-titulo);font-style:italic;font-size:1.18rem;color:var(--texto);
+}
+/* história: recorte fechado nos rostos (a arte tem bordas esmaecidas,
+   então o corte entra para dentro — sem molduras estranhas) */
+.historia-foto{
+  margin:0;border-radius:16px;aspect-ratio:4/3;max-width:480px;
+  background:url('capa-fundadora.png') no-repeat;
+  background-size:132%;background-position:42% 17%;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 26px 60px -28px rgba(0,0,0,.85);
+}
+
+/* segmentos */
+.segmentos-grade{display:grid;grid-template-columns:1fr;gap:13px}
+.segmento{
+  display:flex;gap:15px;align-items:flex-start;
+  background:var(--vidro);border:1px solid var(--vidro-borda);border-radius:18px;
+  padding:20px 21px;transition:transform .25s ease, border-color .25s ease, background-color .25s ease;
+}
+.segmento:hover{transform:translateY(-3px);border-color:var(--vidro-borda-forte);background:var(--vidro-forte)}
+.segmento-icone{
+  flex:none;width:44px;height:44px;border-radius:12px;
+  background:var(--dourado-fundo);border:1px solid rgba(239,207,146,.25);
+  display:grid;place-items:center;color:var(--dourado);
+}
+.segmento h3{font-family:var(--fonte);font-size:1.02rem;font-weight:700;letter-spacing:0;margin-bottom:5px}
+.segmento p{margin:0;color:var(--texto-suave);font-size:.92rem;line-height:1.55}
+
+/* processo */
+.processo-grade{display:grid;grid-template-columns:1fr;gap:13px}
+.passo{
+  position:relative;padding:24px 22px 24px 78px;
+  background:rgba(255,255,255,.035);border:1px solid var(--vidro-borda);border-radius:18px;
+}
+.passo-num{
+  position:absolute;left:22px;top:22px;
+  font-family:var(--fonte-titulo);font-size:1.55rem;color:var(--dourado);opacity:.85;line-height:1;
+}
+.passo h3{font-family:var(--fonte);font-size:1.04rem;font-weight:700;letter-spacing:0;margin-bottom:6px}
+.passo p{margin:0;color:var(--texto-suave);font-size:.94rem;line-height:1.6}
+
+/* CTA final */
+.cta{padding:clamp(20px,3vw,32px) 0 clamp(56px,8vw,96px)}
+.cta-cartao{
+  position:relative;overflow:hidden;
+  background:linear-gradient(155deg, rgba(184,80,31,.22), rgba(255,255,255,.05) 55%);
+  border:1px solid rgba(239,207,146,.28);border-radius:28px;
+  padding:clamp(32px,5.5vw,64px);text-align:center;
+  box-shadow:var(--sombra);
+}
+.cta-cartao::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 300px at 50% -20%, rgba(239,207,146,.16), transparent 70%);
+}
+.cta-cartao h2{margin:0 auto 16px;max-width:15ch}
+.cta-cartao p{color:var(--texto-suave);max-width:52ch;margin:0 auto 30px;font-size:1.05rem}
+.cta-acoes{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center}
+.cta-nota{margin:20px 0 0;font-size:.9rem;color:var(--texto-suave)}
+.cta-whats{
+  display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+  color:var(--dourado);font-weight:600;font-size:.94rem;text-decoration:none;
+}
+.cta-whats:hover{text-decoration:underline}
+
+/* ============================================================
+   RODAPÉ
+   ============================================================ */
+.rodape{border-top:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);padding:36px 0 30px}
+.rodape-grade{display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:space-between}
+.rodape-marca img{height:42px;width:auto}
+.rodape-info{color:var(--texto-suave);font-size:.9rem;line-height:1.7}
+.rodape-links{display:flex;flex-wrap:wrap;gap:20px}
+.rodape-links a{color:var(--texto-suave);text-decoration:none;font-size:.92rem;font-weight:600}
+.rodape-links a:hover{color:var(--dourado)}
+.rodape-fim{
+  margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);
+  color:rgba(198,194,186,.72);font-size:.82rem;
+}
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+@media (min-width:720px){
+  .faixa-interno{grid-template-columns:repeat(2,1fr);gap:18px}
+  .numeros-grade{grid-template-columns:repeat(4,1fr)}
+  .segmentos-grade{grid-template-columns:repeat(2,1fr)}
+  .processo-grade{grid-template-columns:repeat(2,1fr)}
+}
+/* no celular o logo já está no topo: o chip do hero só aparece em telas maiores */
+@media (max-width:719px){
+  .hero-chip{display:none}
+}
+@media (min-width:960px){
+  .topo-links{display:flex}
+  .hero-grade{grid-template-columns:1.06fr .94fr}
+  .historia-grade{grid-template-columns:.92fr 1.08fr}
+  .faixa-interno{grid-template-columns:repeat(4,1fr);gap:12px}
+  .segmentos-grade{grid-template-columns:repeat(3,1fr)}
+  .processo-grade{grid-template-columns:repeat(4,1fr)}
+}
+
+/* revelar seções ao rolar (sem movimento quando pedido) */
+.revelar{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+.revelar.visivel{opacity:1;transform:none}
+/* segurança: sem JS ou depois de 3s, tudo fica visível */
+html.sem-js .revelar{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .revelar{opacity:1;transform:none;transition:none}
+  .btn:hover,.segmento:hover{transform:none}
+  *{animation-duration:.01ms!important}
+}
+</style>
+
+<!-- Meta Pixel Code (1863444494824308) -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1863444494824308');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1863444494824308&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+
+<body>
+<a class="skip-link" href="#conteudo">Ir direto para o conteúdo</a>
+
+<!-- ===================== TOPO ===================== -->
+<header class="topo">
+  <div class="topo-interno">
+    <a class="topo-marca" href="#topo" aria-label="Cassarotti Foods — início">
+      <img src="logo-cassarotti-claro.png" alt="Cassarotti Foods" width="152" height="86">
+    </a>
+    <nav class="topo-links" aria-label="Seções da página">
+      <a href="#historia">A Cassarotti</a>
+      <a href="#segmentos">Para quem</a>
+      <a href="#processo">Como funciona</a>
+    </nav>
+    <div class="topo-acoes">
+      <a class="btn btn-primario btn-topo" href="/formulario?direto=1">Quero uma proposta</a>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo">
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="topo">
+    <div class="wrap hero-grade">
+      <div>
+        <div class="hero-chip">
+          <img src="logo-cassarotti-claro.png" alt="Cassarotti Foods" width="152" height="86">
+        </div>
+        <p class="hero-eyebrow">Refeições coletivas · desde 1997 · Cornélio Procópio/PR</p>
+        <h1>Quem serve muita gente <em>não pode errar</em> na cozinha.</h1>
+        <p class="hero-sub">
+          Há quase 30 anos alimentando empresas, hospitais, escolas, canteiros de obra,
+          o setor público e grandes eventos em todo o Brasil. Estrutura nacional,
+          cuidado de quem começou na cozinha de casa.
+        </p>
+        <div class="hero-acoes">
+          <a class="btn btn-primario btn-grande" href="/formulario?direto=1">
+            Quero receber uma proposta
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-fantasma" href="#historia">Conhecer a Cassarotti</a>
+        </div>
+        <p class="hero-nota">Leva cerca de 1 minuto. Sem compromisso — o retorno é pelo WhatsApp.</p>
+      </div>
+
+      <figure class="hero-foto">
+        <img src="capa-fundadora.png" width="491" height="648"
+             alt="Dona Aparecida, fundadora da Cassarotti Foods, ao lado de uma criança, ambas de uniforme da empresa">
+        <figcaption>A história começou em 1997, na cozinha de Dona Aparecida.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== FAIXA DE CONFIANÇA ===================== -->
+  <section class="faixa" aria-label="Destaques da Cassarotti Foods">
+    <div class="wrap faixa-interno">
+      <p class="faixa-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+        <span><b>72 milhões</b> de refeições por ano</span>
+      </p>
+      <p class="faixa-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg>
+        <span>Certificações <b>ISO 9001 · 14001 · 22000 · 45001</b></span>
+      </p>
+      <p class="faixa-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <span>Cozinhas móveis e frota <b>própria</b></span>
+      </p>
+      <p class="faixa-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18"/><path d="M12 3a15 15 0 0 0 0 18"/></svg>
+        <span>Atendimento em <b>todo o Brasil</b></span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== NÚMEROS ===================== -->
+  <section class="secao">
+    <div class="wrap">
+      <div class="secao-cabeca revelar">
+        <p class="secao-rotulo"><span>01</span> A Cassarotti em números</p>
+        <h2>Escala de quem <em>já provou</em> que dá conta.</h2>
+      </div>
+      <div class="numeros-grade revelar">
+        <div class="numero">
+          <div class="numero-forte">1997</div>
+          <p>Ano de fundação, na cozinha de Dona Aparecida, em Cornélio Procópio/PR.</p>
+        </div>
+        <div class="numero">
+          <div class="numero-forte">72 mi</div>
+          <p>Refeições servidas por ano para empresas, hospitais, escolas e eventos.</p>
+        </div>
+        <div class="numero">
+          <div class="numero-forte">4 ISO</div>
+          <p>Qualidade, meio ambiente, segurança dos alimentos e saúde ocupacional.</p>
+        </div>
+        <div class="numero">
+          <div class="numero-forte">Brasil</div>
+          <p>Cozinhas móveis e frota própria para levar a operação até o seu projeto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HISTÓRIA ===================== -->
+  <section class="secao" id="historia">
+    <div class="wrap historia-grade">
+      <figure class="historia-foto revelar" role="img"
+              aria-label="Dona Aparecida, fundadora da Cassarotti Foods, ao lado de uma criança, ambas de uniforme da empresa"></figure>
+      <div class="historia-texto revelar">
+        <p class="secao-rotulo"><span>02</span> Nossa história</p>
+        <h2>Começou na cozinha de casa. <em>Nunca saiu de lá.</em></h2>
+        <p class="destaque" style="margin-top:22px">
+          Em 1997, Dona Aparecida começou servindo refeições feitas com o mesmo cuidado
+          de quem alimenta a própria família.
+        </p>
+        <p>
+          De lá para cá, a Cassarotti Foods cresceu alimentando canteiros de obra,
+          indústrias, hospitais, escolas e grandes eventos em todo o Brasil — sem abrir
+          mão do princípio simples que virou marca registrada: comer bem é questão de
+          respeito por quem trabalha, estuda e se cuida.
+        </p>
+        <p>
+          Hoje somos uma operação com estrutura nacional: cozinhas móveis, frota própria,
+          processos auditados e certificações ISO 9001, 14001, 22000 e 45001. A escala
+          mudou. O cuidado, não.
+        </p>
+        <p class="historia-citacao">
+          “Quem serve muita gente não pode errar na cozinha.”
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SEGMENTOS ===================== -->
+  <section class="secao" id="segmentos">
+    <div class="wrap">
+      <div class="secao-cabeca revelar">
+        <p class="secao-rotulo"><span>03</span> Para quem</p>
+        <h2>Uma operação para cada <em>tipo de gente</em>.</h2>
+        <p class="lead" style="margin-top:16px">
+          Do refeitório de fábrica à maca de um hospital, da merenda escolar ao palco
+          de um grande evento — cada operação tem seu próprio formato.
+        </p>
+      </div>
+
+      <div class="segmentos-grade revelar">
+        <article class="segmento">
+          <div class="segmento-icone">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/><path d="M4 13h16"/></svg>
+          </div>
+          <div>
+            <h3>Empresas e indústrias</h3>
+            <p>Refeitórios corporativos com cardápio ajustado à rotina de cada turno.</p>
+          </div>
+        </article>
+
+        <article class="segmento">
+          <div class="segmento-icone">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="5"/></svg>
+          </div>
+          <div>
+            <h3>Hospitais e saúde</h3>
+            <p>Alimentação hospitalar para pacientes, equipes e acompanhantes.</p>
+          </div>
+        </article>
+
+        <article class="segmento">
+          <div class="segmento-icone">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5-9-5z"/><path d="M7 11.5V16c0 1.5 2.5 3 5 3s5-1.5 5-3v-4.5"/></svg>
+          </div>
+          <div>
+            <h3>Escolas e creches</h3>
+            <p>Merenda escolar com segurança alimentar e nutrição para cada faixa etária.</p>
+          </div>
+        </article>
+
+        <article class="segmento">
+          <div class="segmento-icone">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M6 21V8l6-5 6 5v13"/><path d="M10 21v-6h4v6"/></svg>
+          </div>
+          <div>
+            <h3>Canteiros de obra</h3>
+            <p>Cozinhas móveis que montam operação completa onde o projeto está.</p>
+          </div>
+        </article>
+
+        <article class="segmento">
+          <div class="segmento-icone">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20c1.5-3 4-4.5 8-4.5s6.5 1.5 8 4.5"/><circle cx="12" cy="8.5" r="3.5"/><path d="M18 3l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z"/></svg>
+          </div>
+          <div>
+            <h3>Grandes eventos</h3>
+            <p>Alimentação em escala para eventos, festivais e operações temporárias.</p>
+          </div>
+        </article>
+
+        <article class="segmento">
+          <div class="segmento-icone">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="7" width="13" height="9" rx="2"/><path d="M14.5 10h3.2l2.8 3v3h-6z"/><circle cx="6" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></svg>
+          </div>
+          <div>
+            <h3>Transporte de refeições</h3>
+            <p>Marmitas e refeições entregues com temperatura e qualidade controladas.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESSO ===================== -->
+  <section class="secao" id="processo">
+    <div class="wrap">
+      <div class="secao-cabeca revelar">
+        <p class="secao-rotulo"><span>04</span> Como funciona</p>
+        <h2>Do primeiro contato ao <em>prato servido</em>.</h2>
+      </div>
+
+      <div class="processo-grade revelar">
+        <article class="passo">
+          <div class="passo-num">1</div>
+          <h3>Entendimento</h3>
+          <p>Você conta como é a operação hoje — em cinco perguntas, cerca de 1 minuto.</p>
+        </article>
+        <article class="passo">
+          <div class="passo-num">2</div>
+          <h3>Proposta</h3>
+          <p>Nosso comercial monta o dimensionamento, o cardápio e o formato ideal.</p>
+        </article>
+        <article class="passo">
+          <div class="passo-num">3</div>
+          <h3>Implantação</h3>
+          <p>Equipe, estrutura, cozinhas móveis e logística entram em campo.</p>
+        </article>
+        <article class="passo">
+          <div class="passo-num">4</div>
+          <h3>Acompanhamento</h3>
+          <p>Qualidade, segurança alimentar e satisfação medidas de forma contínua.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA FINAL ===================== -->
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-cartao revelar">
+        <h2>Vamos dimensionar <em>a sua operação</em>?</h2>
+        <p>
+          Conte o que você precisa em refeições por dia e nossa equipe comercial
+          retorna pelo WhatsApp com uma proposta sob medida.
+        </p>
+        <div class="cta-acoes">
+          <a class="btn btn-primario btn-grande" href="/formulario?direto=1">
+            Falar com a equipe
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>
+        </div>
+        <p class="cta-nota">Leva cerca de 1 minuto. Sem compromisso.</p>
+        <a class="cta-whats" href="https://wa.me/5543991662424" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>
+          Prefere conversar agora? Chame no WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== RODAPÉ ===================== -->
+<footer class="rodape">
+  <div class="wrap">
+    <div class="rodape-grade">
+      <div>
+        <div class="rodape-marca">
+          <img src="logo-cassarotti-claro.png" alt="Cassarotti Foods" width="152" height="86">
+        </div>
+        <p class="rodape-info">
+          Refeições coletivas desde 1997<br>
+          Cornélio Procópio/PR · atendimento em todo o Brasil
+        </p>
+      </div>
+      <nav class="rodape-links" aria-label="Links do rodapé">
+        <a href="/formulario?direto=1">Pedir proposta</a>
+        <a href="https://wa.me/5543991662424" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#historia">A Cassarotti</a>
+      </nav>
+    </div>
+    <p class="rodape-fim">© <span id="ano">2026</span> Cassarotti Foods. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   Comportamento leve: revelar seções ao rolar + analytics.
+   Nada aqui é essencial — sem JS a página continua legível.
+   ============================================================ */
+(function () {
+  var raiz = document.documentElement;
+  raiz.classList.remove('sem-js');
+
+  document.getElementById('ano').textContent = new Date().getFullYear();
+
+  /* analytics silencioso (nunca pode quebrar a página) */
+  function evento (tipo) {
+    try {
+      fetch('/api/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tipo,
+          pagina: window.location.href,
+          referrer: document.referrer || ''
+        })
+      }).catch(function () {});
+    } catch (e) {}
+  }
+  evento('lp_view');
+
+  /* repassa a origem (utm_*) para o formulário, para o painel saber de onde veio o lead */
+  var busca = window.location.search;
+  if (busca.length > 1) {
+    document.querySelectorAll('a[href^="/formulario"]').forEach(function (a) {
+      a.href = a.href + (a.href.indexOf('?') > -1 ? '&' : '?') + busca.slice(1);
+    });
+  }
+
+  document.querySelectorAll('a[href^="/formulario"]').forEach(function (a) {
+    a.addEventListener('click', function () { evento('lp_cta_click'); });
+  });
+
+  /* revelar blocos ao rolar */
+  var alvos = document.querySelectorAll('.revelar');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    alvos.forEach(function (el) { el.classList.add('visivel'); });
+  } else {
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visivel'); obs.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    alvos.forEach(function (el) { obs.observe(el); });
+    /* segurança: nada pode ficar invisível para sempre */
+    window.setTimeout(function () {
+      alvos.forEach(function (el) { el.classList.add('visivel'); });
+    }, 3000);
+  }
+})();
+</script>
+</body>
+</html>
