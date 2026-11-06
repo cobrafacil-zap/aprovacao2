@@ -884,6 +884,26 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
 <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=11284833&fmt=gif" />
 </noscript>
 <!-- End LinkedIn Insight Tag -->
+
+<!-- Google Tag Manager -->
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-M8DJDVHS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google Ads (17030103726) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17030103726"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-17030103726', {
+    'conversion_label': 'R5V-CKid8o4bEK6Fy7g_'
+  });
+</script>
 </head>
 
 <body class="capa-aberta">
@@ -1857,6 +1877,14 @@ async function processarEnvio() {
   $('#btnEnviar').disabled = false;
 
   if (sucesso) {
+    /* disparo de conversão no Google Ads */
+    try {
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-17030103726/R5V-CKid8o4bEK6Fy7g_',
+        value: 1,
+        currency: 'BRL'
+      });
+    } catch (e) { /* google ads nunca deve quebrar o formulário */ }
     try { localStorage.removeItem(CHAVE_PENDENTE); } catch (e) {}
     $('#erroEnvio').classList.remove('visivel');
     mostrarAgradecimento();
