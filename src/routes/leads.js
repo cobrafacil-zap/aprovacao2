@@ -5,6 +5,9 @@
  *   /api/admin/*           → painel administrativo (exige sessão)
  */
 import express from 'express';
+import { createWriteStream, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+import archiver from 'archiver';
 import { read, write, update, id, agora, eventoAdd, eventoLista } from '../lib/db.js';
 import { criarSessao, destruirSessao, isSessaoAdmin, requireAdmin } from '../lib/auth.js';
 import { resumo } from '../lib/analytics.js';
@@ -266,6 +269,49 @@ router.post('/admin/whatsapp-teste', async (req, res) => {
 router.get('/admin/eventos', async (req, res) => {
   const eventos = await eventoLista(200);
   res.json({ eventos: eventos.slice(-30).reverse() });
+});
+
+/* ============================================================
+   EXPORTAÇÃO DO PROJETO (.zip)
+   ============================================================ */
+const EXCLUIDOS = new Set([
+  'node_modules', 'data', '.env', '.env.example', '.git', '.vercel',
+  'package-lock.json',
+]);
+
+function* listarArquivos(dir, base = '') {
+  for (const entrada of readdirSync(dir, { withFileTypes: true })) {
+    if (EXCLUIDOS.has(entrada.name)) continue;
+    const caminhoCompleto = join(dir, entrada.name);
+    const caminhoBase = base ? `${base}/${entrada.name}` : entrada.name;
+    if (entrada.isDirectory()) {
+      yield* listarArquivos(caminhoCompleto, caminhoBase);
+    } else {
+      yield { caminho: caminhoCompleto, base: caminhoBase };
+    }
+  }
+}
+
+router.get('/admin/exportar', requireAdmin, (req, res) => {
+  const raiz = process.cwd();
+  const arquivoZip = 'cassarotti-leads-export.zip';
+
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', `attachment; filename="${arquivoZip}"`);
+
+  const compactar = archiver('zip', { zlib: { level: 6 } });
+  compactar.pipe(res);
+
+  for (const { caminho, base } of listarArquivos(raiz)) {
+    compactar.file(caminho, { name: base });
+  }
+
+  compactar.on('error', (err) => {
+    console.error('[exportar]', err);
+    if (!res.headersSent) res.status(500).json({ error: 'erro ao gerar exportação' });
+  });
+
+  compactar.finalize();
 });
 
 export default router;

@@ -620,6 +620,30 @@ $('#btn-salvar-senha').addEventListener('click', async () => {
   aviso('Senha do painel atualizada.', '#aviso-senha');
 });
 
+/* ================= EXPORTAR PROJETO ================= */
+$('#btn-exportar-projeto').addEventListener('click', async () => {
+  const el = $('#aviso-exportacao');
+  el.textContent = 'Gerando o arquivo .zip...';
+  el.classList.remove('oculto');
+  try {
+    const res = await fetch('/api/admin/exportar', { credentials: 'same-origin' });
+    if (!res.ok) throw new Error(`erro ${res.status}`);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'cassarotti-leads-export.zip';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    el.textContent = 'Projeto exportado com sucesso.';
+  } catch (e) {
+    el.textContent = `Falha ao exportar: ${e.message}`;
+  }
+  setTimeout(() => el.classList.add('oculto'), 7000);
+});
+
 function aviso(texto, alvo = '#aviso-config') {
   const el = $(alvo);
   el.textContent = texto;
