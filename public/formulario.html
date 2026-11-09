@@ -1814,6 +1814,18 @@ function montarMensagemWhats() {
 }
 
 function mostrarAgradecimento() {
+  /* momento exato em que a pessoa CHEGA na tela de obrigado.
+     Aqui disparam os dois eventos de conversão do Meta:
+       1) "Lead"  → evento padrão do Meta (otimização da campanha)
+       2) "Obrigado" → evento personalizado (base da conversão
+          personalizada no Gerenciador de Eventos) */
+  try {
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'Lead');
+      window.fbq('trackCustom', 'Obrigado', { conteudo: 'formulario-cassarotti' });
+    }
+  } catch (e) { /* meta nunca deve quebrar o formulário */ }
+
   const primeiroNome = (dados.nome || '').trim().split(/\s+/)[0] || '';
   $('#agradeceTitulo').textContent = primeiroNome ? `Obrigado, ${primeiroNome}!` : 'Obrigado!';
 
@@ -1885,11 +1897,6 @@ async function processarEnvio() {
         currency: 'BRL'
       });
     } catch (e) { /* google ads nunca deve quebrar o formulário */ }
-
-    /* evento padrão "Lead" no Meta Pixel */
-    try {
-      if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
-    } catch (e) { /* meta nunca deve quebrar o formulário */ }
 
     try { localStorage.removeItem(CHAVE_PENDENTE); } catch (e) {}
     $('#erroEnvio').classList.remove('visivel');
