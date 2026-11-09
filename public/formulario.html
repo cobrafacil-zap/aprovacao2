@@ -1877,7 +1877,7 @@ async function processarEnvio() {
   $('#btnEnviar').disabled = false;
 
   if (sucesso) {
-    /* disparo de conversão no Google Ads */
+    /* conversão no Google Ads */
     try {
       window.gtag('event', 'conversion', {
         send_to: 'AW-17030103726/R5V-CKid8o4bEK6Fy7g_',
@@ -1885,6 +1885,12 @@ async function processarEnvio() {
         currency: 'BRL'
       });
     } catch (e) { /* google ads nunca deve quebrar o formulário */ }
+
+    /* evento padrão "Lead" no Meta Pixel */
+    try {
+      if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
+    } catch (e) { /* meta nunca deve quebrar o formulário */ }
+
     try { localStorage.removeItem(CHAVE_PENDENTE); } catch (e) {}
     $('#erroEnvio').classList.remove('visivel');
     mostrarAgradecimento();
