@@ -143,6 +143,7 @@ async function carregarMetricas() {
   renderizarGrafico(m);
 
   $('#lista-origens').innerHTML = barrasVerticais(m.origens);
+  $('#lista-canais').innerHTML = barrasVerticais(m.canais);
   $('#lista-segmentos').innerHTML = barrasVerticais(m.segmentos);
   $('#lista-colaboradores').innerHTML = barrasVerticais(m.colaboradores);
   $('#lista-campanhas').innerHTML = barrasVerticais(m.campanhas);
@@ -465,16 +466,14 @@ function barrasVerticais(itens) {
 /* ================= LEADS ================= */
 let cacheLeads = [];
 
-/* resumo de onde o lead veio (campanha/fonte) para a tabela */
+/* resumo de onde o lead veio: canal (LinkedIn Ads, Meta Ads, Tráfego direto...)
+   com a campanha como detalhe */
 function resumoOrigem(l) {
-  const o = l.origem || {};
-  const campanha = String(o.utm_campaign || '').trim();
-  const fonte = String(o.utm_source || '').trim().replace(/[_-]+/g, ' ');
-  const principal = campanha || fonte || 'acesso direto';
-  const detalhe = campanha && fonte ? fonte : '';
-  return detalhe
-    ? `${escapeHtml(principal)}<br><span style="color:#5C6B62;font-size:.78rem">${escapeHtml(detalhe)}</span>`
-    : escapeHtml(principal);
+  const canal = l.canal || 'Tráfego direto';
+  const campanha = String(l.origem?.utm_campaign || '').trim();
+  return campanha
+    ? `${escapeHtml(canal)}<br><span style="color:#5C6B62;font-size:.78rem">${escapeHtml(campanha)}</span>`
+    : escapeHtml(canal);
 }
 
 async function carregarLeads() {

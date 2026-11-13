@@ -11,6 +11,7 @@
  *     EVOLUTION_API_URL / EVOLUTION_API_KEY / EVOLUTION_INSTANCE
  */
 import { read, write } from './db.js';
+import { canalDeOrigem, campanhaDaOrigem } from './origem.js';
 
 /* as credenciais podem vir do env ou do painel; a leitura é assíncrona */
 let credenciaisCache = null;
@@ -187,20 +188,16 @@ function formatarTelefone(bruto) {
   return `${ddi}(${ddd}) ${formatado}`;
 }
 
-/** De onde veio o lead (campanha, fonte, página) — só o que existir. */
+/** De onde veio o lead: canal (LinkedIn Ads, Meta Ads, Tráfego direto...), campanha e página. */
 function blocoOrigem(lead) {
   const o = lead?.origem || {};
-  const limpar = (v) => String(v || '').trim().replace(/[_-]+/g, ' ');
-  const campanha = limpar(o.utm_campaign);
-  const fonte = limpar(o.utm_source);
-  const midia = limpar(o.utm_medium);
+  const canal = canalDeOrigem(o);
+  const campanha = campanhaDaOrigem(o);
   const pagina = String(o.pagina || '').trim();
 
-  const linhas = [];
+  const linhas = [`• Canal: ${canal}`];
   if (campanha) linhas.push(`• Campanha: ${campanha}`);
-  if (fonte || midia) linhas.push(`• Fonte: ${[fonte, midia].filter(Boolean).join(' · ')}`);
   if (pagina) linhas.push(`• Página: ${pagina}`);
-  if (!linhas.length) linhas.push('• Acesso direto (sem campanha)');
   return linhas;
 }
 

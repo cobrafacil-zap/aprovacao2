@@ -9,6 +9,7 @@ import { createWriteStream, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import archiver from 'archiver';
 import { read, write, update, id, agora, eventoAdd, eventoLista } from '../lib/db.js';
+import { canalDeOrigem } from '../lib/origem.js';
 import { criarSessao, destruirSessao, isSessaoAdmin, requireAdmin } from '../lib/auth.js';
 import { resumo } from '../lib/analytics.js';
 import {
@@ -144,6 +145,8 @@ router.get('/admin/leads', async (req, res) => {
       [l.nome_completo, l.empresa, l.email, l.whatsapp, l.segmento, l.origem?.utm_campaign]
         .some((v) => String(v || '').toLowerCase().includes(termo)));
   }
+  /* canal ("de onde veio": LinkedIn Ads, Meta Ads, Tráfego direto...) */
+  lista = lista.map((l) => ({ ...l, canal: canalDeOrigem(l.origem) }));
   res.json({ leads: lista });
 });
 
@@ -175,7 +178,7 @@ router.get('/admin/leads.csv', async (req, res) => {
   const leads = await read('leads', []);
   const colunas = [
     'criadoEm', 'status', 'nome_completo', 'empresa', 'segmento', 'colaboradores',
-    'email', 'whatsapp', 'origem_campanha', 'origem_fonte', 'origem_midia',
+    'email', 'whatsapp', 'origem_canal', 'origem_campanha', 'origem_fonte', 'origem_midia',
     'origem_pagina', 'origem_referrer', 'pontuacao_prioridade', 'classificacao_prioridade',
   ];
   const escapar = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
@@ -183,6 +186,7 @@ router.get('/admin/leads.csv', async (req, res) => {
     const o = l.origem || {};
     const valores = {
       ...l,
+      origem_canal: canalDeOrigem(o),
       origem_campanha: o.utm_campaign || '',
       origem_fonte: o.utm_source || '',
       origem_midia: o.utm_medium || '',

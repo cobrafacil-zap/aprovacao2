@@ -124,17 +124,30 @@
 
       <div class="grade-2">
         <div class="painel-card">
-          <h2>Origem do tráfego
+          <h2>Origem dos acessos
             <span class="com-ajuda">
-              <button type="button" class="btn-ajuda" aria-label="O que é origem do tráfego?">?</button>
+              <button type="button" class="btn-ajuda" aria-label="O que é origem dos acessos?">?</button>
               <span class="tooltip-ajuda" role="tooltip">
-                <strong>O que é:</strong> de onde vieram os visitantes do formulário.<br>
-                <strong>Como é calculada:</strong> pela campanha (UTM) quando existe; senão, pelo site de origem (referrer); sem ambos, conta como acesso direto.<br>
+                <strong>O que é:</strong> de onde vieram os visitantes do formulário, por canal (LinkedIn Ads, Meta Ads, Tráfego direto etc.).<br>
+                <strong>Como é calculada:</strong> pela campanha (UTM) quando existe; senão, pelo site de origem (referrer); sem ambos, conta como tráfego direto.<br>
                 <strong>Por que importa:</strong> mostra quais canais trazem público interessado.
               </span>
             </span>
           </h2>
           <div class="lista-simples" id="lista-origens"></div>
+        </div>
+        <div class="painel-card">
+          <h2>De onde vieram os leads
+            <span class="com-ajuda">
+              <button type="button" class="btn-ajuda" aria-label="O que é de onde vieram os leads?">?</button>
+              <span class="tooltip-ajuda" role="tooltip">
+                <strong>O que é:</strong> o canal que gerou cada lead recebido (LinkedIn Ads, Meta Ads, Google Ads, Tráfego direto etc.).<br>
+                <strong>Como é calculada:</strong> mesma classificação de canal da origem dos acessos, mas contando só quem enviou o formulário.<br>
+                <strong>Por que importa:</strong> mostra qual canal traz cliente potencial — não só visita.
+              </span>
+            </span>
+          </h2>
+          <div class="lista-simples" id="lista-canais"></div>
         </div>
         <div class="painel-card">
           <h2>Segmentos</h2>

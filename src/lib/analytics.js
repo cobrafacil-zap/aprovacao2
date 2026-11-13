@@ -12,6 +12,7 @@
  * verticais ativas) e origem (campanha/UTM/página).
  */
 import { read, eventoLista } from './db.js';
+import { canalDeOrigem } from './origem.js';
 
 const dia = (ts) => (ts ? String(ts).slice(0, 10) : '');
 const pct = (a, b) => (b ? Math.round((a / b) * 1000) / 10 : 0);
@@ -20,15 +21,8 @@ const soma = (lista, fn) => lista.reduce((s, x) => s + (fn(x) || 0), 0);
 /* nome legível da origem de um lead: campanha > fonte (UTM) > referrer > direto */
 function origemDoLead(l) {
   const o = l?.origem || {};
-  const limpar = (v) => String(v || '').trim().replace(/[_-]+/g, ' ');
-  const campanha = limpar(o.utm_campaign);
-  if (campanha) return campanha;
-  const fonte = limpar(o.utm_source);
-  if (fonte) return fonte;
-  if (o.referrer) {
-    try { return new URL(o.referrer, 'https://x').hostname.replace('www.', '').toLowerCase(); } catch { /* ignora */ }
-  }
-  return 'acesso direto';
+  const campanha = String(o.utm_campaign || '').trim();
+  return campanha || canalDeOrigem(o);
 }
 
 /* contagem por visitante único; eventos sem identificador contam individualmente
@@ -145,17 +139,11 @@ export async function resumo({ de, ate, dias = 14 } = {}) {
     });
   }
 
-  /* ---- origem do tráfego ---- */
+  /* ---- origem dos acessos e dos leads, por canal (LinkedIn Ads, Meta Ads, direto...) ---- */
   const origens = {};
   eventos.filter((e) => e.tipo === 'pageview').forEach((e) => {
-    let o = 'direto';
-    const utm = e.utm || {};
-    const fonte = utm.utm_source || utm.source;
-    if (fonte) o = String(fonte).toLowerCase();
-    else if (e.referrer) {
-      try { o = new URL(e.referrer, 'https://x').hostname.replace('www.', '').toLowerCase(); } catch { /* ignora */ }
-    }
-    origens[o] = (origens[o] || 0) + 1;
+    const canal = canalDeOrigem({ ...(e.utm || {}), referrer: e.referrer });
+    origens[canal] = (origens[canal] || 0) + 1;
   });
 
   return {
@@ -188,6 +176,7 @@ export async function resumo({ de, ate, dias = 14 } = {}) {
       { etapa: 'Leads qualificados', total: atual.leads_alta_prioridade },
     ],
     origens: Object.entries(origens).sort((a, b) => b[1] - a[1]).map(([nome, total]) => ({ nome, total })),
+    canais: contarPor(leads.map((l) => ({ canal: canalDeOrigem(l.origem) })), 'canal'),
     segmentos: contarPor(leads, 'segmento'),
     colaboradores: contarPor(leads, 'colaboradores'),
     campanhas: contarPor(leads.map((l) => ({ origem_lead: origemDoLead(l) })), 'origem_lead'),
