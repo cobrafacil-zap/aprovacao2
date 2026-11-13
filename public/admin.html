@@ -81,7 +81,7 @@
       </div>
 
       <div class="secao-metricas">
-        <h2 class="titulo-secao">Potencial comercial</h2>
+        <h2 class="titulo-secao">Empresas e oportunidades</h2>
         <div class="metrica-grid" id="cards-potencial"></div>
       </div>
 
@@ -141,12 +141,30 @@
           <div class="lista-simples" id="lista-segmentos"></div>
         </div>
         <div class="painel-card">
-          <h2>Prazo para começar</h2>
-          <div class="lista-simples" id="lista-prazos"></div>
+          <h2>Campanhas de origem
+            <span class="com-ajuda">
+              <button type="button" class="btn-ajuda" aria-label="O que é campanha de origem?">?</button>
+              <span class="tooltip-ajuda" role="tooltip">
+                <strong>O que é:</strong> de qual campanha de anúncios veio cada lead.<br>
+                <strong>Como é calculada:</strong> pela campanha (UTM) registrada no envio do formulário; sem campanha, conta como acesso direto.<br>
+                <strong>Por que importa:</strong> mostra qual anúncio está gerando oportunidades reais.
+              </span>
+            </span>
+          </h2>
+          <div class="lista-simples" id="lista-campanhas"></div>
         </div>
         <div class="painel-card">
-          <h2>Situação atual</h2>
-          <div class="lista-simples" id="lista-situacoes"></div>
+          <h2>Status dos leads
+            <span class="com-ajuda">
+              <button type="button" class="btn-ajuda" aria-label="O que é status dos leads?">?</button>
+              <span class="tooltip-ajuda" role="tooltip">
+                <strong>O que é:</strong> a situação de atendimento de cada lead no período.<br>
+                <strong>Como é calculada:</strong> contagem por status (novo, em contato, convertido, perdido), definido pela equipe na aba Leads.<br>
+                <strong>Por que importa:</strong> mostra o quanto da carteira já foi atendida.
+              </span>
+            </span>
+          </h2>
+          <div class="lista-simples" id="lista-status-leads"></div>
         </div>
       </div>
     </section>
@@ -170,9 +188,8 @@
           <table class="tabela">
             <thead>
               <tr>
-                <th>Data</th><th>Lead</th><th>Empresa</th><th>Segmento</th><th>Local</th>
-                <th>Funcionários</th><th>Refeições/dia</th><th>Prazo</th><th>Prioridade</th>
-                <th>Status</th><th></th>
+                <th>Data</th><th>Lead</th><th>Empresa</th><th>Segmento</th><th>Origem</th>
+                <th>Prioridade</th><th>Status</th><th></th>
               </tr>
             </thead>
             <tbody id="tabela-leads"></tbody>

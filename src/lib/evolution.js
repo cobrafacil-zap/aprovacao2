@@ -169,24 +169,65 @@ export async function listarGruposWhatsApp({ forcar = false } = {}) {
   return { grupos: [], erro: `a Evolution recusou a listagem (${erros.slice(0, 2).join(' · ')})` };
 }
 
-/** Mensagem de novo lead pro grupo (fatos, sem propaganda). */
+/** Telefone para leitura humana: 43999998888 → (43) 99999-8888 · 5543... → +55 (43) ... */
+function formatarTelefone(bruto) {
+  const n = String(bruto || '').replace(/\D/g, '');
+  if (n.length < 10) return String(bruto || '');
+  let ddi = '';
+  let local = n;
+  if (n.length > 11) {                 /* inclui DDI (ex.: 55...) */
+    ddi = `+${n.slice(0, n.length - 11)} `;
+    local = n.slice(-11);
+  }
+  const ddd = local.slice(0, 2);
+  const numero = local.slice(2);
+  const formatado = numero.length > 4
+    ? `${numero.slice(0, numero.length - 4)}-${numero.slice(-4)}`
+    : numero;
+  return `${ddi}(${ddd}) ${formatado}`;
+}
+
+/** De onde veio o lead (campanha, fonte, página) — só o que existir. */
+function blocoOrigem(lead) {
+  const o = lead?.origem || {};
+  const limpar = (v) => String(v || '').trim().replace(/[_-]+/g, ' ');
+  const campanha = limpar(o.utm_campaign);
+  const fonte = limpar(o.utm_source);
+  const midia = limpar(o.utm_medium);
+  const pagina = String(o.pagina || '').trim();
+
+  const linhas = [];
+  if (campanha) linhas.push(`• Campanha: ${campanha}`);
+  if (fonte || midia) linhas.push(`• Fonte: ${[fonte, midia].filter(Boolean).join(' · ')}`);
+  if (pagina) linhas.push(`• Página: ${pagina}`);
+  if (!linhas.length) linhas.push('• Acesso direto (sem campanha)');
+  return linhas;
+}
+
+/**
+ * Mensagem de novo lead pro grupo.
+ * Mostra SOMENTE os dados que o formulário atual coleta — nome, empresa,
+ * segmento, contatos e origem (de onde veio o lead) — sem campos vazios.
+ */
 export function mensagemNovoLead(lead) {
   const quando = new Date(lead?.criadoEm || Date.now())
-    .toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    .toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
   return [
-    '📥 *Novo lead — Cassarotti Foods*',
-    `${lead.nome_completo} · ${lead.empresa}`,
-    `${lead.segmento} · ${lead.papel_decisao || '—'}`,
-    `${lead.cidade}/${lead.estado} · ${quando}`,
+    '🟢 *NOVO LEAD — CASSAROTTI FOODS*',
+    '_Serviço de alimentação coletiva_',
     '',
-    `Funcionários: ${lead.funcionarios || '—'}`,
-    `Alimentações/dia: ${lead.porte_diario || '—'}`,
-    `Serviço: ${(lead.servicos_de_interesse || []).join(', ') || '—'}`,
-    `Prazo: ${lead.prazo_para_comecar || '—'}`,
+    `*Nome:* ${lead.nome_completo || '—'}`,
+    `*Empresa:* ${lead.empresa || '—'}`,
+    `*Segmento:* ${lead.segmento || '—'}`,
     '',
-    `WhatsApp: ${lead.whatsapp}`,
-    `E-mail: ${lead.email}`,
-    `Prioridade: ${lead.pontuacao_prioridade} pts (${lead.classificacao_prioridade})`,
+    `*E-mail:* ${lead.email || '—'}`,
+    `*WhatsApp:* ${formatarTelefone(lead.whatsapp)}`,
+    '',
+    '*De onde veio o lead:*',
+    ...blocoOrigem(lead),
+    '',
+    `*Recebido:* ${quando}`,
   ].join('\n');
 }
 

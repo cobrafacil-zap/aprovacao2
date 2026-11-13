@@ -1,28 +1,35 @@
 /**
- * Métricas de LEADS — adaptação do analytics do projeto oferta-fit
- * (que mede vendas) para o funil de qualificação da Cassarotti Foods.
+ * Métricas do funil de leads da Cassarotti Foods.
  *
- * Métricas medem coisas DIFERENTES e nunca são tratadas como equivalentes:
+ * Medem coisas DIFERENTES e nunca são tratadas como equivalentes:
  *   - lp_view      → acesso à página inicial (contagem de eventos)
  *   - pageview     → acesso à página do formulário (visitantes únicos)
  *   - form_start   → formulário iniciado (visitantes únicos)
  *   - lead_criado  → formulário enviado com sucesso (contagem de leads)
+ *
+ * Os campos considerados são os que o formulário atual coleta:
+ * nome, empresa, segmento, e-mail, WhatsApp, pontuação (segmento ×
+ * verticais ativas) e origem (campanha/UTM/página).
  */
 import { read, eventoLista } from './db.js';
-
-/* estimativa de pessoas por faixa — usada para somar o potencial diário */
-const MEIO_DAS_FAIXAS = {
-  'Até 100': 60,
-  '101 a 500': 300,
-  '501 a 2.000': 1250,
-  '2.001 a 5.000': 3500,
-  'Acima de 5.000': 6000,
-};
 
 const dia = (ts) => (ts ? String(ts).slice(0, 10) : '');
 const pct = (a, b) => (b ? Math.round((a / b) * 1000) / 10 : 0);
 const soma = (lista, fn) => lista.reduce((s, x) => s + (fn(x) || 0), 0);
-const estimar = (faixa) => MEIO_DAS_FAIXAS[faixa] || 0;
+
+/* nome legível da origem de um lead: campanha > fonte (UTM) > referrer > direto */
+function origemDoLead(l) {
+  const o = l?.origem || {};
+  const limpar = (v) => String(v || '').trim().replace(/[_-]+/g, ' ');
+  const campanha = limpar(o.utm_campaign);
+  if (campanha) return campanha;
+  const fonte = limpar(o.utm_source);
+  if (fonte) return fonte;
+  if (o.referrer) {
+    try { return new URL(o.referrer, 'https://x').hostname.replace('www.', '').toLowerCase(); } catch { /* ignora */ }
+  }
+  return 'acesso direto';
+}
 
 /* contagem por visitante único; eventos sem identificador contam individualmente
    (evita duplicidade de uma mesma sessão sem descartar eventos anônimos) */
@@ -73,8 +80,6 @@ function agregar(eventos, leads) {
   const inicios = distintos(formStarts);       // formulários iniciados (visitantes únicos)
 
   const pontuacoes = leads.map((l) => Number(l.pontuacao_prioridade) || 0);
-  const alimentacoesDia = soma(leads, (l) => estimar(l.porte_diario));
-  const funcionarios = soma(leads, (l) => estimar(l.funcionarios));
   const empresas = new Set(
     leads.map((l) => String(l.empresa || '').trim().toLowerCase()).filter(Boolean)
   ).size;
@@ -93,9 +98,6 @@ function agregar(eventos, leads) {
     pontuacao_media: leads.length
       ? Math.round((soma(pontuacoes, (p) => p) / leads.length) * 10) / 10
       : 0,
-    alimentacoes_dia: alimentacoesDia,
-    funcionarios,
-    alimentacoes_por_lead: leads.length ? Math.round(alimentacoesDia / leads.length) : 0,
     conversao: pct(leads.length, lpEntradas || (lpEntradas + formEntradas)),
     conversao_form: pct(leads.length, formEntradas),
     entrada_form_pct: pct(formEntradas, lpEntradas),
@@ -187,8 +189,7 @@ export async function resumo({ de, ate, dias = 14 } = {}) {
     ],
     origens: Object.entries(origens).sort((a, b) => b[1] - a[1]).map(([nome, total]) => ({ nome, total })),
     segmentos: contarPor(leads, 'segmento'),
-    estados: contarPor(leads, 'estado').slice(0, 10),
-    prazos: contarPor(leads, 'prazo_para_comecar'),
-    situacoes: contarPor(leads, 'situacao_atual'),
+    campanhas: contarPor(leads.map((l) => ({ origem_lead: origemDoLead(l) })), 'origem_lead'),
+    status_leads: contarPor(leads.map((l) => ({ status: l.status || 'novo' })), 'status'),
   };
 }

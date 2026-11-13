@@ -1,10 +1,10 @@
 # Cassarotti Foods — Landing page + Formulário de leads + Painel administrativo
 
 Landing page institucional em `/` (apresentação da Cassarotti, com chamada para o
-formulário), formulário interativo de qualificação de leads em `/formulario`
-(5 etapas, capa animada, tema de vidro escuro) e painel em `/admin` com métricas
-de entradas, leads e notificação de novos leads em um grupo do WhatsApp via
-**Evolution API**.
+formulário), formulário interativo de orçamento de alimentação coletiva em
+`/formulario` (3 etapas, capa animada, tema de vidro escuro) e painel em `/admin`
+com métricas de entradas, leads e notificação de novos leads em um grupo do
+WhatsApp via **Evolution API**.
 
 ## Como rodar
 
@@ -50,13 +50,58 @@ estão comentados no topo do `public/index.html` e do `<style>`.
 
 ## Métricas do painel
 
-Cards: **entradas na página** (sessões na landing), **entradas no formulário**,
-formulários iniciados, leads recebidos, alta prioridade, **refeições/dia
-(potencial)**, **funcionários (potencial)**, conversão e leads do último dia.
-Mais gráfico diário (página × formulário × leads), funil de qualificação
-(página → formulário → início → lead), origem do tráfego, segmentos e prazos.
-A aba **Leads** tem busca, filtro de status (novo / em contato / convertido /
+Cards: **visitas ao site** (sessões na landing), **acessos ao formulário**,
+formulários iniciados, leads recebidos, taxa de conversão, leads prioritários
+(segmento × verticais ativas), empresas interessadas, leads aguardando contato
+e convertidos. Mais gráfico diário, funil de qualificação (formulário → início →
+envio → qualificado), origem do tráfego, segmentos, **campanhas de origem**
+(UTM) e status dos leads.
+A aba **Leads** mostra contato, empresa, segmento, **origem (campanha)** e
+prioridade — com busca, filtro de status (novo / em contato / convertido /
 perdido) e exportação em CSV.
+
+Os dados do formulário atual são: nome, empresa, segmento, e-mail, WhatsApp e
+origem (campanha/UTM/página). A pontuação de prioridade é baseada no segmento:
+verticais ativas das campanhas (construção/obras, saúde, educação) = 100
+(classificação `alta`).
+
+## Rastreamento (pixels e eventos)
+
+Tudo já embutido nas páginas — basta subir o projeto. IDs atuais:
+
+| Ferramenta | ID | Onde dispara |
+| --- | --- | --- |
+| Meta Pixel | `1863444494824308` | `PageView` em todas as páginas; `Lead` + `Obrigado` (personalizado) na tela de obrigado |
+| LinkedIn Insight Tag | `11284833` | `PageView` em todas as páginas |
+| LinkedIn — conversão "Lead - Formulário Cassarotti" | `conversionId=32601289` | pixel de conversão na tela de obrigado (mesma conversão associada às campanhas) |
+| Google Tag Manager | `GTM-M8DJDVHS` | todas as páginas + evento `lead` no `dataLayer` na tela de obrigado |
+| Google Ads — conversão | `AW-17030103726` / `R5V-CKid8o4bEK6Fy7g_` | evento `conversion` quando o formulário é enviado |
+
+Eventos internos (`POST /api/track`): `lp_view`, `pageview`, `form_start`,
+`lp_cta_click` e `lead_criado` — alimentam as métricas do painel.
+
+## Exportar / instalar em um servidor novo
+
+1. **Exporte o projeto:** painel `/admin` → Configurações → "Baixar projeto (.zip)"
+   (inclui o `.env.example`; não inclui `data/`, `.env`, `node_modules`).
+2. **Instale:** `npm install && npm start` (ou deploy na Vercel com
+   `api/index.js` como entrypoint serverless).
+3. **Variáveis de ambiente:** copie `.env.example` para `.env` e preencha:
+   - `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` — **obrigatório em
+     produção** (sem isso os dados não persistem);
+   - `ADMIN_SENHA` — senha do painel;
+   - `EVOLUTION_API_URL` / `EVOLUTION_API_KEY` / `EVOLUTION_INSTANCE` —
+     notificação de leads no WhatsApp (também configurável no painel).
+4. **WhatsApp:** `/admin` → Configurações → "Carregar grupos" e escolher o grupo
+   que recebe os avisos (ou definir `EVOLUTION_GROUP_ID`).
+5. **Rastreamento:** os pixels da tabela acima já estão nas páginas. Se for
+   trocar de conta de anúncios, atualize os IDs em `public/index.html` e
+   `public/formulario.html` (busque por `1863444494824308`, `11284833`,
+   `32601289`, `GTM-M8DJDVHS`, `AW-17030103726`).
+6. **Teste de fogo:** envie um formulário de teste e confira (a) a mensagem no
+   grupo do WhatsApp, (b) o lead na aba Leads, (c) os eventos `Lead`/`lead`/
+   conversão no assistente de tags (Meta Eventos, Google Tag Assistant e
+   LinkedIn Campaign Manager).
 
 As somas de refeições/dia e funcionários usam o ponto médio de cada faixa
 respondida no formulário (ex.: `501 a 2.000` → 1.250) — são estimativas de

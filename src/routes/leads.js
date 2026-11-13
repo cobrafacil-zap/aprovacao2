@@ -47,20 +47,12 @@ router.post('/leads', async (req, res) => {
     nome_completo: String(b.nome_completo).trim(),
     empresa: String(b.empresa).trim(),
     segmento: b.segmento,
-    papel_decisao: b.papel_decisao || null,
-    funcionarios: b.funcionarios || null,
-    porte_diario: b.porte_diario || null,
-    estado: b.estado,
-    cidade: String(b.cidade || '').trim(),
-    servicos_de_interesse: Array.isArray(b.servicos_de_interesse) ? b.servicos_de_interesse : [],
-    situacao_atual: b.situacao_atual || null,
-    prazo_para_comecar: b.prazo_para_comecar || null,
     email: String(b.email).trim(),
     whatsapp: String(b.whatsapp).trim(),
     consentimento: true,
     pontuacao_prioridade: Number(b.pontuacao_prioridade) || 0,
     classificacao_prioridade: b.classificacao_prioridade || null,
-    origem: b.origem || null,
+    origem: b.origem || null,          // campanha/UTM/página — de onde veio o lead
   };
 
   await update('leads', [], (lista) => { lista.push(lead); return lista; });
@@ -148,7 +140,7 @@ router.get('/admin/leads', async (req, res) => {
   if (q) {
     const termo = String(q).toLowerCase();
     lista = lista.filter((l) =>
-      [l.nome_completo, l.empresa, l.email, l.whatsapp, l.cidade, l.estado, l.segmento]
+      [l.nome_completo, l.empresa, l.email, l.whatsapp, l.segmento, l.origem?.utm_campaign]
         .some((v) => String(v || '').toLowerCase().includes(termo)));
   }
   res.json({ leads: lista });
@@ -181,16 +173,24 @@ router.delete('/admin/leads/:id', async (req, res) => {
 router.get('/admin/leads.csv', async (req, res) => {
   const leads = await read('leads', []);
   const colunas = [
-    'criadoEm', 'status', 'nome_completo', 'empresa', 'segmento', 'papel_decisao',
-    'funcionarios', 'porte_diario', 'estado', 'cidade', 'servicos_de_interesse',
-    'situacao_atual', 'prazo_para_comecar', 'email', 'whatsapp',
-    'pontuacao_prioridade', 'classificacao_prioridade',
+    'criadoEm', 'status', 'nome_completo', 'empresa', 'segmento',
+    'email', 'whatsapp', 'origem_campanha', 'origem_fonte', 'origem_midia',
+    'origem_pagina', 'origem_referrer', 'pontuacao_prioridade', 'classificacao_prioridade',
   ];
   const escapar = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-  const linhas = [
-    colunas.join(','),
-    ...leads.map((l) => colunas.map((c) => escapar(Array.isArray(l[c]) ? l[c].join(' | ') : l[c])).join(',')),
-  ];
+  const linha = (l) => {
+    const o = l.origem || {};
+    const valores = {
+      ...l,
+      origem_campanha: o.utm_campaign || '',
+      origem_fonte: o.utm_source || '',
+      origem_midia: o.utm_medium || '',
+      origem_pagina: o.pagina || '',
+      origem_referrer: o.referrer || '',
+    };
+    return colunas.map((c) => escapar(valores[c])).join(',');
+  };
+  const linhas = [colunas.join(','), ...leads.map(linha)];
   res.setHeader('Content-Type', 'text/csv; charset=utf-8');
   res.setHeader('Content-Disposition', 'attachment; filename="leads-cassarotti.csv"');
   res.send('\ufeff' + linhas.join('\n'));
@@ -274,8 +274,10 @@ router.get('/admin/eventos', async (req, res) => {
 /* ============================================================
    EXPORTAÇÃO DO PROJETO (.zip)
    ============================================================ */
+/* Arquivos NÃO incluídos no .zip de exportação. O .env.example É incluído
+   de propósito: é o template de variáveis para instalar no servidor novo. */
 const EXCLUIDOS = new Set([
-  'node_modules', 'data', '.env', '.env.example', '.git', '.vercel',
+  'node_modules', 'data', '.env', '.git', '.vercel',
   'package-lock.json',
 ]);
 

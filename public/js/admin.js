@@ -81,23 +81,14 @@ const AJUDAS = {
     <strong>Como é calculada:</strong> (leads recebidos ÷ acessos ao formulário) × 100, no período selecionado. Sem acessos ao formulário, exibe “Sem dados”.<br>
     <strong>Por que importa:</strong> mede a efetividade do formulário em transformar interesse em contato.`,
   prioridade: `<strong>O que é:</strong> contatos classificados como de alto potencial comercial.<br>
-    <strong>Como é calculada:</strong> leads com pontuação ≥ 40, somando porte, prazo, papel na decisão, segmento, funcionários e situação atual.<br>
+    <strong>Como é calculada:</strong> leads cujo segmento bate com as verticais ativas das campanhas (construção/obras, saúde e educação) — pontuação 100; demais segmentos recebem pontuação menor.<br>
     <strong>Por que importa:</strong> indica as oportunidades mais quentes para priorizar o contato.`,
   empresas: `<strong>O que é:</strong> empresas únicas que enviaram formulário.<br>
     <strong>Como é calculada:</strong> contagem de nomes de empresa distintos entre os leads do período.<br>
     <strong>Por que importa:</strong> mostra o alcance real da captação, sem contar a mesma empresa duas vezes.`,
-  funcionarios: `<strong>O que é:</strong> estimativa do total de funcionários das empresas interessadas.<br>
-    <strong>Como é calculada:</strong> soma do ponto médio da faixa informada por cada lead (ex.: “101 a 500” conta como 300).<br>
-    <strong>Por que importa:</strong> dá a dimensão do tamanho das operações em negociação.`,
-  refeicoes: `<strong>O que é:</strong> potencial estimado de refeições por dia.<br>
-    <strong>Como é calculada:</strong> soma do ponto médio da faixa de refeições por dia informada por cada lead.<br>
-    <strong>Por que importa:</strong> aproxima o volume de operação que a Cassarotti pode vir a atender.`,
   aguardando: `<strong>O que é:</strong> leads ainda não contatados.<br>
     <strong>Como é calculada:</strong> leads do período com status “novo”.<br>
     <strong>Por que importa:</strong> cada lead sem contato é uma oportunidade esfriando.`,
-  propostas: `<strong>Situação:</strong> esta métrica ainda não é coletada — nenhum número é exibido até existir dado real.<br>
-    <strong>O que seria:</strong> contagem de leads com status “proposta enviada”.<br>
-    <strong>Para ativar:</strong> inclua o status “proposta enviada” no funil de atendimento dos leads (aba Leads).`,
   convertidos: `<strong>O que é:</strong> clientes efetivamente convertidos.<br>
     <strong>Como é calculada:</strong> leads do período com status “convertido”, definido manualmente pela equipe.<br>
     <strong>Por que importa:</strong> é o resultado final do funil comercial.`,
@@ -153,8 +144,8 @@ async function carregarMetricas() {
 
   $('#lista-origens').innerHTML = barrasVerticais(m.origens);
   $('#lista-segmentos').innerHTML = barrasVerticais(m.segmentos);
-  $('#lista-prazos').innerHTML = barrasVerticais(m.prazos);
-  $('#lista-situacoes').innerHTML = barrasVerticais(m.situacoes);
+  $('#lista-campanhas').innerHTML = barrasVerticais(m.campanhas);
+  $('#lista-status-leads').innerHTML = barrasVerticais(m.status_leads);
   $('#resumo-periodo').textContent = `${fmtDia(m.periodo.de)} — ${fmtDia(m.periodo.ate)}`;
 }
 
@@ -224,7 +215,7 @@ function renderizarCards(m) {
     }),
     cartao({
       rotulo: 'Leads prioritários', valor: fmtNum(m.leads_alta_prioridade), ajuda: AJUDAS.prioridade,
-      sub: `Alto potencial comercial · pontuação média ${fmtNum(m.pontuacao_media)}`,
+      sub: `Verticais ativas (obras, saúde, educação) · pontuação média ${fmtNum(m.pontuacao_media)}`,
     }),
   ].join('');
 
@@ -234,20 +225,8 @@ function renderizarCards(m) {
       sub: 'Empresas únicas que enviaram formulário',
     }),
     cartao({
-      rotulo: 'Total de funcionários estimados', valor: fmtNum(m.funcionarios), ajuda: AJUDAS.funcionarios,
-      sub: 'Somatório estimado dos leads do período',
-    }),
-    cartao({
-      rotulo: 'Potencial de refeições por dia', valor: fmtNum(m.alimentacoes_dia), ajuda: AJUDAS.refeicoes,
-      sub: 'Estimativa somada dos portes informados',
-    }),
-    cartao({
       rotulo: 'Leads aguardando contato', valor: fmtNum(m.leads_novos), ajuda: AJUDAS.aguardando,
       sub: 'Status “novo” no painel',
-    }),
-    cartao({
-      rotulo: 'Leads com proposta enviada', valor: 'Sem dados', ajuda: AJUDAS.propostas,
-      sub: 'Métrica ainda não coletada', semDados: true,
     }),
     cartao({
       rotulo: 'Clientes convertidos', valor: fmtNum(m.leads_convertidos), ajuda: AJUDAS.convertidos,
@@ -485,6 +464,18 @@ function barrasVerticais(itens) {
 /* ================= LEADS ================= */
 let cacheLeads = [];
 
+/* resumo de onde o lead veio (campanha/fonte) para a tabela */
+function resumoOrigem(l) {
+  const o = l.origem || {};
+  const campanha = String(o.utm_campaign || '').trim();
+  const fonte = String(o.utm_source || '').trim().replace(/[_-]+/g, ' ');
+  const principal = campanha || fonte || 'acesso direto';
+  const detalhe = campanha && fonte ? fonte : '';
+  return detalhe
+    ? `${escapeHtml(principal)}<br><span style="color:#5C6B62;font-size:.78rem">${escapeHtml(detalhe)}</span>`
+    : escapeHtml(principal);
+}
+
 async function carregarLeads() {
   const q = encodeURIComponent($('#busca-leads').value || '');
   const status = encodeURIComponent($('#filtro-status').value || '');
@@ -498,11 +489,8 @@ async function carregarLeads() {
           <a href="mailto:${escapeHtml(l.email)}">${escapeHtml(l.email)}</a><br>
           <a href="https://wa.me/${String(l.whatsapp).replace(/\D/g, '')}" target="_blank" rel="noopener">${escapeHtml(l.whatsapp)}</a></td>
       <td>${escapeHtml(l.empresa)}</td>
-      <td>${escapeHtml(l.segmento)}<br><span style="color:#5C6B62;font-size:.78rem">${escapeHtml(l.papel_decisao || '')}</span></td>
-      <td>${escapeHtml(l.cidade)}/${escapeHtml(l.estado)}</td>
-      <td>${escapeHtml(l.funcionarios || '—')}</td>
-      <td>${escapeHtml(l.porte_diario || '—')}</td>
-      <td>${escapeHtml(l.prazo_para_comecar || '—')}</td>
+      <td>${escapeHtml(l.segmento)}</td>
+      <td>${resumoOrigem(l)}</td>
       <td><strong>${l.pontuacao_prioridade || 0}</strong><br><span style="font-size:.75rem">${escapeHtml(l.classificacao_prioridade || '')}</span></td>
       <td>
         <span class="status-pill st-${l.status || 'novo'}">${(l.status || 'novo').replace('_', ' ')}</span>
@@ -512,7 +500,7 @@ async function carregarLeads() {
         </select>
       </td>
       <td><button class="btn-mini" data-excluir="${l.id}">excluir</button></td>
-    </tr>`).join('') || '<tr><td colspan="11">Nenhum lead encontrado.</td></tr>';
+    </tr>`).join('') || '<tr><td colspan="8">Nenhum lead encontrado.</td></tr>';
 }
 
 $('#busca-leads').addEventListener('input', debounce(carregarLeads, 300));
