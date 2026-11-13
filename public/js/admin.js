@@ -81,7 +81,7 @@ const AJUDAS = {
     <strong>Como é calculada:</strong> (leads recebidos ÷ acessos ao formulário) × 100, no período selecionado. Sem acessos ao formulário, exibe “Sem dados”.<br>
     <strong>Por que importa:</strong> mede a efetividade do formulário em transformar interesse em contato.`,
   prioridade: `<strong>O que é:</strong> contatos classificados como de alto potencial comercial.<br>
-    <strong>Como é calculada:</strong> leads cujo segmento bate com as verticais ativas das campanhas (construção/obras, saúde e educação) — pontuação 100; demais segmentos recebem pontuação menor.<br>
+    <strong>Como é calculada:</strong> soma do segmento (verticais ativas das campanhas — construção/obras, saúde e educação — valem mais) com o porte da empresa (faixa de colaboradores). Alta a partir de 75 pontos.<br>
     <strong>Por que importa:</strong> indica as oportunidades mais quentes para priorizar o contato.`,
   empresas: `<strong>O que é:</strong> empresas únicas que enviaram formulário.<br>
     <strong>Como é calculada:</strong> contagem de nomes de empresa distintos entre os leads do período.<br>
@@ -144,6 +144,7 @@ async function carregarMetricas() {
 
   $('#lista-origens').innerHTML = barrasVerticais(m.origens);
   $('#lista-segmentos').innerHTML = barrasVerticais(m.segmentos);
+  $('#lista-colaboradores').innerHTML = barrasVerticais(m.colaboradores);
   $('#lista-campanhas').innerHTML = barrasVerticais(m.campanhas);
   $('#lista-status-leads').innerHTML = barrasVerticais(m.status_leads);
   $('#resumo-periodo').textContent = `${fmtDia(m.periodo.de)} — ${fmtDia(m.periodo.ate)}`;
@@ -490,6 +491,7 @@ async function carregarLeads() {
           <a href="https://wa.me/${String(l.whatsapp).replace(/\D/g, '')}" target="_blank" rel="noopener">${escapeHtml(l.whatsapp)}</a></td>
       <td>${escapeHtml(l.empresa)}</td>
       <td>${escapeHtml(l.segmento)}</td>
+      <td>${escapeHtml(l.colaboradores || '—')}</td>
       <td>${resumoOrigem(l)}</td>
       <td><strong>${l.pontuacao_prioridade || 0}</strong><br><span style="font-size:.75rem">${escapeHtml(l.classificacao_prioridade || '')}</span></td>
       <td>
@@ -500,7 +502,7 @@ async function carregarLeads() {
         </select>
       </td>
       <td><button class="btn-mini" data-excluir="${l.id}">excluir</button></td>
-    </tr>`).join('') || '<tr><td colspan="8">Nenhum lead encontrado.</td></tr>';
+    </tr>`).join('') || '<tr><td colspan="9">Nenhum lead encontrado.</td></tr>';
 }
 
 $('#busca-leads').addEventListener('input', debounce(carregarLeads, 300));

@@ -189,6 +189,7 @@ export async function resumo({ de, ate, dias = 14 } = {}) {
     ],
     origens: Object.entries(origens).sort((a, b) => b[1] - a[1]).map(([nome, total]) => ({ nome, total })),
     segmentos: contarPor(leads, 'segmento'),
+    colaboradores: contarPor(leads, 'colaboradores'),
     campanhas: contarPor(leads.map((l) => ({ origem_lead: origemDoLead(l) })), 'origem_lead'),
     status_leads: contarPor(leads.map((l) => ({ status: l.status || 'novo' })), 'status'),
   };

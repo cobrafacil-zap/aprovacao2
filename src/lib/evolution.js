@@ -220,6 +220,7 @@ export function mensagemNovoLead(lead) {
     `*Nome:* ${lead.nome_completo || '—'}`,
     `*Empresa:* ${lead.empresa || '—'}`,
     `*Segmento:* ${lead.segmento || '—'}`,
+    `*Colaboradores:* ${lead.colaboradores || '—'}`,
     '',
     `*E-mail:* ${lead.email || '—'}`,
     `*WhatsApp:* ${formatarTelefone(lead.whatsapp)}`,

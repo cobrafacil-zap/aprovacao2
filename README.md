@@ -2,7 +2,7 @@
 
 Landing page institucional em `/` (apresentação da Cassarotti, com chamada para o
 formulário), formulário interativo de orçamento de alimentação coletiva em
-`/formulario` (3 etapas, capa animada, tema de vidro escuro) e painel em `/admin`
+`/formulario` (4 etapas, capa animada, tema de vidro escuro) e painel em `/admin`
 com métricas de entradas, leads e notificação de novos leads em um grupo do
 WhatsApp via **Evolution API**.
 
@@ -60,10 +60,11 @@ A aba **Leads** mostra contato, empresa, segmento, **origem (campanha)** e
 prioridade — com busca, filtro de status (novo / em contato / convertido /
 perdido) e exportação em CSV.
 
-Os dados do formulário atual são: nome, empresa, segmento, e-mail, WhatsApp e
-origem (campanha/UTM/página). A pontuação de prioridade é baseada no segmento:
-verticais ativas das campanhas (construção/obras, saúde, educação) = 100
-(classificação `alta`).
+Os dados do formulário atual são: nome, empresa, segmento, **faixa de
+colaboradores**, e-mail, WhatsApp e origem (campanha/UTM/página). A pontuação de
+prioridade soma **segmento** (verticais ativas das campanhas — construção/obras,
+saúde, educação — valem mais) com o **porte** (faixa de colaboradores); `alta`
+a partir de 75 pontos.
 
 ## Rastreamento (pixels e eventos)
 

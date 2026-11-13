@@ -47,6 +47,7 @@ router.post('/leads', async (req, res) => {
     nome_completo: String(b.nome_completo).trim(),
     empresa: String(b.empresa).trim(),
     segmento: b.segmento,
+    colaboradores: b.colaboradores || null,
     email: String(b.email).trim(),
     whatsapp: String(b.whatsapp).trim(),
     consentimento: true,
@@ -173,7 +174,7 @@ router.delete('/admin/leads/:id', async (req, res) => {
 router.get('/admin/leads.csv', async (req, res) => {
   const leads = await read('leads', []);
   const colunas = [
-    'criadoEm', 'status', 'nome_completo', 'empresa', 'segmento',
+    'criadoEm', 'status', 'nome_completo', 'empresa', 'segmento', 'colaboradores',
     'email', 'whatsapp', 'origem_campanha', 'origem_fonte', 'origem_midia',
     'origem_pagina', 'origem_referrer', 'pontuacao_prioridade', 'classificacao_prioridade',
   ];
