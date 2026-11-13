@@ -54,8 +54,9 @@ Cards: **visitas ao site** (sessões na landing), **acessos ao formulário**,
 formulários iniciados, leads recebidos, taxa de conversão, leads prioritários
 (segmento × verticais ativas), empresas interessadas, leads aguardando contato
 e convertidos. Mais gráfico diário, funil de qualificação (formulário → início →
-envio → qualificado), origem do tráfego, segmentos, **campanhas de origem**
-(UTM) e status dos leads.
+envio → qualificado), origem por **canal** (LinkedIn Ads, Meta Ads, Google Ads,
+Tráfego direto etc.) nos acessos e nos leads, segmentos, porte (colaboradores),
+campanhas de origem (UTM) e status dos leads.
 A aba **Leads** mostra contato, empresa, segmento, **origem (campanha)** e
 prioridade — com busca, filtro de status (novo / em contato / convertido /
 perdido) e exportação em CSV.

@@ -188,16 +188,14 @@ function formatarTelefone(bruto) {
   return `${ddi}(${ddd}) ${formatado}`;
 }
 
-/** De onde veio o lead: canal (LinkedIn Ads, Meta Ads, Tráfego direto...), campanha e página. */
+/** De onde veio o lead: canal (LinkedIn Ads, Meta Ads, Tráfego direto...) e campanha — sem links. */
 function blocoOrigem(lead) {
   const o = lead?.origem || {};
   const canal = canalDeOrigem(o);
   const campanha = campanhaDaOrigem(o);
-  const pagina = String(o.pagina || '').trim();
 
   const linhas = [`• Canal: ${canal}`];
   if (campanha) linhas.push(`• Campanha: ${campanha}`);
-  if (pagina) linhas.push(`• Página: ${pagina}`);
   return linhas;
 }
 
